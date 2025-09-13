@@ -1,1 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EVENT TRACKER</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <header>
+        <div class="logo-container">
+            <h2> EVENT TRACKER</h2>
+        </div>
+    </header>
+
+    <section id="search-button">
+        <div class="search-container">
+            <div class="searchCircle">
+                <button id="searchButton">Search Events</button>
+            </div>
+
+            <div class="dropdown">
+                <select id="cityDropdown">
+                    <option value="amsterdam">Amsterdam</option>
+                    <option value="wroclaw">Wroclaw</option>
+                    <option value="berlin">Berlin</option>
+                    <option value="stockholm">Stockholm</option>
+                    <option value="oslo">Oslo</option>
+                    <option value="helsinki">Helsinki</option>
+                    <option value="copenhagen">Copenhagen</option>
+                    <option value="warsaw">Warsaw</option>
+                    <option value="london">London</option>
+                    <option value="dublin">Dublin</option>
+                    <option value="paris">Paris</option>
+                    <option value="istanbul">Istanbul</option>
+                    <option value="madrid">Madrid</option>
+                    <option value="lizbon">Lizbon</option>
+                    <option value="gothenburg">Gothenburg</option>
+                    <option value="budapest">Budapest</option>
+                    <option value="vienna">Vienna</option>
+                    <option value="prag">Prag</option>
+                    <option value="moscow">Moscow</option>
+                    <option value="brussel">Brussel</option>
+                    <!-- Add more city options as needed -->
+                </select>
+            </div>
+        </div>
+    </section>
+
+
+
+    <section id="upcomings">
+        <div class="select-time">
+            <button id="timethisweek">This Week</button>
+            <button id="timethismonth">This Month</button>
+            <button id="timethisyear">This Year</button>
+        </div>
+    </section>
+
+    <section id="eventlist">
+        <div class="container-fluid">
+            <h2> Event List</h2>
+
+            <label for="typeFilter">Filter:</label>
+            <input type="text" id="typeFilter" onkeyup="filterTable(0)" placeholder="Type...">
+
+            <table id="eventTable">
+                <tr>
+                    <th>Event Price</th>
+                    <th>Event Name</th>
+                    <th>Event Time</th>
+                    <th>Event Link</th>
+                </tr>
+                <tr>
+                    <td>Festival</td>
+                    <td>Sample Event</td>
+                    <td>2024-04-13</td>
+                    <td><a href="#">Details</a></td>
+                </tr>
+                <tr>
+                    <td>Festival2</td>
+                    <td>Sample Event2</td>
+                    <td>2024-03-13</td>
+                    <td><a href="#">Details</a></td>
+                </tr>
+            </table>
+        </div>
+    </section>
+
+
+    <section id="about">
+        <div class="container-fluid">
+            <h3>About</h3>
+            <p>EventTracker is internet assistant to radar events for selected locations</p>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="container-fluid">
+            <h3>Contact</h3>
+            <p>info@eventtracker.com</p>
+        </div>
+    </section>
+
+    <footer id="footer">
+        <p>© Copyright 2024 EvenTracker</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
