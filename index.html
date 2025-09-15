@@ -6,6 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EVENT CAST</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Center the visible page title in the header */
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        .logo-container h2 {
+            margin: 0;
+            text-align: center;
+            width: 100%;
+        }
+    </style>
 </head>
 
 <body>
@@ -20,30 +35,26 @@
             <div class="searchCircle">
                 <button id="searchButton">Search Events</button>
             </div>
-
             <div class="dropdown">
-                <select id="cityDropdown">
-                    <option value="amsterdam">Amsterdam</option>
-                    <option value="wroclaw">Wroclaw</option>
-                    <option value="berlin">Berlin</option>
-                    <option value="stockholm">Stockholm</option>
-                    <option value="oslo">Oslo</option>
-                    <option value="helsinki">Helsinki</option>
-                    <option value="copenhagen">Copenhagen</option>
-                    <option value="warsaw">Warsaw</option>
-                    <option value="london">London</option>
-                    <option value="dublin">Dublin</option>
-                    <option value="paris">Paris</option>
-                    <option value="istanbul">Istanbul</option>
-                    <option value="madrid">Madrid</option>
-                    <option value="lizbon">Lizbon</option>
-                    <option value="gothenburg">Gothenburg</option>
-                    <option value="budapest">Budapest</option>
-                    <option value="vienna">Vienna</option>
-                    <option value="prag">Prag</option>
-                    <option value="moscow">Moscow</option>
-                    <option value="brussel">Brussel</option>
-                    <!-- Add more city options as needed -->
+                <select id="continentDropdown">
+                    <option value="">Select Continent</option>
+                    <option value="africa">Africa</option>
+                    <option value="asia">Asia</option>
+                    <option value="europe">Europe</option>
+                    <option value="north_america">North America</option>
+                    <option value="south_america">South America</option>
+                    <option value="australia">Australia/Oceania</option>
+                    <option value="antarctica">Antarctica</option>
+                </select>
+            </div>
+            <div class="dropdown">
+                <select id="countryDropdown" disabled>
+                    <option value="">Select Country</option>
+                </select>
+            </div>
+            <div class="dropdown">
+                <select id="cityDropdown" disabled>
+                    <option value="">Select City</option>
                 </select>
             </div>
         </div>
@@ -93,22 +104,870 @@
     <section id="about">
         <div class="container-fluid">
             <h3>About</h3>
-            <p>EventCast is an internet assistant to show events for selected locations</p>
+            <p><strong>EventCast</strong> is a modern application designed for event management and live engagement. It allows users to discover, register, and participate in events while giving organizers tools to manage attendees, tickets, and live streaming seamlessly. </p>
         </div>
     </section>
 
-    <section id="contact">
+    <section id="privpolicy">
         <div class="container-fluid">
-            <h3>Contact</h3>
-            <p>info@eventcast.se</p>
+            <div class="wrap">
+                <div class="brand">
+                    <div>
+                        <h1>Privacy Policy</h1>
+                        <div class="tag">We respect your privacy. This page explains how we handle your data.</div>
+                    </div>
+                </div>
+
+                <div class="cta-row" role="group" aria-label="Quick actions">
+                    <span class="pill" title="Last updated">🗓️ Last updated: <strong>&nbsp;September 1, 2025</strong></span>
+                    <a class="btn" href="mailto:info@eventcast.se">✉️ Contact: <strong>info@eventcast.se</strong></a>
+                    <a class="btn" href="#your-rights">🔐 Your Rights</a>
+                    <a class="btn" href="#delete-account">🗑️ Delete Account</a>
+                    <a class="btn" href="#cookies">🍪 Cookies</a>
+                </div>
+
+                <nav class="toc" aria-label="Table of contents">
+                    <a href="#info-we-collect">Information We Collect</a>
+                    <a href="#how-we-use">How We Use It</a>
+                    <a href="#sharing">Sharing & Disclosures</a>
+                    <a href="#storage-security">Storage & Security</a>
+                    <a href="#retention">Data Retention</a>
+                    <a href="#cookies" id="toc-cookies">Cookies & Tracking</a>
+                    <a href="#location">Location Data</a>
+                    <a href="#your-rights">Your Rights</a>
+                    <a href="#children">Children's Privacy</a>
+                    <a href="#international">International Transfers</a>
+                    <a href="#changes">Changes</a>
+                    <a href="#contact">Contact</a>
+                </nav>
+
+                <section id="intro" class="card">
+                    <p><strong>EventCast</strong> helps you discover events you care about. We collect and use only the information necessary to provide and improve our services, always with your privacy in mind.</p>
+                    <p class="badge" role="status">We do not sell your personal data.</p>
+                </section>
+
+                <section id="info-we-collect" class="card">
+                    <h2>1) Information We Collect</h2>
+                    <h3>Account & Profile</h3>
+                    <ul>
+                        <li>Name, email, and password (hashed).</li>
+                        <li>Optional profile info you add (photo, interests, home city).</li>
+                    </ul>
+                    <h3>Usage & Diagnostics</h3>
+                    <ul>
+                        <li>Searches, event views, likes/saves, RSVP actions.</li>
+                        <li>Device data (OS version, model), app version, crash logs, and performance metrics.</li>
+                    </ul>
+                    <h3 id="location">Location (with permission)</h3>
+                    <ul>
+                        <li><em>Approximate</em> or <em>precise</em> location to surface nearby events and recommendations.</li>
+                        <li>You can disable location access anytime in your device settings.</li>
+                    </ul>
+                    <h3>Content You Provide</h3>
+                    <ul>
+                        <li>Reviews, comments, photos, and preferences.</li>
+                        <li>Support requests and feedback you send us.</li>
+                    </ul>
+                </section>
+
+                <section id="how-we-use" class="card">
+                    <h2>2) How We Use Your Information</h2>
+                    <ul>
+                        <li>Provide core features: event discovery, search, RSVP/alerts, and personalization.</li>
+                        <li>Improve relevance using your preferences and interactions.</li>
+                        <li>Send important notices (policy updates, security alerts) and, with your consent, occasional product tips.</li>
+                        <li>Maintain safety: detect abuse, prevent fraud, and protect our users and platform.</li>
+                        <li>Analytics: understand usage to guide improvements and fix issues.</li>
+                        <li>Comply with legal obligations.</li>
+                    </ul>
+                </section>
+
+                <section id="sharing" class="card">
+                    <h2>3) Sharing & Disclosures</h2>
+                    <p>We do <strong>not</strong> sell personal data. We may share limited information with:</p>
+                    <ul>
+                        <li><strong>Service providers</strong> (e.g., hosting, analytics, push notifications) under strict data protection terms.</li>
+                        <li><strong>Event organizers</strong> when you RSVP/register, to manage attendance or send event-specific updates.</li>
+                        <li><strong>Legal authorities</strong> if required to comply with laws or enforce our Terms.</li>
+                    </ul>
+                </section>
+
+                <section id="storage-security" class="card">
+                    <h2>4) Data Storage & Security</h2>
+                    <ul>
+                        <li>Data is encrypted in transit (HTTPS) and at rest where supported by our providers.</li>
+                        <li>Access is restricted to authorized personnel with a need-to-know.</li>
+                        <li>We implement industry-standard security controls and monitor for unusual activity.</li>
+                    </ul>
+                </section>
+
+                <section id="retention" class="card">
+                    <h2>5) Data Retention</h2>
+                    <p>We retain personal data for as long as needed to provide the service and for legitimate business or legal purposes. When no longer required, we securely delete or anonymize it.</p>
+                </section>
+
+                <section id="cookies" class="card">
+                    <h2>6) Cookies & Tracking</h2>
+                    <ul>
+                        <li>We use essential cookies to keep you signed in and remember preferences.</li>
+                        <li>With consent (where required), we may use analytics to understand usage and improve features.</li>
+                        <li>You can control cookies via in‑app settings (where available) or your browser/device settings.</li>
+                    </ul>
+                </section>
+
+                <section id="your-rights" class="card">
+                    <h2>7) Your Rights</h2>
+                    <p>Depending on your location (e.g., GDPR, CCPA), you may have rights to:</p>
+                    <ul>
+                        <li>Access, correct, or delete your personal information.</li>
+                        <li>Object to or restrict certain processing, and opt out of marketing.</li>
+                        <li>Receive a copy of your data (portability).</li>
+                        <li>Withdraw consent without affecting prior lawful processing.</li>
+                    </ul>
+                    <p>You can exercise these rights in <span class="kbd">Settings → Privacy</span> (if available) or by emailing <a href="mailto:info@eventcast.se">info@eventcast.se</a>.</p>
+                </section>
+
+                <section id="delete-account" class="card">
+                    <h2>8) Delete Your Account</h2>
+                    <ul>
+                        <li>In the app, go to <span class="kbd">Settings → Account → Delete Account</span>.</li>
+                        <li>Or email us at <a href="mailto:info@eventcast.se">info@eventcast.se</a> from your registered email and request deletion.</li>
+                    </ul>
+                    <p>We’ll process verified requests and confirm once completed. Some records may be retained to meet legal obligations.</p>
+                </section>
+
+                <section id="children" class="card">
+                    <h2>9) Children’s Privacy</h2>
+                    <p>EventCast is not directed to children under 13 (or the applicable age in your country). We do not knowingly collect data from children.</p>
+                </section>
+
+                <section id="international" class="card">
+                    <h2>10) International Data Transfers</h2>
+                    <p>Your information may be processed and stored in countries other than where you live. We rely on appropriate safeguards (such as standard contractual clauses) where required by law.</p>
+                </section>
+
+                <section id="changes" class="card">
+                    <h2>11) Changes to This Policy</h2>
+                    <p>We may update this Privacy Policy to reflect changes to our practices or for legal, operational, or regulatory reasons. We will post updates here and adjust the date at the top of this page.</p>
+                </section>
+            <button id="topBtn" class="top-btn" aria-label="Back to top">↑</button>
         </div>
+        <script>
+            // Smooth anchor scrolling
+            document.querySelectorAll('a[href^="#"]').forEach(a=>{
+                a.addEventListener('click', e=>{
+                    const id = a.getAttribute('href');
+                    const el = document.querySelector(id);
+                    if(el){ e.preventDefault(); el.scrollIntoView({behavior:'smooth', block:'start'}); }
+                })
+            });
+
+            // Back-to-top visibility
+            const topBtn = document.getElementById('topBtn');
+            const heroHeader = document.querySelector('.brand') || document.querySelector('header');
+            if (heroHeader) {
+                const io = new IntersectionObserver(entries=>{
+                    const show = !entries[0].isIntersecting;
+                    topBtn.style.display = show ? 'inline-flex' : 'none';
+                }, { threshold: 0.1 });
+                io.observe(heroHeader);
+            }
+            topBtn.addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
+        </script>
     </section>
 
     <footer id="footer">
-        <p>© Copyright 2025 AICEK</p>
+        <p>© Copyright 2025 EventCast</p>
     </footer>
 
-    <script src="script.js"></script>
+    <style>
+        /* Reset default browser styles */
+        html {
+        scroll-behavior: smooth;
+        box-sizing: border-box;
+        }
+
+        *,
+        *::before,
+        *::after {
+        box-sizing: inherit;
+        margin: 0;
+        padding: 0;
+        }
+
+        /* Body styles */
+        body {
+        text-align: left;
+        background: linear-gradient(to right, #9090e6, #84d8f1);
+        font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        }
+
+        /* Header styles */
+        header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 20px;
+        background-color: transparent;
+        color: rgb(5, 29, 97);
+        font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        margin: 0 auto;
+        max-width: 1200px;
+        }
+
+        /* Table styles */
+        table {
+        border-collapse: collapse;
+        width: 90%;
+        /* Adjust the width as needed */
+        max-width: 800px;
+        background-color: #fff;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 6px rgba(26, 25, 25, 0.1);
+        margin: 0 auto;
+        /* Center the table horizontally */
+        }
+
+        th,
+        td {
+        border: 1px solid #030313;
+        padding: 12px 16px;
+        text-align: left;
+        }
+
+        th {
+        background-color: rgb(172, 112, 230);
+        color: #120353;
+        font-weight: bold;
+        }
+
+        /* Event List styles */
+        #eventlist {
+        text-align: center;
+        /* Center the content within the section */
+        }
+
+        #eventlist h2 {
+        margin-bottom: 20px;
+        color: #333;
+        }
+
+        /* Input label filter styles */
+        #typeFilter {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+        margin-bottom: 20px;
+        }
+
+        /* Search container */
+        .search-container {
+        display: flex;
+        flex-direction: column; /* Change flex direction to column */
+        align-items: center;
+        margin-bottom: 20px;
+        }
+
+        /* Search button styles */
+        /* Search button styles */
+        #searchButton {
+        width: 150px; /* Adjust width to match height for a circular button */
+        height: 150px;
+        border-radius: 50%; /* Make the button circular */
+        background-color: #8a17b8;
+        color: #ffffff;
+        font-size: 18px;
+        border: none;
+        cursor: pointer;
+        outline: none;
+        transition: background-color 0.3s ease;
+        margin-bottom: 10px;
+        display: flex; /* Center button content */
+        justify-content: center; /* Center button content */
+        align-items: center; /* Center button content */
+        }
+
+
+        #searchButton:hover {
+        background-color: #6c0f92;
+        }
+
+        /* Dropdown container */
+        .dropdown {
+        position: relative;
+        }
+
+        /* City dropdown styles */
+        #cityDropdown {
+        padding: 12px 24px;
+        border: 1px solid #ccc;
+        border-radius: 25px;
+        font-size: 16px;
+        background-color: #ffffff;
+        cursor: pointer;
+        outline: none;
+        width: 200px;
+        }
+
+        /* Continent, country, city dropdown styles */
+        #continentDropdown,
+#countryDropdown,
+#cityDropdown {
+    padding: 12px 24px;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    font-size: 16px;
+    background-color: #ffffff;
+    cursor: pointer;
+    outline: none;
+    width: 200px;
+    margin-bottom: 10px;
+}
+
+        /* Time filter buttons */
+        .select-time {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        }
+
+        .select-time button {
+        padding: 10px 20px;
+        background-color: linear-gradient(to right, #c273c5, #70085f);
+        /* Light gray background */
+        color:  #020c0f;
+        /* Dark gray text */
+        border: none;
+        border-radius: 20px;
+        /* Rounded corners */
+        margin: 0 10px;
+        /* Add space between buttons */
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        }
+
+        .select-time button:hover {
+        background-color: #c97d7d;
+        }
+
+        .select-time button.active {
+        background-color: #8a17b8;
+        color: #d9e8e9;
+        }
+
+        /* Responsive adjustments */
+        @media only screen and (max-width: 768px) {
+        header {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        #searchButton {
+            margin-top: 20px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Make table scrollable horizontally */
+        table {
+            overflow-x: auto;
+        }
+        }
+
+        @media only screen and (max-width: 600px) {
+
+        th,
+        td {
+            white-space: nowrap;
+            /* Prevent text wrapping */
+        }
+
+        /* Make table scrollable horizontally */
+        table {
+            overflow-x: auto;
+            display: block;
+        }
+
+        /* Hide table headers */
+        thead {
+            display: none;
+        }
+        }
+
+        /* Additional styles */
+        #upcomings {
+        align-content: center;
+        justify-content: space-between;
+        margin-inline: 10px;
+        padding: 20px 20px;
+        }
+
+
+        #about,
+        #privpolicy,
+        #contact,
+        #footer {
+            background-color: rgba(255, 255, 255, 0.7); /* Match copyright/footer section */
+            padding: 20px;
+            margin-top: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            font-size: small;
+            color: #3b3636;
+        }
+
+        #about h3,
+        #contact h3 {
+        color: #111010;
+        margin-bottom: 10px;
+        }
+
+        /* Footer styles */
+        #footer {
+        background-color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Responsive adjustments */
+        @media only screen and (max-width: 768px) {
+
+        /* Center align text for responsive mode */
+        #about,
+        #contact,
+        #footer {
+            text-align: center;
+        }
+        }
+
+        @media only screen and (max-width: 600px) {
+
+        /* Adjust padding for smaller screens */
+        #about,
+        #contact,
+        #footer {
+            padding: 15px;
+        }
+        }
+
+        /* Card styles */
+        .card {
+        width: 90%;
+        /* Adjust the width as needed */
+        max-width: 800px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin: 0 auto;
+        }
+
+        /* Media query for responsiveness */
+        @media only screen and (max-width: 768px) {
+        .card {
+            width: 95%;
+            /* Adjust the width for smaller screens */
+        }
+        }
+
+        /* Card header */
+        .card-header {
+        text-align: center;
+        margin-bottom: 20px;
+        }
+
+        .card-header h3 {
+        font-size: 24px;
+        color: #333;
+        }
+
+        /* Card body */
+        .card-body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+        }
+
+        /* Form item */
+        .form-item {
+        margin-bottom: 20px;
+        text-align: center;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        }
+
+        /* Label styles */
+        .form-item label {
+        flex: 1;
+        margin-right: 10px;
+        text-align: right;
+        }
+
+        /* Input styles */
+        .form-item input {
+        flex: 2;
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+        box-sizing: border-box;
+        }
+
+        /* Submit button */
+        .submit-card-form button {
+        padding: 10px 20px;
+        background-color: #8a17b8;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        }
+
+        .submit-card-form button:hover {
+        background-color: #6c0f92;
+        }
+    </style>
+
+    <script src="script.js">
+        // Function to parse the HTML and extract event information
+        function extractEventData(html) {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+
+            // Extract event data here based on the structure of the website
+            const events = [];
+
+            // Example: extracting event type, name, time, and details link
+            doc.querySelectorAll('.event').forEach(eventElement => {
+                const eventPrice = eventElement.querySelector('.event-price').innerText;
+                const eventName = eventElement.querySelector('.event-name').innerText;
+                const eventTime = eventElement.querySelector('.event-time').innerText;
+                const detailsLink = eventElement.querySelector('.event-details').href;
+
+                events.push({
+                    price: eventPrice,
+                    name: eventName,
+                    time: eventTime,
+                    detailsLink: detailsLink
+                });
+            });
+
+            return events;
+        }
+
+        // Function to display events as a table
+        function displayEvents(events) {
+            var table = document.getElementById('eventTable');
+            console.log("events_display: ", events)
+
+            events.forEach(event => {
+                var newRow = table.insertRow(-1);
+                //const newRow = table.insertRow();
+
+                // Create cells for each event property
+                const eventPriceCell = newRow.insertCell();
+                const eventNameCell = newRow.insertCell();
+                const eventTimeCell = newRow.insertCell();
+                const detailsLinkCell = newRow.insertCell();
+                console.log("eventNameCell: ", eventNameCell)
+                console.log("eventPriceCell: ", event.price)
+
+                // Set the innerHTML of each cell with the corresponding event property
+                eventPriceCell.innerHTML = event.price;
+                eventNameCell.innerHTML = event.name;
+                eventTimeCell.innerHTML = event.date;
+                detailsLinkCell.innerHTML = `<a href="${event.link}">Details</a>`;
+            });
+        }
+
+        // Function to fetch event data from backend
+        async function fetchEventData(selectedCity) {
+            try {
+                const response = await fetch('http://localhost:3000/events', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ city: selectedCity })
+                });
+                if (!response.ok) {
+                    throw new Error('Failed to fetch event data');
+                }
+                const events = await response.json();
+                return events;
+            } catch (error) {
+                console.error('Error fetching event data:', error);
+                return [];
+            }
+        }
+
+        // Function to handle search button click
+        async function handleSearch() {
+            try {
+                const selectedCity = document.getElementById('cityDropdown').value;
+                const events = await fetchEventData(selectedCity);
+                // Display events or do further processing here
+                console.log('Eventsfetched:', events);
+                displayEvents(events);
+            } catch (error) {
+                console.error('Errorfetched:', error);
+            }
+        }
+
+        // Add event listener to the search button
+        document.getElementById('searchButton').addEventListener('click', handleSearch);
+
+
+
+        function filterTable() {
+            var input, typeFilter, nameFilter, table, tr, typeTd, nameTd, i, typeTxtValue, nameTxtValue;
+            input = document.getElementById("typeFilter");
+            typeFilter = input.value.toUpperCase();
+            nameFilter = input.value.toUpperCase(); // Use the same filter value for both type and name
+            table = document.getElementById("eventTable");
+            tr = table.getElementsByTagName("tr");
+
+            for (i = 1; i < tr.length; i++) {
+                typeTd = tr[i].getElementsByTagName("td")[0];
+                nameTd = tr[i].getElementsByTagName("td")[1]; // Get the cell containing the event name
+
+                if (typeTd && nameTd) {
+                    typeTxtValue = typeTd.textContent || typeTd.innerText;
+                    nameTxtValue = nameTd.textContent || nameTd.innerText;
+                    console.log("trrrr: ", typeTxtValue)
+                    console.log("trrrr22: ", nameTxtValue)
+
+                    // Check if either the event type or event name matches the filter
+                    if (typeTxtValue.toUpperCase().indexOf(typeFilter) > -1 || nameTxtValue.toUpperCase().indexOf(nameFilter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+
+        // Function to remove the filter and display all events
+        function removeFilter() {
+            console.log("already_remove")
+            var table, tr, i;
+            table = document.getElementById("eventTable");
+            console.log("table:", table)
+            tr = table.getElementsByTagName("tr");
+            for (i = 0; i < tr.length; i++) {
+                tr[i].style.display = "";
+            }
+        }
+
+        // Function to toggle filter buttons state
+        function toggleActiveState(buttonId) {
+            const button = document.getElementById(buttonId);
+            const isActive = button.classList.contains('active');
+
+            // Toggle active state for the clicked button
+            if (isActive) {
+                button.classList.remove('active');
+            } else {
+                // Remove active state from all buttons
+                document.querySelectorAll('.select-time button').forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+            }
+        }
+        // Function to filter events by time: week, month, or year
+        function filterTableByTime(period) {
+            console.log("already_filterd")
+
+            document.querySelectorAll('.select-time button').forEach(button => {
+                button.classList.remove('active');
+            });
+
+            // Remove the filter to display all events
+            removeFilter();
+
+            var table = document.getElementById("eventTable");
+            const tr = table.getElementsByTagName("tr");
+
+            const events = Array.from(tr).slice(1).map(row => {
+                const [type, name, time, link] = Array.from(row.querySelectorAll("td")).map(cell => cell.textContent);
+                return { type, name, time, detailsLink: link };
+            });
+
+            console.log("events", events)
+
+            const filteredEvents = events.filter(event => {
+                const eventDate = new Date(event.time);
+                const today = new Date();
+                let startDate, endDate;
+
+                // Calculate start and end dates based on the selected period
+                if (period === 'timethisweek') {
+                    const nextWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() + (7 - today.getDay())); // Next Sunday
+                    startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - today.getDay()); // This Monday
+                    endDate = nextWeek;
+                } else if (period === 'timethismonth') {
+                    startDate = new Date(today.getFullYear(), today.getMonth(), 1); // First day of this month
+                    endDate = new Date(today.getFullYear(), today.getMonth() + 1, 0); // Last day of this month
+                } else if (period === 'timethisyear') {
+                    startDate = new Date(today.getFullYear(), 0, 1); // First day of this year
+                    endDate = new Date(today.getFullYear(), 11, 31); // Last day of this year
+                }
+
+                return eventDate >= startDate && eventDate <= endDate;
+            });
+
+            console.log("filteredEvents222", filteredEvents)
+
+            // Clear existing table rows
+            while (table.rows.length > 1) {
+                table.deleteRow(1);
+            }
+
+            // Display filtered events
+            filteredEvents.forEach(event => {
+                const newRow = table.insertRow(-1);
+                Object.values(event).forEach(value => {
+                    const cell = newRow.insertCell();
+                    cell.textContent = value;
+                });
+            });
+            setTimeout(removeFilter, 500)
+        }
+
+        // Function to handle filter buttons click
+        function handleFilterButtonClick(period) {
+            const button = document.getElementById(period);
+            if (button.classList.contains('active')) {
+                console.log("first")
+                // If the button is already active, remove the filter
+                removeFilter();
+            } else {
+                console.log("second")
+                filterTableByTime(period);
+                toggleActiveState(period);
+            }
+        }
+
+        document.getElementById('timethisweek').addEventListener('click', () => handleFilterButtonClick('timethisweek'));
+        document.getElementById('timethismonth').addEventListener('click', () => handleFilterButtonClick('timethismonth'));
+        document.getElementById('timethisyear').addEventListener('click', () => handleFilterButtonClick('timethisyear'));
+
+        // Data structure for continent > country > cities (top 5 biggest per country)
+const locationData = {
+    africa: {
+        Nigeria: ["Lagos", "Kano", "Ibadan", "Abuja", "Port Harcourt"],
+        Egypt: ["Cairo", "Alexandria", "Giza", "Shubra El Kheima", "Port Said"],
+        South_Africa: ["Johannesburg", "Cape Town", "Durban", "Pretoria", "Port Elizabeth"],
+        Kenya: ["Nairobi", "Mombasa", "Kisumu", "Nakuru", "Eldoret"],
+        Ethiopia: ["Addis Ababa", "Gondar", "Mekelle", "Adama", "Hawassa"]
+    },
+    asia: {
+        China: ["Shanghai", "Beijing", "Chongqing", "Tianjin", "Guangzhou"],
+        India: ["Mumbai", "Delhi", "Bangalore", "Hyderabad", "Ahmedabad"],
+        Japan: ["Tokyo", "Yokohama", "Osaka", "Nagoya", "Sapporo"],
+        Turkey: ["Istanbul", "Ankara", "Izmir", "Bursa", "Adana"],
+        Russia: ["Moscow", "Saint Petersburg", "Novosibirsk", "Yekaterinburg", "Kazan"]
+    },
+    europe: {
+        Germany: ["Berlin", "Hamburg", "Munich", "Cologne", "Frankfurt"],
+        France: ["Paris", "Marseille", "Lyon", "Toulouse", "Nice"],
+        UK: ["London", "Birmingham", "Manchester", "Glasgow", "Liverpool"],
+        Italy: ["Rome", "Milan", "Naples", "Turin", "Palermo"],
+        Spain: ["Madrid", "Barcelona", "Valencia", "Seville", "Zaragoza"],
+        Netherlands: ["Amsterdam", "Rotterdam", "The Hague", "Utrecht", "Eindhoven"],
+        Poland: ["Warsaw", "Krakow", "Lodz", "Wroclaw", "Poznan"],
+        Sweden: ["Stockholm", "Gothenburg", "Malmo", "Uppsala", "Vasteras"],
+        Norway: ["Oslo", "Bergen", "Stavanger", "Trondheim", "Drammen"],
+        Finland: ["Helsinki", "Espoo", "Tampere", "Vantaa", "Oulu"],
+        Denmark: ["Copenhagen", "Aarhus", "Odense", "Aalborg", "Esbjerg"],
+        Ireland: ["Dublin", "Cork", "Limerick", "Galway", "Waterford"],
+        Portugal: ["Lisbon", "Porto", "Amadora", "Braga", "Coimbra"],
+        Hungary: ["Budapest", "Debrecen", "Szeged", "Miskolc", "Pecs"],
+        Austria: ["Vienna", "Graz", "Linz", "Salzburg", "Innsbruck"],
+        Czechia: ["Prague", "Brno", "Ostrava", "Plzen", "Liberec"],
+        Belgium: ["Brussels", "Antwerp", "Ghent", "Charleroi", "Liege"]
+    },
+    north_america: {
+        USA: ["New York", "Los Angeles", "Chicago", "Houston", "Phoenix"],
+        Canada: ["Toronto", "Montreal", "Calgary", "Ottawa", "Edmonton"],
+        Mexico: ["Mexico City", "Ecatepec", "Guadalajara", "Puebla", "Juarez"],
+        Cuba: ["Havana", "Santiago de Cuba", "Camaguey", "Holguin", "Guantanamo"],
+        Guatemala: ["Guatemala City", "Mixco", "Villa Nueva", "Quetzaltenango", "San Miguel Petapa"]
+    },
+    south_america: {
+        Brazil: ["Sao Paulo", "Rio de Janeiro", "Brasilia", "Salvador", "Fortaleza"],
+        Argentina: ["Buenos Aires", "Cordoba", "Rosario", "Mendoza", "La Plata"],
+        Colombia: ["Bogota", "Medellin", "Cali", "Barranquilla", "Cartagena"],
+        Chile: ["Santiago", "Puente Alto", "Antofagasta", "Vina del Mar", "Valparaiso"],
+        Peru: ["Lima", "Arequipa", "Trujillo", "Chiclayo", "Piura"]
+    },
+    australia: {
+        Australia: ["Sydney", "Melbourne", "Brisbane", "Perth", "Adelaide"],
+        New_Zealand: ["Auckland", "Wellington", "Christchurch", "Hamilton", "Tauranga"],
+        Papua_New_Guinea: ["Port Moresby", "Lae", "Arawa", "Mount Hagen", "Madang"],
+        Fiji: ["Suva", "Lautoka", "Nadi", "Labasa", "Ba"],
+        Solomon_Islands: ["Honiara", "Gizo", "Auki", "Kirakira", "Tulagi"]
+    },
+    antarctica: {
+        "Research Stations": ["McMurdo Station", "Amundsen-Scott South Pole Station", "Palmer Station", "Rothera Research Station", "Princess Elisabeth Station"]
+    }
+};
+
+// DOM elements
+const continentDropdown = document.getElementById('continentDropdown');
+const countryDropdown = document.getElementById('countryDropdown');
+const cityDropdown = document.getElementById('cityDropdown');
+
+// Helper: Format country keys for display
+function formatCountryName(countryKey) {
+    return countryKey.replace(/_/g, ' ');
+}
+
+// Populate countries when continent changes
+continentDropdown.addEventListener('change', function() {
+    const continent = this.value;
+    countryDropdown.innerHTML = '<option value="">Select Country</option>';
+    cityDropdown.innerHTML = '<option value="">Select City</option>';
+    cityDropdown.disabled = true;
+
+    if (continent && locationData[continent]) {
+        Object.keys(locationData[continent]).forEach(country => {
+            const opt = document.createElement('option');
+            opt.value = country;
+            opt.textContent = formatCountryName(country);
+            countryDropdown.appendChild(opt);
+        });
+        countryDropdown.disabled = false;
+    } else {
+        countryDropdown.disabled = true;
+    }
+});
+
+// Populate cities when country changes
+countryDropdown.addEventListener('change', function() {
+    const continent = continentDropdown.value;
+    const country = this.value;
+    cityDropdown.innerHTML = '<option value="">Select City</option>';
+
+    if (continent && country && locationData[continent][country]) {
+        locationData[continent][country].forEach(city => {
+            const opt = document.createElement('option');
+            opt.value = city.toLowerCase().replace(/ /g, "_");
+            opt.textContent = city;
+            cityDropdown.appendChild(opt);
+        });
+        cityDropdown.disabled = false;
+    } else {
+        cityDropdown.disabled = true;
+    }
+});
+
+    </script>
 </body>
 
 </html>
