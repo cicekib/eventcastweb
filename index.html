@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EVENT CAST</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" href="favicon.png">
 </head>
 
 <body>
@@ -64,20 +65,23 @@
 
             <table id="eventTable">
                 <tr>
-                    <th>Event Price</th>
+                    <th>No.</th>
                     <th>Event Name</th>
+                    <th>Event Price</th>
                     <th>Event Time</th>
                     <th>Event Link</th>
                 </tr>
                 <tr>
-                    <td>Festival</td>
+                    <td>1</td>
                     <td>Sample Event</td>
+                    <td>Festival</td>
                     <td>2024-04-13</td>
                     <td><a href="#">Details</a></td>
                 </tr>
                 <tr>
-                    <td>Festival2</td>
+                    <td>2</td>
                     <td>Sample Event2</td>
+                    <td>Festival2</td>
                     <td>2024-03-13</td>
                     <td><a href="#">Details</a></td>
                 </tr>
@@ -398,18 +402,18 @@
 
         /* Continent, country, city dropdown styles */
         #continentDropdown,
-#countryDropdown,
-#cityDropdown {
-    padding: 12px 24px;
-    border: 1px solid #ccc;
-    border-radius: 25px;
-    font-size: 16px;
-    background-color: #ffffff;
-    cursor: pointer;
-    outline: none;
-    width: 200px;
-    margin-bottom: 10px;
-}
+        #countryDropdown,
+        #cityDropdown {
+            padding: 12px 24px;
+            border: 1px solid #ccc;
+            border-radius: 25px;
+            font-size: 16px;
+            background-color: #ffffff;
+            cursor: pointer;
+            outline: none;
+            width: 200px;
+            margin-bottom: 10px;
+        }
 
         /* Time filter buttons */
         .select-time {
@@ -619,341 +623,184 @@
         }
     </style>
 
-    <script src="script.js">
-        // Function to parse the HTML and extract event information
-        function extractEventData(html) {
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(html, 'text/html');
+    <script>
+    // Function to parse the HTML and extract event information
+    function extractEventData(html) {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        const events = [];
+        
+        doc.querySelectorAll('.event').forEach(eventElement => {
+            const eventPrice = eventElement.querySelector('.event-price').innerText;
+            const eventName = eventElement.querySelector('.event-name').innerText;
+            const eventTime = eventElement.querySelector('.event-time').innerText;
+            const detailsLink = eventElement.querySelector('.event-details').href;
 
-            // Extract event data here based on the structure of the website
-            const events = [];
-
-            // Example: extracting event type, name, time, and details link
-            doc.querySelectorAll('.event').forEach(eventElement => {
-                const eventPrice = eventElement.querySelector('.event-price').innerText;
-                const eventName = eventElement.querySelector('.event-name').innerText;
-                const eventTime = eventElement.querySelector('.event-time').innerText;
-                const detailsLink = eventElement.querySelector('.event-details').href;
-
-                events.push({
-                    price: eventPrice,
-                    name: eventName,
-                    time: eventTime,
-                    detailsLink: detailsLink
-                });
+            events.push({
+                price: eventPrice,
+                name: eventName,
+                time: eventTime,
+                detailsLink: detailsLink
             });
+        });
 
+        return events;
+    }
+
+    // Function to display events as a table
+    function displayEvents(events) {
+        var table = document.getElementById('eventTable');
+        
+        events.forEach(event => {
+            var newRow = table.insertRow(-1);
+            const eventPriceCell = newRow.insertCell();
+            const eventNameCell = newRow.insertCell();
+            const eventTimeCell = newRow.insertCell();
+            const detailsLinkCell = newRow.insertCell();
+
+            eventPriceCell.innerHTML = event.price;
+            eventNameCell.innerHTML = event.name;
+            eventTimeCell.innerHTML = event.date;
+            detailsLinkCell.innerHTML = `<a href="${event.link}">Details</a>`;
+        });
+    }
+
+    // Function to fetch event data from backend
+    async function fetchEventData(selectedCity) {
+        try {
+            const response = await fetch('http://localhost:3000/events', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ city: selectedCity })
+            });
+            if (!response.ok) {
+                throw new Error('Failed to fetch event data');
+            }
+            const events = await response.json();
             return events;
+        } catch (error) {
+            console.error('Error fetching event data:', error);
+            return [];
         }
+    }
 
-        // Function to display events as a table
-        function displayEvents(events) {
-            var table = document.getElementById('eventTable');
-            console.log("events_display: ", events)
-
-            events.forEach(event => {
-                var newRow = table.insertRow(-1);
-                //const newRow = table.insertRow();
-
-                // Create cells for each event property
-                const eventPriceCell = newRow.insertCell();
-                const eventNameCell = newRow.insertCell();
-                const eventTimeCell = newRow.insertCell();
-                const detailsLinkCell = newRow.insertCell();
-                console.log("eventNameCell: ", eventNameCell)
-                console.log("eventPriceCell: ", event.price)
-
-                // Set the innerHTML of each cell with the corresponding event property
-                eventPriceCell.innerHTML = event.price;
-                eventNameCell.innerHTML = event.name;
-                eventTimeCell.innerHTML = event.date;
-                detailsLinkCell.innerHTML = `<a href="${event.link}">Details</a>`;
-            });
+    // Function to handle search button click
+    async function handleSearch() {
+        try {
+            const selectedCity = document.getElementById('cityDropdown').value;
+            const events = await fetchEventData(selectedCity);
+            displayEvents(events);
+        } catch (error) {
+            console.error('Error fetching:', error);
         }
+    }
 
-        // Function to fetch event data from backend
-        async function fetchEventData(selectedCity) {
-            try {
-                const response = await fetch('http://localhost:3000/events', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ city: selectedCity })
-                });
-                if (!response.ok) {
-                    throw new Error('Failed to fetch event data');
-                }
-                const events = await response.json();
-                return events;
-            } catch (error) {
-                console.error('Error fetching event data:', error);
-                return [];
-            }
-        }
+    // Add event listener to the search button
+    document.getElementById('searchButton').addEventListener('click', handleSearch);
 
-        // Function to handle search button click
-        async function handleSearch() {
-            try {
-                const selectedCity = document.getElementById('cityDropdown').value;
-                const events = await fetchEventData(selectedCity);
-                // Display events or do further processing here
-                console.log('Eventsfetched:', events);
-                displayEvents(events);
-            } catch (error) {
-                console.error('Errorfetched:', error);
-            }
-        }
+    // Function to filter table
+    function filterTable() {
+        var input = document.getElementById("typeFilter");
+        var typeFilter = input.value.toUpperCase();
+        var table = document.getElementById("eventTable");
+        var tr = table.getElementsByTagName("tr");
 
-        // Add event listener to the search button
-        document.getElementById('searchButton').addEventListener('click', handleSearch);
+        for (var i = 1; i < tr.length; i++) {
+            var typeTd = tr[i].getElementsByTagName("td")[0];
+            var nameTd = tr[i].getElementsByTagName("td")[1];
 
+            if (typeTd && nameTd) {
+                var typeTxtValue = typeTd.textContent || typeTd.innerText;
+                var nameTxtValue = nameTd.textContent || nameTd.innerText;
 
-
-        function filterTable() {
-            var input, typeFilter, nameFilter, table, tr, typeTd, nameTd, i, typeTxtValue, nameTxtValue;
-            input = document.getElementById("typeFilter");
-            typeFilter = input.value.toUpperCase();
-            nameFilter = input.value.toUpperCase(); // Use the same filter value for both type and name
-            table = document.getElementById("eventTable");
-            tr = table.getElementsByTagName("tr");
-
-            for (i = 1; i < tr.length; i++) {
-                typeTd = tr[i].getElementsByTagName("td")[0];
-                nameTd = tr[i].getElementsByTagName("td")[1]; // Get the cell containing the event name
-
-                if (typeTd && nameTd) {
-                    typeTxtValue = typeTd.textContent || typeTd.innerText;
-                    nameTxtValue = nameTd.textContent || nameTd.innerText;
-                    console.log("trrrr: ", typeTxtValue)
-                    console.log("trrrr22: ", nameTxtValue)
-
-                    // Check if either the event type or event name matches the filter
-                    if (typeTxtValue.toUpperCase().indexOf(typeFilter) > -1 || nameTxtValue.toUpperCase().indexOf(nameFilter) > -1) {
-                        tr[i].style.display = "";
-                    } else {
-                        tr[i].style.display = "none";
-                    }
+                if (typeTxtValue.toUpperCase().indexOf(typeFilter) > -1 || 
+                    nameTxtValue.toUpperCase().indexOf(typeFilter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
                 }
             }
         }
+    }
 
-        // Function to remove the filter and display all events
-        function removeFilter() {
-            console.log("already_remove")
-            var table, tr, i;
-            table = document.getElementById("eventTable");
-            console.log("table:", table)
-            tr = table.getElementsByTagName("tr");
-            for (i = 0; i < tr.length; i++) {
-                tr[i].style.display = "";
+    // Function to remove filter
+    function removeFilter() {
+        var table = document.getElementById("eventTable");
+        var tr = table.getElementsByTagName("tr");
+        for (var i = 0; i < tr.length; i++) {
+            tr[i].style.display = "";
+        }
+    }
+
+    // Time filter functions
+    function filterTableByTime(period) {
+        removeFilter();
+        var table = document.getElementById("eventTable");
+        const tr = table.getElementsByTagName("tr");
+
+        const events = Array.from(tr).slice(1).map(row => {
+            const [num, name, type, time, link] = Array.from(row.querySelectorAll("td")).map(cell => cell.textContent);
+            return { num, name, type, time, detailsLink: link };
+        });
+
+        const filteredEvents = events.filter(event => {
+            const eventDate = new Date(event.time);
+            const today = new Date();
+            let startDate, endDate;
+
+            switch(period) {
+                case 'timethisweek':
+                    startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - today.getDay());
+                    endDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + (7 - today.getDay()));
+                    break;
+                case 'timethismonth':
+                    startDate = new Date(today.getFullYear(), today.getMonth(), 1);
+                    endDate = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+                    break;
+                case 'timethisyear':
+                    startDate = new Date(today.getFullYear(), 0, 1);
+                    endDate = new Date(today.getFullYear(), 11, 31);
+                    break;
             }
+
+            return eventDate >= startDate && eventDate <= endDate;
+        });
+
+        while (table.rows.length > 1) {
+            table.deleteRow(1);
         }
 
-        // Function to toggle filter buttons state
-        function toggleActiveState(buttonId) {
-            const button = document.getElementById(buttonId);
-            const isActive = button.classList.contains('active');
-
-            // Toggle active state for the clicked button
-            if (isActive) {
-                button.classList.remove('active');
-            } else {
-                // Remove active state from all buttons
-                document.querySelectorAll('.select-time button').forEach(btn => btn.classList.remove('active'));
-                button.classList.add('active');
-            }
-        }
-        // Function to filter events by time: week, month, or year
-        function filterTableByTime(period) {
-            console.log("already_filterd")
-
-            document.querySelectorAll('.select-time button').forEach(button => {
-                button.classList.remove('active');
+        filteredEvents.forEach(event => {
+            const newRow = table.insertRow(-1);
+            Object.values(event).forEach(value => {
+                const cell = newRow.insertCell();
+                cell.textContent = value;
             });
+        });
+    }
 
-            // Remove the filter to display all events
+    // Function to handle filter button clicks
+    function handleFilterButtonClick(period) {
+        const button = document.getElementById(period);
+        if (button.classList.contains('active')) {
             removeFilter();
-
-            var table = document.getElementById("eventTable");
-            const tr = table.getElementsByTagName("tr");
-
-            const events = Array.from(tr).slice(1).map(row => {
-                const [type, name, time, link] = Array.from(row.querySelectorAll("td")).map(cell => cell.textContent);
-                return { type, name, time, detailsLink: link };
-            });
-
-            console.log("events", events)
-
-            const filteredEvents = events.filter(event => {
-                const eventDate = new Date(event.time);
-                const today = new Date();
-                let startDate, endDate;
-
-                // Calculate start and end dates based on the selected period
-                if (period === 'timethisweek') {
-                    const nextWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() + (7 - today.getDay())); // Next Sunday
-                    startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - today.getDay()); // This Monday
-                    endDate = nextWeek;
-                } else if (period === 'timethismonth') {
-                    startDate = new Date(today.getFullYear(), today.getMonth(), 1); // First day of this month
-                    endDate = new Date(today.getFullYear(), today.getMonth() + 1, 0); // Last day of this month
-                } else if (period === 'timethisyear') {
-                    startDate = new Date(today.getFullYear(), 0, 1); // First day of this year
-                    endDate = new Date(today.getFullYear(), 11, 31); // Last day of this year
-                }
-
-                return eventDate >= startDate && eventDate <= endDate;
-            });
-
-            console.log("filteredEvents222", filteredEvents)
-
-            // Clear existing table rows
-            while (table.rows.length > 1) {
-                table.deleteRow(1);
-            }
-
-            // Display filtered events
-            filteredEvents.forEach(event => {
-                const newRow = table.insertRow(-1);
-                Object.values(event).forEach(value => {
-                    const cell = newRow.insertCell();
-                    cell.textContent = value;
-                });
-            });
-            setTimeout(removeFilter, 500)
+            button.classList.remove('active');
+        } else {
+            document.querySelectorAll('.select-time button').forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            filterTableByTime(period);
         }
-
-        // Function to handle filter buttons click
-        function handleFilterButtonClick(period) {
-            const button = document.getElementById(period);
-            if (button.classList.contains('active')) {
-                console.log("first")
-                // If the button is already active, remove the filter
-                removeFilter();
-            } else {
-                console.log("second")
-                filterTableByTime(period);
-                toggleActiveState(period);
-            }
-        }
-
-        document.getElementById('timethisweek').addEventListener('click', () => handleFilterButtonClick('timethisweek'));
-        document.getElementById('timethismonth').addEventListener('click', () => handleFilterButtonClick('timethismonth'));
-        document.getElementById('timethisyear').addEventListener('click', () => handleFilterButtonClick('timethisyear'));
-
-        // Data structure for continent > country > cities (top 5 biggest per country)
-const locationData = {
-    africa: {
-        Nigeria: ["Lagos", "Kano", "Ibadan", "Abuja", "Port Harcourt"],
-        Egypt: ["Cairo", "Alexandria", "Giza", "Shubra El Kheima", "Port Said"],
-        South_Africa: ["Johannesburg", "Cape Town", "Durban", "Pretoria", "Port Elizabeth"],
-        Kenya: ["Nairobi", "Mombasa", "Kisumu", "Nakuru", "Eldoret"],
-        Ethiopia: ["Addis Ababa", "Gondar", "Mekelle", "Adama", "Hawassa"]
-    },
-    asia: {
-        China: ["Shanghai", "Beijing", "Chongqing", "Tianjin", "Guangzhou"],
-        India: ["Mumbai", "Delhi", "Bangalore", "Hyderabad", "Ahmedabad"],
-        Japan: ["Tokyo", "Yokohama", "Osaka", "Nagoya", "Sapporo"],
-        Turkey: ["Istanbul", "Ankara", "Izmir", "Bursa", "Adana"],
-        Russia: ["Moscow", "Saint Petersburg", "Novosibirsk", "Yekaterinburg", "Kazan"]
-    },
-    europe: {
-        Germany: ["Berlin", "Hamburg", "Munich", "Cologne", "Frankfurt"],
-        France: ["Paris", "Marseille", "Lyon", "Toulouse", "Nice"],
-        UK: ["London", "Birmingham", "Manchester", "Glasgow", "Liverpool"],
-        Italy: ["Rome", "Milan", "Naples", "Turin", "Palermo"],
-        Spain: ["Madrid", "Barcelona", "Valencia", "Seville", "Zaragoza"],
-        Netherlands: ["Amsterdam", "Rotterdam", "The Hague", "Utrecht", "Eindhoven"],
-        Poland: ["Warsaw", "Krakow", "Lodz", "Wroclaw", "Poznan"],
-        Sweden: ["Stockholm", "Gothenburg", "Malmo", "Uppsala", "Vasteras"],
-        Norway: ["Oslo", "Bergen", "Stavanger", "Trondheim", "Drammen"],
-        Finland: ["Helsinki", "Espoo", "Tampere", "Vantaa", "Oulu"],
-        Denmark: ["Copenhagen", "Aarhus", "Odense", "Aalborg", "Esbjerg"],
-        Ireland: ["Dublin", "Cork", "Limerick", "Galway", "Waterford"],
-        Portugal: ["Lisbon", "Porto", "Amadora", "Braga", "Coimbra"],
-        Hungary: ["Budapest", "Debrecen", "Szeged", "Miskolc", "Pecs"],
-        Austria: ["Vienna", "Graz", "Linz", "Salzburg", "Innsbruck"],
-        Czechia: ["Prague", "Brno", "Ostrava", "Plzen", "Liberec"],
-        Belgium: ["Brussels", "Antwerp", "Ghent", "Charleroi", "Liege"]
-    },
-    north_america: {
-        USA: ["New York", "Los Angeles", "Chicago", "Houston", "Phoenix"],
-        Canada: ["Toronto", "Montreal", "Calgary", "Ottawa", "Edmonton"],
-        Mexico: ["Mexico City", "Ecatepec", "Guadalajara", "Puebla", "Juarez"],
-        Cuba: ["Havana", "Santiago de Cuba", "Camaguey", "Holguin", "Guantanamo"],
-        Guatemala: ["Guatemala City", "Mixco", "Villa Nueva", "Quetzaltenango", "San Miguel Petapa"]
-    },
-    south_america: {
-        Brazil: ["Sao Paulo", "Rio de Janeiro", "Brasilia", "Salvador", "Fortaleza"],
-        Argentina: ["Buenos Aires", "Cordoba", "Rosario", "Mendoza", "La Plata"],
-        Colombia: ["Bogota", "Medellin", "Cali", "Barranquilla", "Cartagena"],
-        Chile: ["Santiago", "Puente Alto", "Antofagasta", "Vina del Mar", "Valparaiso"],
-        Peru: ["Lima", "Arequipa", "Trujillo", "Chiclayo", "Piura"]
-    },
-    australia: {
-        Australia: ["Sydney", "Melbourne", "Brisbane", "Perth", "Adelaide"],
-        New_Zealand: ["Auckland", "Wellington", "Christchurch", "Hamilton", "Tauranga"],
-        Papua_New_Guinea: ["Port Moresby", "Lae", "Arawa", "Mount Hagen", "Madang"],
-        Fiji: ["Suva", "Lautoka", "Nadi", "Labasa", "Ba"],
-        Solomon_Islands: ["Honiara", "Gizo", "Auki", "Kirakira", "Tulagi"]
-    },
-    antarctica: {
-        "Research Stations": ["McMurdo Station", "Amundsen-Scott South Pole Station", "Palmer Station", "Rothera Research Station", "Princess Elisabeth Station"]
     }
-};
 
-// DOM elements
-const continentDropdown = document.getElementById('continentDropdown');
-const countryDropdown = document.getElementById('countryDropdown');
-const cityDropdown = document.getElementById('cityDropdown');
-
-// Helper: Format country keys for display
-function formatCountryName(countryKey) {
-    return countryKey.replace(/_/g, ' ');
-}
-
-// Populate countries when continent changes
-continentDropdown.addEventListener('change', function() {
-    const continent = this.value;
-    countryDropdown.innerHTML = '<option value="">Select Country</option>';
-    cityDropdown.innerHTML = '<option value="">Select City</option>';
-    cityDropdown.disabled = true;
-
-    if (continent && locationData[continent]) {
-        Object.keys(locationData[continent]).forEach(country => {
-            const opt = document.createElement('option');
-            opt.value = country;
-            opt.textContent = formatCountryName(country);
-            countryDropdown.appendChild(opt);
-        });
-        countryDropdown.disabled = false;
-    } else {
-        countryDropdown.disabled = true;
-    }
-});
-
-// Populate cities when country changes
-countryDropdown.addEventListener('change', function() {
-    const continent = continentDropdown.value;
-    const country = this.value;
-    cityDropdown.innerHTML = '<option value="">Select City</option>';
-
-    if (continent && country && locationData[continent][country]) {
-        locationData[continent][country].forEach(city => {
-            const opt = document.createElement('option');
-            opt.value = city.toLowerCase().replace(/ /g, "_");
-            opt.textContent = city;
-            cityDropdown.appendChild(opt);
-        });
-        cityDropdown.disabled = false;
-    } else {
-        cityDropdown.disabled = true;
-    }
-});
-
+    // Add event listeners for filter buttons
+    document.getElementById('timethisweek').addEventListener('click', () => handleFilterButtonClick('timethisweek'));
+    document.getElementById('timethismonth').addEventListener('click', () => handleFilterButtonClick('timethismonth'));
+    document.getElementById('timethisyear').addEventListener('click', () => handleFilterButtonClick('timethisyear'));
 </script>
 
+<script src="script.js"></script>
 <script src="scripts.js"></script>
 </body>
 </html>
