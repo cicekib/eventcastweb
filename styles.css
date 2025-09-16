@@ -98,23 +98,6 @@ th {
     text-align: center;
 }
 
-/* Input label filter styles */
-#typeFilter {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-    margin-bottom: 20px;
-}
-
-/* Style for Filter text/label */
-#typeFilter,
-#typeFilter option,
-label[for="typeFilter"] {
-    color: #000000;
-    font-weight: bold;
-}
-
 /* Search container */
 .search-container {
     display: flex;
