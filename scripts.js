@@ -142,7 +142,7 @@ const locationData = {
 
 // Update the displayEvents function in index.html or script.js
 function displayEvents(events) {
-    var table = document.getElementById('eventTable');
+    const table = document.getElementById('eventTable');
     
     // Clear existing rows except header
     while (table.rows.length > 1) {
@@ -150,22 +150,84 @@ function displayEvents(events) {
     }
     
     events.forEach((event, index) => {
-        var newRow = table.insertRow(-1);
+        const row = table.insertRow(-1);
         
-        // Add row number
-        const rowNumCell = newRow.insertCell();
-        rowNumCell.innerHTML = index + 1;
-        
-        // Add other cells in new order
-        const eventNameCell = newRow.insertCell();
-        const eventPriceCell = newRow.insertCell();
-        const eventTimeCell = newRow.insertCell();
-        const detailsLinkCell = newRow.insertCell();
+        // Format the date consistently
+        const eventDate = new Date(event.date);
+        const formattedDate = eventDate.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric'
+        });
 
-        eventNameCell.innerHTML = event.name;
-        eventPriceCell.innerHTML = event.price;
-        eventTimeCell.innerHTML = event.date;
-        detailsLinkCell.innerHTML = `<a href="${event.link}">Details</a>`;
+        // Add cells
+        const cells = [
+            index + 1,
+            event.name,
+            event.price || 'Free',
+            formattedDate,
+            `<a href="${event.link}" target="_blank">Details</a>`
+        ];
+
+        cells.forEach(cellData => {
+            const cell = row.insertCell();
+            cell.innerHTML = cellData;
+        });
+    });
+}
+
+// Time filter function
+function filterTableByTime(period) {
+    const table = document.getElementById('eventTable');
+    const rows = Array.from(table.getElementsByTagName('tr')).slice(1); // Skip header row
+    const today = new Date();
+
+    // Calculate end dates for each period
+    const endDates = {
+        'timethisweek': new Date(today.getTime() + (7 * 24 * 60 * 60 * 1000)), // 7 days from now
+        'timethismonth': new Date(today.getTime() + (30 * 24 * 60 * 60 * 1000)), // 30 days from now
+        'timethisyear': new Date(today.getFullYear(), 11, 31) // December 31st of current year
+    };
+
+    const endDate = endDates[period];
+
+    // Hide rows that don't match the time filter
+    rows.forEach(row => {
+        const timeCell = row.cells[3]; // Event Time column
+        const eventDate = new Date(timeCell.textContent);
+        
+        if (eventDate <= endDate && eventDate >= today) {
+            row.style.display = ''; // Show row
+        } else {
+            row.style.display = 'none'; // Hide row
+        }
+    });
+}
+
+// Update button click handlers
+function setupTimeFilterButtons() {
+    const buttons = {
+        'timethisweek': document.getElementById('timethisweek'),
+        'timethismonth': document.getElementById('timethismonth'),
+        'timethisyear': document.getElementById('timethisyear')
+    };
+
+    Object.entries(buttons).forEach(([period, button]) => {
+        button.addEventListener('click', () => {
+            // Remove active class from all buttons
+            Object.values(buttons).forEach(btn => btn.classList.remove('active'));
+            
+            if (button.classList.contains('active')) {
+                // If already active, deactivate and show all rows
+                button.classList.remove('active');
+                const rows = document.getElementById('eventTable').getElementsByTagName('tr');
+                Array.from(rows).forEach(row => row.style.display = '');
+            } else {
+                // Activate button and filter
+                button.classList.add('active');
+                filterTableByTime(period);
+            }
+        });
     });
 }
 
@@ -285,4 +347,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize location detection
     initializeLocation();
+    setupTimeFilterButtons();
 });
