@@ -325,6 +325,106 @@ th {
     font-family: var(--button-font);
 }
 
+/* Footer styles */
+#footer {
+    background-color: rgba(255, 255, 255, 0.92);
+    padding: 20px;
+    margin: 30px auto;
+    width: 90%;
+    max-width: 1200px;
+    text-align: center;
+    font-size: small;
+    color: #333;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    clear: both;
+}
+
+#footer p {
+    margin-bottom: 10px;
+}
+
+#footer .pill {
+    display: inline-block;
+    padding: 4px 8px;
+    background-color: rgba(138, 23, 184, 0.1);
+    border-radius: 12px;
+    margin-top: 5px;
+}
+
+/* Update privacy button styles */
+.privacy-btn {
+    display: block;
+    margin: 30px auto;
+    padding: 10px 20px;
+    background-color: #8a17b8;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.privacy-btn:hover {
+    background-color: #6c0f92;
+}
+
+/* Update styles for the privacy link */
+.privacy-link {
+    display: block;
+    margin: 30px auto;
+    padding: 10px 20px;
+    background-color: transparent; /* No background */
+    color: #003366; /* Dark blue color */
+    text-align: center;
+    font-size: 16px;
+    text-decoration: underline; /* Underline to indicate it's a link */
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.privacy-link:hover {
+    color: #00509e; /* Change color on hover */
+}
+
+/* Modal styles */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 100; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+    max-width: 600px; /* Max width for larger screens */
+    border-radius: 8px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
 /* Responsive styles */
 @media only screen and (max-width: 768px) {
     header {
@@ -353,29 +453,4 @@ th {
     }
 }
 
-@media only screen and (max-width: 600px) {
-    th,
-    td {
-        white-space: nowrap;
-    }
-
-    table {
-        overflow-x: auto;
-        display: block;
-    }
-
-    thead {
-        display: none;
-    }
-
-    #about,
-    #contact,
-    #footer {
-        padding: 15px;
-    }
-
-    #searchButton {
-        padding: 14px 20px;
-        font-size: 16px;
-    }
-}
+/* Removed incomplete @media rule */
