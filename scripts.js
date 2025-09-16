@@ -3,58 +3,75 @@
 document.addEventListener('DOMContentLoaded', () => {
 const locationData = {
     africa: {
-        Nigeria: ["Lagos", "Kano", "Ibadan", "Abuja", "Port Harcourt"],
-        Egypt: ["Cairo", "Alexandria", "Giza", "Shubra El Kheima", "Port Said"],
-        South_Africa: ["Johannesburg", "Cape Town", "Durban", "Pretoria", "Port Elizabeth"],
-        Kenya: ["Nairobi", "Mombasa", "Kisumu", "Nakuru", "Eldoret"],
-        Ethiopia: ["Addis Ababa", "Gondar", "Mekelle", "Adama", "Hawassa"]
+        Nigeria: ["Lagos", "Kano", "Ibadan", "Abuja", "Port Harcourt", "Benin City", "Maiduguri", "Zaria", "Aba", "Jos"],
+        Egypt: ["Cairo", "Alexandria", "Giza", "Shubra El Kheima", "Port Said", "Suez", "Luxor", "Mansoura", "El-Mahalla", "Aswan"],
+        South_Africa: ["Johannesburg", "Cape Town", "Durban", "Pretoria", "Port Elizabeth", "Bloemfontein", "East London", "Nelspruit", "Kimberley", "Polokwane"],
+        Kenya: ["Nairobi", "Mombasa", "Kisumu", "Nakuru", "Eldoret", "Thika", "Malindi", "Kitale", "Garissa", "Kakamega"],
+        Ethiopia: ["Addis Ababa", "Gondar", "Mekelle", "Adama", "Hawassa", "Dire Dawa", "Bahir Dar", "Dessie", "Jimma", "Jijiga"],
+        Ghana: ["Accra", "Kumasi", "Tamale", "Sekondi-Takoradi", "Sunyani", "Cape Coast", "Obuasi", "Ho", "Koforidua", "Wa"],
+        Algeria: ["Algiers", "Oran", "Constantine", "Annaba", "Blida", "Batna", "Djelfa", "Setif", "Sidi Bel Abbes", "Biskra"],
+        Morocco: ["Casablanca", "Rabat", "Fes", "Marrakesh", "Agadir", "Tangier", "Meknes", "Oujda", "Kenitra", "Tetouan"],
+        Tanzania: ["Dodoma", "Dar es Salaam", "Arusha", "Mbeya", "Mwanza", "Morogoro", "Tanga", "Kigoma", "Tabora", "Rukwa"],
+        Uganda: ["Kampala", "Nairobi", "Gulu", "Mbarara", "Jinja", "Masaka", "Entebbe", "Kabale", "Fort Portal", "Soroti"]
     },
     asia: {
-        China: ["Shanghai", "Beijing", "Chongqing", "Tianjin", "Guangzhou"],
-        India: ["Mumbai", "Delhi", "Bangalore", "Hyderabad", "Ahmedabad"],
-        Japan: ["Tokyo", "Yokohama", "Osaka", "Nagoya", "Sapporo"],
-        Russia: ["Moscow", "Saint Petersburg", "Novosibirsk", "Yekaterinburg", "Kazan"]
+        China: ["Shanghai", "Beijing", "Guangzhou", "Shenzhen", "Chengdu", "Tianjin", "Wuhan", "Dongguan", "Chongqing", "Nanjing"],
+        India: ["Mumbai", "Delhi", "Bangalore", "Hyderabad", "Ahmedabad", "Chennai", "Kolkata", "Pune", "Jaipur", "Surat"],
+        Japan: ["Tokyo", "Yokohama", "Osaka", "Nagoya", "Sapporo", "Fukuoka", "Kobe", "Kyoto", "Kawasaki", "Saitama"],
+        Russia: ["Moscow", "Saint Petersburg", "Novosibirsk", "Yekaterinburg", "Kazan", "Nizhny Novgorod", "Chelyabinsk", "Samara", "Omsk", "Rostov-on-Don"],
+        Indonesia: ["Jakarta", "Surabaya", "Bandung", "Medan", "Semarang", "Makassar", "Palembang", "Tangerang", "Depok", "Yogyakarta"],
+        Pakistan: ["Karachi", "Lahore", "Islamabad", "Faisalabad", "Rawalpindi", "Multan", "Hyderabad", "Gujranwala", "Peshawar", "Quetta"],
+        Bangladesh: ["Dhaka", "Chittagong", "Khulna", "Rajshahi", "Sylhet", "Barisal", "Brahmanbaria", "Narayanganj", "Comilla", "Netrakona"],
+        Vietnam: ["Ho Chi Minh City", "Hanoi", "Da Nang", "Haiphong", "Can Tho", "Bien Hoa", "Hue", "Nha Trang", "Vung Tau", "Quy Nhon"],
+        Philippines: ["Manila", "Quezon City", "Cebu City", "Davao City", "Zamboanga City", "Taguig", "Pasig", "Antipolo", "Caloocan", "Iloilo City"],
+        Thailand: ["Bangkok", "Nonthaburi", "Nakhon Ratchasima", "Chiang Mai", "Hat Yai", "Udon Thani", "Pak Kret", "Pattaya", "Khon Kaen", "Surat Thani"]
     },
     europe: {
-        Germany: ["Berlin", "Hamburg", "Munich", "Cologne", "Frankfurt"],
-        France: ["Paris", "Marseille", "Lyon", "Toulouse", "Nice"],
-        UK: ["London", "Birmingham", "Manchester", "Glasgow", "Liverpool"],
-        Italy: ["Rome", "Milan", "Naples", "Turin", "Palermo"],
-        Spain: ["Madrid", "Barcelona", "Valencia", "Seville", "Zaragoza"],
-        Netherlands: ["Amsterdam", "Rotterdam", "The Hague", "Utrecht", "Eindhoven"],
-        Poland: ["Warsaw", "Krakow", "Lodz", "Wroclaw", "Poznan"],
-        Turkey: ["Istanbul", "Ankara", "Izmir", "Bursa", "Adana"],
-        Sweden: ["Stockholm", "Gothenburg", "Malmo", "Uppsala", "Vasteras"],
-        Norway: ["Oslo", "Bergen", "Stavanger", "Trondheim", "Drammen"],
-        Finland: ["Helsinki", "Espoo", "Tampere", "Vantaa", "Oulu"],
-        Denmark: ["Copenhagen", "Aarhus", "Odense", "Aalborg", "Esbjerg"],
-        Ireland: ["Dublin", "Cork", "Limerick", "Galway", "Waterford"],
-        Portugal: ["Lisbon", "Porto", "Amadora", "Braga", "Coimbra"],
-        Hungary: ["Budapest", "Debrecen", "Szeged", "Miskolc", "Pecs"],
-        Austria: ["Vienna", "Graz", "Linz", "Salzburg", "Innsbruck"],
-        Czechia: ["Prague", "Brno", "Ostrava", "Plzen", "Liberec"],
-        Belgium: ["Brussels", "Antwerp", "Ghent", "Charleroi", "Liege"]
+        Germany: ["Berlin", "Hamburg", "Munich", "Cologne", "Frankfurt", "Stuttgart", "Dusseldorf", "Leipzig", "Dortmund", "Essen"],
+        France: ["Paris", "Marseille", "Lyon", "Toulouse", "Nice", "Nantes", "Strasbourg", "Montpellier", "Bordeaux", "Lille"],
+        UK: ["London", "Birmingham", "Manchester", "Glasgow", "Liverpool", "Bristol", "Leeds", "Edinburgh", "Sheffield", "Newcastle"],
+        Italy: ["Rome", "Milan", "Naples", "Turin", "Palermo", "Genoa", "Bologna", "Florence", "Bari", "Venice"],
+        Spain: ["Madrid", "Barcelona", "Valencia", "Seville", "Zaragoza", "Malaga", "Murcia", "Palma", "Las Palmas", "Bilbao"],
+        Netherlands: ["Amsterdam", "Rotterdam", "The Hague", "Utrecht", "Eindhoven", "Tilburg", "Groningen", "Almere", "Breda", "Nijmegen"],
+        Turkey: ["Istanbul", "Ankara", "Izmir", "Bursa", "Antalya", "Adana", "Gaziantep", "Konya", "Mersin", "Diyarbakir"],
+        Poland: ["Warsaw", "Krakow", "Lodz", "Wroclaw", "Poznan", "Gdansk", "Szczecin", "Bydgoszcz", "Lublin", "Katowice"],
+        Sweden: ["Stockholm", "Gothenburg", "Malmo", "Uppsala", "Vasteras", "Linkoping", "Orebro", "Helsingborg", "Norrkoping", "Lund"],
+        Norway: ["Oslo", "Bergen", "Stavanger", "Trondheim", "Drammen", "Fredrikstad", "Porsgrunn", "Bodø", "Sandnes", "Skien"],
+        Finland: ["Helsinki", "Espoo", "Tampere", "Vantaa", "Oulu", "Lahti", "Kuopio", "Jyvaskyla", "Rovaniemi", "Porvoo"],
+        Denmark: ["Copenhagen", "Aarhus", "Odense", "Aalborg", "Esbjerg", "Randers", "Kolding", "Horsens", "Vejle", "Silkeborg"],
+        Ireland: ["Dublin", "Cork", "Limerick", "Galway", "Waterford", "Kilkenny", "Sligo", "Drogheda", "Tralee", "Naas"],
+        Portugal: ["Lisbon", "Porto", "Amadora", "Braga", "Coimbra", "Setubal", "Aveiro", "Funchal", "Leiria", "Évora"],
+        Austria: ["Vienna", "Graz", "Linz", "Salzburg", "Innsbruck", "Klagenfurt", "Villach", "Wels", "St. Pölten", "Bregenz"],
+        Switzerland: ["Zurich", "Geneva", "Basel", "Bern", "Lausanne", "Lucerne", "St. Gallen", "Lugano", "La Chaux-de-Fonds", "Biel/Bienne"],
+        Belgium: ["Brussels", "Antwerp", "Ghent", "Charleroi", "Liege", "Bruges", "Namur", "Leuven", "Mons", "Mechelen"],
+        Czechia: ["Prague", "Brno", "Ostrava", "Plzen", "Liberec", "Olomouc", "Usti nad Labem", "Hradec Kralove", "Zlin", "Jihlava"]
     },
     north_america: {
-        USA: ["New York", "Los Angeles", "Chicago", "Houston", "Phoenix"],
-        Canada: ["Toronto", "Montreal", "Calgary", "Ottawa", "Edmonton"],
-        Mexico: ["Mexico City", "Ecatepec", "Guadalajara", "Puebla", "Juarez"],
-        Cuba: ["Havana", "Santiago de Cuba", "Camaguey", "Holguin", "Guantanamo"],
-        Guatemala: ["Guatemala City", "Mixco", "Villa Nueva", "Quetzaltenango", "San Miguel Petapa"]
+        USA: ["New York", "Los Angeles", "Chicago", "Houston", "Phoenix", "Philadelphia", "San Antonio", "San Diego", "Dallas", "San Jose"],
+        Canada: ["Toronto", "Montreal", "Vancouver", "Calgary", "Edmonton", "Ottawa", "Winnipeg", "Quebec City", "Hamilton", "Halifax"],
+        Mexico: ["Mexico City", "Guadalajara", "Monterrey", "Puebla", "Tijuana", "Ciudad Juarez", "Leon", "Zapopan", "Merida", "Queretaro"],
+        Cuba: ["Havana", "Santiago de Cuba", "Camaguey", "Holguin", "Guantanamo", "Santa Clara", "Las Tunas", "Bayamo", "Cienfuegos", "Pinar del Rio"],
+        Guatemala: ["Guatemala City", "Mixco", "Villa Nueva", "Quetzaltenango", "San Miguel Petapa", "Escuintla", "Mazatenango", "Chimaltenango", "Solola", "Retalhuleu"],
+        Honduras: ["Tegucigalpa", "San Pedro Sula", "Choloma", "La Ceiba", "El Progreso", "Comayagua", "Puerto Cortes", "Danli", "La Lima", "Olancho"],
+        Costa_Rica: ["San Jose", "Alajuela", "Cartago", "Heredia", "Liberia", "Puntarenas", "San Ramon", "Escazu", "Curridabat", "Tibas"],
+        Panama: ["Panama City", "San Miguelito", "David", "Colón", "La Chorrera", "Santiago de Veraguas", "Chitre", "Penonome", "Las Tablas", "Bocas del Toro"]
     },
     south_america: {
-        Brazil: ["Sao Paulo", "Rio de Janeiro", "Brasilia", "Salvador", "Fortaleza"],
-        Argentina: ["Buenos Aires", "Cordoba", "Rosario", "Mendoza", "La Plata"],
-        Colombia: ["Bogota", "Medellin", "Cali", "Barranquilla", "Cartagena"],
-        Chile: ["Santiago", "Puente Alto", "Antofagasta", "Vina del Mar", "Valparaiso"],
-        Peru: ["Lima", "Arequipa", "Trujillo", "Chiclayo", "Piura"]
+        Brazil: ["Sao Paulo", "Rio de Janeiro", "Brasilia", "Salvador", "Fortaleza", "Belo Horizonte", "Manaus", "Curitiba", "Recife", "Porto Alegre"],
+        Argentina: ["Buenos Aires", "Cordoba", "Rosario", "Mendoza", "La Plata", "San Miguel de Tucuman", "Mar del Plata", "Salta", "Santa Fe", "San Juan"],
+        Colombia: ["Bogota", "Medellin", "Cali", "Barranquilla", "Cartagena", "Cucuta", "Bucaramanga", "Pereira", "Santa Marta", "Villavicencio"],
+        Chile: ["Santiago", "Valparaiso", "Concepcion", "La Serena", "Antofagasta", "Temuco", "Rancagua", "Talca", "Arica", "Chillan"],
+        Peru: ["Lima", "Arequipa", "Trujillo", "Chiclayo", "Piura", "Iquitos", "Cusco", "Huancayo", "Tacna", "Ica"],
+        Venezuela: ["Caracas", "Maracaibo", "Valencia", "Barquisimeto", "Ciudad Guayana", "Maturin", "Puerto La Cruz", "San Cristobal", "La Guaira", "Barinas"],
+        Ecuador: ["Quito", "Guayaquil", "Cuenca", "Machala", "Manta", "Durán", "Ambato", "Esmeraldas", "Loja", "Santo Domingo"],
+        Bolivia: ["Sucre", "La Paz", "Santa Cruz", "Cochabamba", "Oruro", "Potosi", "Tarija", "El Alto", "Beni", "Pando"]
     },
     australia: {
-        Australia: ["Sydney", "Melbourne", "Brisbane", "Perth", "Adelaide"],
-        New_Zealand: ["Auckland", "Wellington", "Christchurch", "Hamilton", "Tauranga"],
-        Papua_New_Guinea: ["Port Moresby", "Lae", "Arawa", "Mount Hagen", "Madang"],
-        Fiji: ["Suva", "Lautoka", "Nadi", "Labasa", "Ba"],
-        Solomon_Islands: ["Honiara", "Gizo", "Auki", "Kirakira", "Tulagi"]
+        Australia: ["Sydney", "Melbourne", "Brisbane", "Perth", "Adelaide", "Gold Coast", "Canberra", "Newcastle", "Wollongong", "Logan City"],
+        New_Zealand: ["Auckland", "Wellington", "Christchurch", "Hamilton", "Tauranga", "Napier-Hastings", "Dunedin", "Palmerston North", "Nelson", "Rotorua"],
+        Papua_New_Guinea: ["Port Moresby", "Lae", "Mount Hagen", "Madang", "Goroka", "Kokopo", "Kimbe", "Bulolo", "Rabaul", "Popondetta"],
+        Fiji: ["Suva", "Lautoka", "Nadi", "Labasa", "Ba", "Sigatoka", "Levuka", "Korolevu", "Taveuni", "Savusavu"],
+        Solomon_Islands: ["Honiara", "Gizo", "Auki", "Kirakira", "Tulagi", "Noro", "Munda", "Lata", "Buala", "Taro"]
     },
     antarctica: {
         "Research Stations": ["McMurdo Station", "Amundsen-Scott South Pole Station", "Palmer Station", "Rothera Research Station", "Princess Elisabeth Station"]
@@ -151,3 +168,121 @@ function displayEvents(events) {
         detailsLinkCell.innerHTML = `<a href="${event.link}">Details</a>`;
     });
 }
+
+// Function to get location from IP address
+async function getLocationFromIP() {
+    try {
+        const response = await fetch('https://ipapi.co/json/');
+        const data = await response.json();
+        return {
+            continent: data.continent_code.toLowerCase(),
+            country: data.country_name.replace(' ', '_'),
+            city: data.city
+        };
+    } catch (error) {
+        console.error('Error getting location from IP:', error);
+        return null;
+    }
+}
+
+// Function to set dropdown values
+function setDropdownValues(continent, country, city) {
+    // Convert continent codes to match your dropdown values
+    const continentMap = {
+        'AF': 'africa',
+        'AS': 'asia',
+        'EU': 'europe',
+        'NA': 'north_america',
+        'SA': 'south_america',
+        'OC': 'australia',
+        'AN': 'antarctica'
+    };
+
+    const mappedContinent = continentMap[continent] || continent;
+
+    // Set continent
+    const continentDropdown = document.getElementById('continentDropdown');
+    if (continentDropdown) {
+        continentDropdown.value = mappedContinent;
+        continentDropdown.dispatchEvent(new Event('change'));
+    }
+
+    // Set country after a small delay to ensure continent change has processed
+    setTimeout(() => {
+        const countryDropdown = document.getElementById('countryDropdown');
+        if (countryDropdown) {
+            countryDropdown.value = country;
+            countryDropdown.dispatchEvent(new Event('change'));
+        }
+
+        // Set city after another small delay
+        setTimeout(() => {
+            const cityDropdown = document.getElementById('cityDropdown');
+            if (cityDropdown) {
+                cityDropdown.value = city;
+                cityDropdown.dispatchEvent(new Event('change'));
+            }
+        }, 100);
+    }, 100);
+}
+
+// Function to get location from browser
+function getLocationFromBrowser() {
+    return new Promise((resolve, reject) => {
+        if (!navigator.geolocation) {
+            reject(new Error('Geolocation is not supported by this browser'));
+            return;
+        }
+
+        navigator.geolocation.getCurrentPosition(
+            async (position) => {
+                try {
+                    const { latitude, longitude } = position.coords;
+                    const response = await fetch(
+                        `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`
+                    );
+                    const data = await response.json();
+                    
+                    resolve({
+                        continent: data.continent.toLowerCase(),
+                        country: data.countryName.replace(' ', '_'),
+                        city: data.city
+                    });
+                } catch (error) {
+                    reject(error);
+                }
+            },
+            (error) => {
+                reject(error);
+            }
+        );
+    });
+}
+
+// Initialize location detection
+async function initializeLocation() {
+    try {
+        // Try getting location from browser first
+        const location = await getLocationFromBrowser();
+        setDropdownValues(location.continent, location.country, location.city);
+    } catch (error) {
+        console.log('Browser location failed, trying IP-based location...');
+        try {
+            // Fallback to IP-based location
+            const location = await getLocationFromIP();
+            if (location) {
+                setDropdownValues(location.continent, location.country, location.city);
+            }
+        } catch (error) {
+            console.error('Failed to get location:', error);
+        }
+    }
+}
+
+// Add to your existing DOMContentLoaded event listener
+document.addEventListener('DOMContentLoaded', () => {
+    // ...existing DOMContentLoaded code...
+
+    // Initialize location detection
+    initializeLocation();
+});
