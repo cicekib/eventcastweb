@@ -8,3 +8,5 @@ Ensure your API returns event data in this format:
     datetime: "2025-09-20T18:00:00",
     detailsUrl: "https://..."
 }
+
+Make sure your backend API is CORS-enabled and returns proper JSON data.
