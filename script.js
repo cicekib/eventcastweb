@@ -1,13 +1,45 @@
 // Event data fetching and display functions
 async function fetchEvents(city) {
     try {
-        // Replace with your actual API endpoint
-        const response = await fetch(`https://api.eventcast.com/events?city=${city}`);
-        if (!response.ok) throw new Error('Failed to fetch events');
-        const data = await response.json();
-        return data;
+        // Load API token from local file (served by your web server)
+        const tokenResp = await fetch('./etkinlik.txt');
+        if (!tokenResp.ok) throw new Error('Failed to load API token');
+        const token = (await tokenResp.text()).trim();
+        if (!token) throw new Error('Empty API token');
+
+        // Build PredictHQ request
+        const url = new URL('https://api.predicthq.com/v1/events/');
+        if (city) url.searchParams.set('q', city);
+        url.searchParams.set('limit', '50');
+
+        const resp = await fetch(url.toString(), {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Accept': 'application/json'
+            }
+        });
+
+        if (!resp.ok) {
+            const txt = await resp.text();
+            throw new Error(`PredictHQ API error ${resp.status}: ${txt}`);
+        }
+
+        const data = await resp.json();
+
+        // PredictHQ may return results in different keys; normalize to an array
+        const items = data.results || data.data || data || [];
+
+        // Map to the format expected by displayEvents in this file
+        return (items || []).map(ev => {
+            return {
+                name: ev.title || ev.name || ev.id || '',
+                datetime: ev.start || ev.starts_at || ev.start_local || ev.scheduled_start || ev.scheduled || '',
+                price: ev.price || null,
+                detailsUrl: ev.link || (ev.sources && ev.sources[0] && ev.sources[0].url) || `https://predicthq.com/events/${ev.id}`
+            };
+        });
     } catch (error) {
-        console.error('Error fetching events:', error);
+        console.error('Error fetching events from PredictHQ:', error);
         return [];
     }
 }
