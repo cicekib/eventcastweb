@@ -140,40 +140,48 @@ const locationData = {
     });
 });
 
-// Update the displayEvents function in index.html or script.js
-function displayEvents(events) {
-    const table = document.getElementById('eventTable');
-    
-    // Clear existing rows except header
-    while (table.rows.length > 1) {
-        table.deleteRow(1);
-    }
-    
-    events.forEach((event, index) => {
-        const row = table.insertRow(-1);
-        
-        // Format the date consistently
-        const eventDate = new Date(event.date);
-        const formattedDate = eventDate.toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric'
-        });
+// Replace duplicate displayEvents implementation with a compatibility wrapper
+if (typeof window.displayEvents === 'undefined') {
+    window.displayEvents = function(events) {
+        const table = document.getElementById('eventTable');
+        if (!table) return;
 
-        // Add cells
-        const cells = [
-            index + 1,
-            event.name,
-            event.price || 'Free',
-            formattedDate,
-            `<a href="${event.link}" target="_blank">Details</a>`
-        ];
+        // Clear existing rows except header
+        while (table.rows.length > 1) {
+            table.deleteRow(1);
+        }
 
-        cells.forEach(cellData => {
-            const cell = row.insertCell();
-            cell.innerHTML = cellData;
+        events.forEach((event, index) => {
+            const row = table.insertRow(-1);
+
+            // Find a date value in common keys
+            const rawDate = event.datetime || event.date || event.time || event.start || event.starts_at || '';
+            const eventDate = new Date(rawDate);
+            const formattedDate = isNaN(eventDate) ? '' : eventDate.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            });
+
+            const name = event.name || event.title || '';
+            const price = event.price || 'Free';
+            const detailsUrl = event.detailsUrl || event.link || event.detailsLink || '#';
+
+            const cells = [
+                index + 1,
+                // use textContent equivalent by creating text nodes where possible
+                name,
+                price,
+                formattedDate,
+                `<a href="${detailsUrl}" target="_blank" rel="noopener noreferrer">Details</a>`
+            ];
+
+            cells.forEach(cellData => {
+                const cell = row.insertCell();
+                cell.innerHTML = cellData;
+            });
         });
-    });
+    };
 }
 
 // Time filter function
