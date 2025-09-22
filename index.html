@@ -666,285 +666,50 @@
         }
     </style>
 
-    <script>
-    // Function to parse the HTML and extract event information
-    function extractEventData(html) {
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html, 'text/html');
-        const events = [];
-        
-        doc.querySelectorAll('.event').forEach(eventElement => {
-            const eventPrice = eventElement.querySelector('.event-price').innerText;
-            const eventName = eventElement.querySelector('.event-name').innerText;
-            const eventTime = eventElement.querySelector('.event-time').innerText;
-            const detailsLink = eventElement.querySelector('.event-details').href;
-
-            events.push({
-                price: eventPrice,
-                name: eventName,
-                time: eventTime,
-                detailsLink: detailsLink
-            });
-        });
-
-        return events;
-    }
-
-    // Function to display events as a table
-    function displayEvents(events) {
-        var table = document.getElementById('eventTable');
-        
-        events.forEach(event => {
-            var newRow = table.insertRow(-1);
-            const eventPriceCell = newRow.insertCell();
-            const eventNameCell = newRow.insertCell();
-            const eventTimeCell = newRow.insertCell();
-            const detailsLinkCell = newRow.insertCell();
-
-            eventPriceCell.innerHTML = event.price;
-            eventNameCell.innerHTML = event.name;
-            eventTimeCell.innerHTML = event.date;
-            detailsLinkCell.innerHTML = `<a href="${event.link}">Details</a>`;
-        });
-    }
-
-    // Function to fetch event data from backend
-    async function fetchEventData(selectedCity) {
-        try {
-            const response = await fetch('http://localhost:3000/events', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ city: selectedCity })
-            });
-            if (!response.ok) {
-                throw new Error('Failed to fetch event data');
-            }
-            const events = await response.json();
-            return events;
-        } catch (error) {
-            console.error('Error fetching event data:', error);
-            return [];
-        }
-    }
-
-    // Function to handle search button click
-    async function handleSearch() {
-        try {
-            const selectedCity = document.getElementById('cityDropdown').value;
-            const events = await fetchEventData(selectedCity);
-            displayEvents(events);
-        } catch (error) {
-            console.error('Error fetching:', error);
-        }
-    }
-
-    // Add event listener to the search button
-    document.getElementById('searchButton').addEventListener('click', handleSearch);
-
-    // Function to filter table
-    function filterTable() {
-        var input = document.getElementById("typeFilter");
-        var typeFilter = input.value.toUpperCase();
-        var table = document.getElementById("eventTable");
-        var tr = table.getElementsByTagName("tr");
-
-        for (var i = 1; i < tr.length; i++) {
-            var typeTd = tr[i].getElementsByTagName("td")[0];
-            var nameTd = tr[i].getElementsByTagName("td")[1];
-
-            if (typeTd && nameTd) {
-                var typeTxtValue = typeTd.textContent || typeTd.innerText;
-                var nameTxtValue = nameTd.textContent || nameTd.innerText;
-
-                if (typeTxtValue.toUpperCase().indexOf(typeFilter) > -1 || 
-                    nameTxtValue.toUpperCase().indexOf(typeFilter) > -1) {
-                    tr[i].style.display = "";
-                } else {
-                    tr[i].style.display = "none";
-                }
-            }
-        }
-    }
-
-    // Function to remove filter
-    function removeFilter() {
-        var table = document.getElementById("eventTable");
-        var tr = table.getElementsByTagName("tr");
-        for (var i = 0; i < tr.length; i++) {
-            tr[i].style.display = "";
-        }
-    }
-
-    // Time filter functions
-    function filterTableByTime(period) {
-        removeFilter();
-        var table = document.getElementById("eventTable");
-        const tr = table.getElementsByTagName("tr");
-
-        const events = Array.from(tr).slice(1).map(row => {
-            const [num, name, type, time, link] = Array.from(row.querySelectorAll("td")).map(cell => cell.textContent);
-            return { num, name, type, time, detailsLink: link };
-        });
-
-        const filteredEvents = events.filter(event => {
-            const eventDate = new Date(event.time);
-            const today = new Date();
-            let startDate, endDate;
-
-            switch(period) {
-                case 'timethisweek':
-                    startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - today.getDay());
-                    endDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + (7 - today.getDay()));
-                    break;
-                case 'timethismonth':
-                    startDate = new Date(today.getFullYear(), today.getMonth(), 1);
-                    endDate = new Date(today.getFullYear(), today.getMonth() + 1, 0);
-                    break;
-                case 'timethisyear':
-                    startDate = new Date(today.getFullYear(), 0, 1);
-                    endDate = new Date(today.getFullYear(), 11, 31);
-                    break;
-            }
-
-            return eventDate >= startDate && eventDate <= endDate;
-        });
-
-        while (table.rows.length > 1) {
-            table.deleteRow(1);
-        }
-
-        filteredEvents.forEach(event => {
-            const newRow = table.insertRow(-1);
-            Object.values(event).forEach(value => {
-                const cell = newRow.insertCell();
-                cell.textContent = value;
-            });
-        });
-    }
-
-    // Function to handle filter button clicks
-    function handleFilterButtonClick(period) {
-        const button = document.getElementById(period);
-        if (button.classList.contains('active')) {
-            removeFilter();
-            button.classList.remove('active');
-        } else {
-            document.querySelectorAll('.select-time button').forEach(btn => btn.classList.remove('active'));
-            button.classList.add('active');
-            filterTableByTime(period);
-        }
-    }
-
-    // Add event listeners for filter buttons
-    document.getElementById('timethisweek').addEventListener('click', () => handleFilterButtonClick('timethisweek'));
-    document.getElementById('timethismonth').addEventListener('click', () => handleFilterButtonClick('timethismonth'));
-    document.getElementById('timethisyear').addEventListener('click', () => handleFilterButtonClick('timethisyear'));
-
-    // Modal functionality for privacy policy
-    var modal = document.getElementById("privpolicy");
-    var btn = document.getElementById("privacyButton");
-    var span = document.getElementsByClassName("close")[0];
-
-    btn.onclick = function() {
-        modal.style.display = "block";
-    }
-
-    span.onclick = function() {
-        modal.style.display = "none";
-    }
-
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
-    }
-
-    // Replace the button click event with link click event
-    const privacyLink = document.getElementById("privacyLink");
-
-    privacyLink.onclick = function(event) {
-        event.preventDefault(); // Prevent default anchor behavior
-        modal.style.display = "block"; // Show the modal
-        document.body.style.overflow = "hidden"; // Prevent scrolling behind modal
-    }
-
-    // Get modal elements
-    const modal = document.getElementById("privpolicy");
-    const privacyLink = document.getElementById("privacyLink");
-    const span = document.getElementsByClassName("close")[0];
-
-    // Open modal when privacy link is clicked
-    privacyLink.onclick = function(event) {
-        event.preventDefault(); // Prevent default anchor behavior
-        modal.style.display = "block"; // Show the modal
-        document.body.style.overflow = "hidden"; // Prevent scrolling behind modal
-    }
-
-    // Close modal when (X) is clicked
-    span.onclick = function() {
-        modal.style.display = "none"; // Hide the modal
-        document.body.style.overflow = "auto"; // Restore scrolling
-    }
-
-    // Close modal when clicking outside of the modal content
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = "none"; // Hide the modal
-            document.body.style.overflow = "auto"; // Restore scrolling
-        }
-    }
-
-    // Close modal with ESC key
-    document.addEventListener('keydown', function(event) {
-        if (event.key === "Escape" && modal.style.display === "block") {
-            modal.style.display = "none"; // Hide the modal
-            document.body.style.overflow = "auto"; // Restore scrolling
-        }
-    });
-</script>
+    <!-- Removed large duplicated inline script to avoid conflicts.
+         Event fetching and rendering live in script.js (fetchEvents + displayEvents).
+         Dropdowns and location logic live in scripts.js.
+         Keep only lightweight modal code below. -->
 
 <script src="script.js"></script>
 <script src="scripts.js"></script>
 
-<!-- Add this script just before closing body tag -->
+<!-- Keep a single modal handler (already present below). -->
 <script>
-// Get modal elements
-const modal = document.getElementById("privpolicy");
-const privacyLink = document.getElementById("privacyLink");
-const span = document.getElementsByClassName("close")[0];
+    // Lightweight, single modal handler
+    (function(){
+        const modal = document.getElementById("privpolicy");
+        const privacyLink = document.getElementById("privacyLink");
+        const span = document.getElementsByClassName("close")[0];
 
-// Open modal when privacy link is clicked
-privacyLink.onclick = function(event) {
-    event.preventDefault(); // Prevent default anchor behavior
-    modal.style.display = "block"; // Show the modal
-    document.body.style.overflow = "hidden"; // Prevent scrolling behind modal
-}
+        if (!modal || !privacyLink || !span) return;
 
-// Close modal when (X) is clicked
-span.onclick = function() {
-    modal.style.display = "none"; // Hide the modal
-    document.body.style.overflow = "auto"; // Restore scrolling
-}
+        privacyLink.addEventListener('click', function(event){
+            event.preventDefault();
+            modal.style.display = "block";
+            document.body.style.overflow = "hidden";
+        });
 
-// Close modal when clicking outside of the modal content
-window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = "none"; // Hide the modal
-        document.body.style.overflow = "auto"; // Restore scrolling
-    }
-}
+        span.addEventListener('click', function(){
+            modal.style.display = "none";
+            document.body.style.overflow = "auto";
+        });
 
-// Close modal with ESC key
-document.addEventListener('keydown', function(event) {
-    if (event.key === "Escape" && modal.style.display === "block") {
-        modal.style.display = "none"; // Hide the modal
-        document.body.style.overflow = "auto"; // Restore scrolling
-    }
-});
+        window.addEventListener('click', function(event){
+            if (event.target === modal) {
+                modal.style.display = "none";
+                document.body.style.overflow = "auto";
+            }
+        });
+
+        document.addEventListener('keydown', function(event){
+            if (event.key === "Escape" && modal.style.display === "block") {
+                modal.style.display = "none";
+                document.body.style.overflow = "auto";
+            }
+        });
+    })();
 </script>
-
 
 </body>
 </html>
