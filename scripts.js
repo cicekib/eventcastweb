@@ -260,32 +260,87 @@ function setDropdownValues(continent, country, city) {
         'AN': 'antarctica'
     };
 
-    const mappedContinent = continentMap[continent] || continent;
+    // map short continent codes or accept already-mapped strings
+    let mappedContinent = continent;
+    if (typeof continent === 'string') {
+        const up = continent.toUpperCase();
+        mappedContinent = continentMap[up] || continent.toLowerCase();
+    }
 
-    // Set continent
+    // helper to normalize strings for loose matching
+    const normalize = s => (s || '').toString().toLowerCase().replace(/[\s_\-.,'"]/g, '');
+
+    // Set continent and trigger change to populate countries
     const continentDropdown = document.getElementById('continentDropdown');
     if (continentDropdown) {
         continentDropdown.value = mappedContinent;
         continentDropdown.dispatchEvent(new Event('change'));
     }
 
-    // Set country after a small delay to ensure continent change has processed
+    // After continent change populates countries, try to pick best country
     setTimeout(() => {
         const countryDropdown = document.getElementById('countryDropdown');
-        if (countryDropdown) {
-            countryDropdown.value = country;
-            countryDropdown.dispatchEvent(new Event('change'));
+        if (countryDropdown && country) {
+            const target = normalize(country);
+            let matchedCountry = null;
+
+            for (const opt of countryDropdown.options) {
+                if (!opt.value) continue; // skip placeholder
+                const optVal = normalize(opt.value);
+                const optText = normalize(opt.text);
+                if (optVal === target || optText === target || optVal.includes(target) || target.includes(optVal) || optText.includes(target) || target.includes(optText)) {
+                    matchedCountry = opt.value;
+                    break;
+                }
+            }
+
+            // try common underscore variant as last attempt
+            if (!matchedCountry) {
+                const alt = country.replace(/\s+/g, '_');
+                const altNorm = normalize(alt);
+                for (const opt of countryDropdown.options) {
+                    if (normalize(opt.value) === altNorm) { matchedCountry = opt.value; break; }
+                }
+            }
+
+            if (matchedCountry) {
+                countryDropdown.value = matchedCountry;
+                countryDropdown.dispatchEvent(new Event('change'));
+            }
         }
 
-        // Set city after another small delay
+        // After country change populates cities, pick best matching city (or fallback)
         setTimeout(() => {
             const cityDropdown = document.getElementById('cityDropdown');
-            if (cityDropdown) {
-                cityDropdown.value = city;
+            if (!cityDropdown) return;
+
+            const targetCity = normalize(city);
+            let matchedCity = null;
+
+            if (city) {
+                for (const opt of cityDropdown.options) {
+                    if (!opt.value) continue; // skip placeholder
+                    const optVal = normalize(opt.value);
+                    const optText = normalize(opt.text);
+                    if (optVal === targetCity || optText === targetCity || optVal.includes(targetCity) || targetCity.includes(optVal) || optText.includes(targetCity) || targetCity.includes(optText)) {
+                        matchedCity = opt.value;
+                        break;
+                    }
+                }
+            }
+
+            // fallback: choose first non-empty city option
+            if (!matchedCity) {
+                const first = Array.from(cityDropdown.options).find(o => o.value);
+                if (first) matchedCity = first.value;
+            }
+
+            if (matchedCity) {
+                cityDropdown.value = matchedCity;
                 cityDropdown.dispatchEvent(new Event('change'));
             }
-        }, 100);
-    }, 100);
+        }, 150);
+    }, 150);
 }
 
 // Function to get location from browser
