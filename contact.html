@@ -4,7 +4,25 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>EventCast-Contact</title>
-  <style>
+</head>
+<body>
+  <header>
+    <a href="https://eventcast.se/" class="site-brand">EVENT CAST</a>
+  </header>
+
+  <div class="card">
+    <h1>Contact Us</h1>
+    <p>We’d love to hear from you. Fill out the form below or email us directly at <a href="mailto:info@eventcast.se" style="color:#00b4d8;text-decoration:none;">info@eventcast.se</a>.</p>
+
+    <form action="mailto:info@eventcast.se" method="post" enctype="text/plain">
+      <input type="text" name="name" placeholder="Your Name" required />
+      <input type="email" name="email" placeholder="Your Email" required />
+      <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+    <footer>© <span id="year"></span> EventCast — eventcast.se</footer>
+  </div>
+    <style>
     body {
       margin: 0;
       font-family: system-ui, sans-serif;
@@ -75,27 +93,6 @@
       color: #64748b;
     }
   </style>
-</head>
-<body>
-  <header>
-    <a href="https://eventcast.se/" class="site-brand">EVENT CAST</a>
-  </header>
-    
-
-  <div class="card">
-    <h1>Contact Us</h1>
-    <p>We’d love to hear from you. Fill out the form below or email us directly at <a href="mailto:info@eventcast.se" style="color:#00b4d8;text-decoration:none;">info@eventcast.se</a>.</p>
-
-    <form action="mailto:info@eventcast.se" method="post" enctype="text/plain">
-      <input type="text" name="name" placeholder="Your Name" required />
-      <input type="email" name="email" placeholder="Your Email" required />
-      <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
-      <button type="submit">Send Message</button>
-    </form>
-
-    <footer>© <span id="year"></span> EventCast — eventcast.se</footer>
-  </div>
-
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
   </script>
