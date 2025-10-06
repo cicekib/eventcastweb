@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>About EventCast</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      background: #0f1724;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .card {
+      background: #111b2f;
+      border-radius: 14px;
+      padding: 30px;
+      max-width: 600px;
+      width: 100%;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+    }
+    h1 {
+      margin-top: 0;
+      font-size: 1.8rem;
+      text-align: center;
+      color: #00b4d8;
+    }
+    p {
+      color: #cbd5e1;
+      line-height: 1.6;
+      font-size: 1rem;
+    }
+    .highlight {
+      color: #00b4d8;
+      font-weight: 600;
+    }
+    footer {
+      margin-top: 16px;
+      text-align: center;
+      font-size: 0.8rem;
+      color: #64748b;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>About EventCast</h1>
+    <p><span class="highlight">EventCast</span> is a modern application designed for event management and live engagement. It allows users to discover, register, and participate in events while giving organizers tools to manage attendees, tickets, and live streaming seamlessly. We provide live streaming, technical production, and digital event platforms that bring audiences together seamlessly—whether they’re across the room or across the globe.</p>
+
+    <p>Our mission is to make professional event broadcasting accessible to everyone. From corporate conferences to creative showcases, we combine technology and storytelling to help brands engage their audiences.</p>
+
+    <p>Founded in Stockholm, EventCast has supported hundreds of clients with end-to-end event solutions—from planning to post-production. We believe that every event deserves to shine online and be reachable to its potential.</p>
+
+    <footer>© <span id="year"></span> EventCast </footer>
+  </div>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
