@@ -25,6 +25,19 @@ const locationData = {
         Vietnam: ["Ho Chi Minh City", "Hanoi", "Da Nang", "Haiphong", "Can Tho", "Bien Hoa", "Hue", "Nha Trang", "Vung Tau", "Quy Nhon"],
         Philippines: ["Manila", "Quezon City", "Cebu City", "Davao City", "Zamboanga City", "Taguig", "Pasig", "Antipolo", "Caloocan", "Iloilo City"],
         Thailand: ["Bangkok", "Nonthaburi", "Nakhon Ratchasima", "Chiang Mai", "Hat Yai", "Udon Thani", "Pak Kret", "Pattaya", "Khon Kaen", "Surat Thani"]
+        United Arab Emirates: ["Dubai", "Abu Dhabi", "Sharjah", "Al Ain", "Ajman", "Ras Al Khaimah", "Fujairah", "Umm al Quwain", "Khor Fakkan", "Dibba Al-Fujairah"],
+        Qatar: ["Doha", "Al Rayyan", "Al Khor", "Al Wakrah", "Umm Salal", "Al Mansurah", "Madinat Khalifah", "An Najmah", "As Sadd", "Farij al Amir"],
+        Kuwait: ["Kuwait City", "Al Ahmadi", "Hawalli", "Al Jahra", "Salmiya", "Farwaniya", "Mangaf", "Fahaheel", "Rumaithiya", "Khaitan"],
+        Bahrain: ["Manama", "Riffa", "Muharraq", "Hamad Town", "Isa Town", "Sitra", "Budaiya", "A’ali", "Hamala", "Saar"],
+        Saudi Arabia: ["Riyadh", "Jeddah", "Mecca", "Medina", "Dammam", "Ta’if", "Al Ahsa", "Buraidah", "Khobar", "Tabuk"],
+        Iraq: ["Baghdad", "Mosul", "Basra", "Kirkuk", "Erbil", "Karbala", "Sulaymaniyah", "Najaf", "Nasiriyah", "Hillah"],
+        Iran: ["Tehran", "Mashhad", "Isfahan", "Karaj", "Tabriz", "Shiraz", "Qom", "Ahvaz", "Kermanshah", "Rasht"],
+        Syria: ["Damascus", "Aleppo", "Homs", "Latakia", "Hama", "Deir ez-Zor", "Raqqa", "Al-Hasakah", "Tartus", "Douma"],
+        Oman: ["Muscat", "Seeb", "Salalah", "Bawshar", "Sohar", "Nizwa", "Rustaq", "Ibri", "Sur", "Buraimi"],
+        Jordan: ["Amman", "Zarqa", "Irbid", "Russeifa", "Aqaba", "Madaba", "Mafraq", "Karak", "Jerash", "Ajloun"],
+        Israel: ["Jerusalem", "Tel Aviv", "Haifa", "Rishon LeZion", "Petah Tikva", "Ashdod", "Netanya", "Beersheba", "Holon", "Bnei Brak"],
+        Lebanon: ["Beirut", "Tripoli", "Sidon", "Tyre", "Zahle", "Baabda", "Jounieh", "Aley", "Byblos", "Nabatieh"]
+        
     },
     europe: {
         Germany: ["Berlin", "Hamburg", "Munich", "Cologne", "Frankfurt", "Stuttgart", "Dusseldorf", "Leipzig", "Dortmund", "Essen"],
@@ -33,7 +46,7 @@ const locationData = {
         Italy: ["Rome", "Milan", "Naples", "Turin", "Palermo", "Genoa", "Bologna", "Florence", "Bari", "Venice"],
         Spain: ["Madrid", "Barcelona", "Valencia", "Seville", "Zaragoza", "Malaga", "Murcia", "Palma", "Las Palmas", "Bilbao"],
         Netherlands: ["Amsterdam", "Rotterdam", "The Hague", "Utrecht", "Eindhoven", "Tilburg", "Groningen", "Almere", "Breda", "Nijmegen"],
-        Turkey: ["Istanbul", "Ankara", "Izmir", "Bursa", "Antalya", "Adana", "Gaziantep", "Konya", "Mersin", "Diyarbakir"],
+        Turkey: ["Istanbul", "Ankara", "Izmir", "Bursa", "Antalya", "Adana", "Gaziantep", "Konya", "Mersin", "Diyarbakir", "Mardin", "Van"],
         Poland: ["Warsaw", "Krakow", "Lodz", "Wroclaw", "Poznan", "Gdansk", "Szczecin", "Bydgoszcz", "Lublin", "Katowice"],
         Sweden: ["Stockholm", "Gothenburg", "Malmo", "Uppsala", "Vasteras", "Linkoping", "Orebro", "Helsingborg", "Norrkoping", "Lund"],
         Norway: ["Oslo", "Bergen", "Stavanger", "Trondheim", "Drammen", "Fredrikstad", "Porsgrunn", "Bodø", "Sandnes", "Skien"],
@@ -44,7 +57,11 @@ const locationData = {
         Austria: ["Vienna", "Graz", "Linz", "Salzburg", "Innsbruck", "Klagenfurt", "Villach", "Wels", "St. Pölten", "Bregenz"],
         Switzerland: ["Zurich", "Geneva", "Basel", "Bern", "Lausanne", "Lucerne", "St. Gallen", "Lugano", "La Chaux-de-Fonds", "Biel/Bienne"],
         Belgium: ["Brussels", "Antwerp", "Ghent", "Charleroi", "Liege", "Bruges", "Namur", "Leuven", "Mons", "Mechelen"],
-        Czechia: ["Prague", "Brno", "Ostrava", "Plzen", "Liberec", "Olomouc", "Usti nad Labem", "Hradec Kralove", "Zlin", "Jihlava"]
+        Czechia: ["Prague", "Brno", "Ostrava", "Plzen", "Liberec", "Olomouc", "Usti nad Labem", "Hradec Kralove", "Zlin", "Jihlava"],
+        Georgia: ["Batumi", "Tblisi"],
+        Azerbaijan: ["Baku"],
+        Armenia: ["Yerevan"],
+        Cyprus: ["Nicosia", "Limassol", "Larnaca", "Famagusta", "Paphos", "Kyrenia", "Paralimni", "Morphou", "Ayia Napa", "Dherynia"]
     },
     north_america: {
         USA: ["New York", "Los Angeles", "Chicago", "Houston", "Phoenix", "Philadelphia", "San Antonio", "San Diego", "Dallas", "San Jose"],
@@ -412,3 +429,4 @@ document.addEventListener('DOMContentLoaded', () => {
     initializeLocation();
     setupTimeFilterButtons();
 });
+
