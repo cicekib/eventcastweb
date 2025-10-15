@@ -41,6 +41,22 @@ header {
     max-width: 1200px;
 }
 
+.logo-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;   /* adjust spacing between logo and heading */
+}
+
+.logo-header .logo-img {
+  height: 40px;    /* adjust height to match text size */
+  width: auto;
+}
+
+.logo-header h2 {
+  margin: 0;
+  /* optionally adjust font-size or line-height if needed */
+}
+
 /* Navbar container */
 .navbar {
   position: relative;
@@ -496,4 +512,5 @@ th {
 }
 
 /* Removed incomplete @media rule */
+
 
