@@ -25,7 +25,8 @@ const locationData = {
         Vietnam: ["Ho Chi Minh City", "Hanoi", "Da Nang", "Haiphong", "Can Tho", "Bien Hoa", "Hue", "Nha Trang", "Vung Tau", "Quy Nhon"],
         Philippines: ["Manila", "Quezon City", "Cebu City", "Davao City", "Zamboanga City", "Taguig", "Pasig", "Antipolo", "Caloocan", "Iloilo City"],
         Thailand: ["Bangkok", "Nonthaburi", "Nakhon Ratchasima", "Chiang Mai", "Hat Yai", "Udon Thani", "Pak Kret", "Pattaya", "Khon Kaen", "Surat Thani"],
-        Kurdistan: ["Mosul", "Kirkuk", "Erbil", "Sulaymaniyah", "Duhok", "Qamislo", "Urmiyah","Afrin", "Kobane"]
+        Kurdistan: ["Mosul", "Kirkuk", "Erbil", "Sulaymaniyah", "Duhok"],
+        Qatar: ["Doha", "Al Rayyan", "Al Khor", "Al Wakrah", "Umm Salal", "Al Mansurah", "Madinat Khalifah", "An Najmah", "As Sadd", "Farij al Amir"]
         
     },
     europe: {
@@ -414,6 +415,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initializeLocation();
     setupTimeFilterButtons();
 });
+
 
 
 
