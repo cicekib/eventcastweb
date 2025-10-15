@@ -15,6 +15,11 @@ const locationData = {
         Uganda: ["Kampala", "Nairobi", "Gulu", "Mbarara", "Jinja", "Masaka", "Entebbe", "Kabale", "Fort Portal", "Soroti"]
     },
     asia: {
+        Russia: ["Moscow", "Saint Petersburg", "Novosibirsk", "Yekaterinburg", "Kazan", "Nizhny Novgorod", "Chelyabinsk", "Samara", "Omsk", "Rostov-on-Don"],
+        Kazakhstan: ["Almaty", "Astana", "Shymkent", "Karaganda", "Aktobe", "Taraz", "Pavlodar", "Oskemen", "Semey", "Kostanay"],
+        Turkmenistan: ["Ashgabat", "Türkmenabat", "Dashoguz", "Mary", "Balkanabat", "Tejen", "Bayramaly", "Serdar", "Turkmenbashi", "Gumdag"],
+        Tajikistan: ["Dushanbe", "Khujand", "Bokhtar", "Kulob", "Istaravshan", "Konibodom", "Isfara", "Tursunzoda", "Panjakent", "Vahdat"],
+        Mongolia: ["Ulaanbaatar", "Erdenet", "Darkhan", "Choibalsan", "Mörön", "Nalaikh", "Zuunmod", "Bayankhongor", "Arvaikheer", "Dalanzadgad"],
         China: ["Shanghai", "Beijing", "Guangzhou", "Shenzhen", "Chengdu", "Tianjin", "Wuhan", "Dongguan", "Chongqing", "Nanjing"],
         India: ["Mumbai", "Delhi", "Bangalore", "Hyderabad", "Ahmedabad", "Chennai", "Kolkata", "Pune", "Jaipur", "Surat"],
         Japan: ["Tokyo", "Yokohama", "Osaka", "Nagoya", "Sapporo", "Fukuoka", "Kobe", "Kyoto", "Kawasaki", "Saitama"],
@@ -26,7 +31,17 @@ const locationData = {
         Philippines: ["Manila", "Quezon City", "Cebu City", "Davao City", "Zamboanga City", "Taguig", "Pasig", "Antipolo", "Caloocan", "Iloilo City"],
         Thailand: ["Bangkok", "Nonthaburi", "Nakhon Ratchasima", "Chiang Mai", "Hat Yai", "Udon Thani", "Pak Kret", "Pattaya", "Khon Kaen", "Surat Thani"],
         Kurdistan: ["Mosul", "Kirkuk", "Erbil", "Sulaymaniyah", "Duhok"],
-        Qatar: ["Doha", "Al Rayyan", "Al Khor", "Al Wakrah", "Umm Salal", "Al Mansurah", "Madinat Khalifah", "An Najmah", "As Sadd", "Farij al Amir"]
+        Syria: ["Damascus", "Aleppo", "Homs", "Latakia", "Hama", "Deir ez-Zor", "Raqqa", "Al-Hasakah", "Tartus", "Douma"],
+        Qatar: ["Doha", "Al Rayyan", "Al Khor", "Al Wakrah", "Umm Salal", "Al Mansurah", "Madinat Khalifah", "An Najmah", "As Sadd", "Farij al Amir"],
+        Kuwait: ["Kuwait City", "Al Ahmadi", "Hawalli", "Al Jahra", "Salmiya", "Farwaniya", "Mangaf", "Fahaheel", "Rumaithiya", "Khaitan"],
+        Bahrain: ["Manama", "Riffa", "Muharraq", "Hamad Town", "Isa Town", "Sitra", "Budaiya", "A’ali", "Hamala", "Saar"],
+        Palestine: ["Gaza City", "Hebron", "Nablus", "Jenin", "Ramallah", "Bethlehem", "Tulkarm", "Qalqilya", "Khan Yunis", "Rafah"],
+        SaudiArabia: ["Riyadh", "Jeddah", "Mecca", "Medina", "Dammam", "Ta’if", "Al Ahsa", "Buraidah", "Khobar", "Tabuk"],
+        Iran: ["Tehran", "Mashhad", "Isfahan", "Karaj", "Tabriz", "Shiraz", "Qom", "Ahvaz", "Kermanshah", "Rasht"],
+        Oman: ["Muscat", "Seeb", "Salalah", "Bawshar", "Sohar", "Nizwa", "Rustaq", "Ibri", "Sur", "Buraimi"],
+        Jordan: ["Amman", "Zarqa", "Irbid", "Russeifa", "Aqaba", "Madaba", "Mafraq", "Karak", "Jerash", "Ajloun"],
+        Lebanon: ["Beirut", "Tripoli", "Sidon", "Tyre", "Zahle", "Baabda", "Jounieh", "Aley", "Byblos", "Nabatieh"],
+        UAE: ["Dubai", "Abu Dhabi", "Sharjah", "Al Ain", "Ajman", "Ras Al Khaimah", "Fujairah", "Umm al Quwain", "Khor Fakkan", "Dibba Al-Fujairah"]
         
     },
     europe: {
@@ -47,7 +62,27 @@ const locationData = {
         Austria: ["Vienna", "Graz", "Linz", "Salzburg", "Innsbruck", "Klagenfurt", "Villach", "Wels", "St. Pölten", "Bregenz"],
         Switzerland: ["Zurich", "Geneva", "Basel", "Bern", "Lausanne", "Lucerne", "St. Gallen", "Lugano", "La Chaux-de-Fonds", "Biel/Bienne"],
         Belgium: ["Brussels", "Antwerp", "Ghent", "Charleroi", "Liege", "Bruges", "Namur", "Leuven", "Mons", "Mechelen"],
-        Czechia: ["Prague", "Brno", "Ostrava", "Plzen", "Liberec", "Olomouc", "Usti nad Labem", "Hradec Kralove", "Zlin", "Jihlava"]
+        Czechia: ["Prague", "Brno", "Ostrava", "Plzen", "Liberec", "Olomouc", "Usti nad Labem", "Hradec Kralove", "Zlin", "Jihlava"],
+        Israel: ["Jerusalem", "Tel Aviv", "Haifa", "Rishon LeZion", "Petah Tikva", "Ashdod", "Netanya", "Beersheba", "Holon", "Bnei Brak"],
+        Georgia: ["Tbilisi", "Kutaisi", "Batumi", "Rustavi", "Zugdidi", "Gori", "Poti", "Samtredia", "Kobuleti", "Telavi"],
+        Ukraine: ["Kyiv", "Kharkiv", "Odesa", "Dnipro", "Lviv", "Zaporizhzhia", "Kryvyi Rih", "Mykolaiv", "Mariupol", "Vinnytsia"],
+        Estonia: ["Tallinn", "Tartu", "Narva", "Pärnu", "Kohtla-Järve", "Viljandi", "Rakvere", "Maardu", "Sillamäe", "Kuressaare"],
+        Lithuania: ["Vilnius", "Kaunas", "Klaipėda", "Šiauliai", "Panevėžys", "Alytus", "Marijampolė", "Mažeikiai", "Jonava", "Utena"],
+        Latvia: ["Riga", "Daugavpils", "Liepāja", "Jelgava", "Jūrmala", "Ventspils", "Rēzekne", "Valmiera", "Ogre", "Salaspils"],
+        Luxembourg: ["Luxembourg City", "Esch-sur-Alzette", "Differdange", "Dudelange", "Ettelbruck", "Diekirch", "Wiltz", "Grevenmacher", "Remich", "Bertrange"],
+        Iceland: ["Reykjavík", "Kópavogur", "Hafnarfjörður", "Akureyri", "Reykjanesbær", "Garðabær", "Mosfellsbær", "Árborg", "Akranes", "Fjarðabyggð"],
+        Albania: ["Tirana", "Durrës", "Vlorë", "Shkodër", "Fier", "Elbasan", "Korçë", "Berat", "Lushnjë", "Kavajë"],
+        BosniaAndHerzegovina: ["Sarajevo", "Banja Luka", "Tuzla", "Zenica", "Mostar", "Bijeljina", "Prijedor", "Doboj", "Brčko", "Trebinje"],
+        Bulgaria: ["Sofia", "Plovdiv", "Varna", "Burgas", "Ruse", "Stara Zagora", "Pleven", "Sliven", "Dobrich", "Shumen"],
+        Croatia: ["Zagreb", "Split", "Rijeka", "Osijek", "Zadar", "Pula", "Slavonski Brod", "Karlovac", "Varaždin", "Šibenik"],
+        Greece: ["Athens", "Thessaloniki", "Patras", "Heraklion", "Larissa", "Volos", "Ioannina", "Chania", "Rhodes", "Kavala"],
+        Kosovo: ["Pristina", "Prizren", "Peja", "Gjakova", "Mitrovica", "Ferizaj", "Gjilan", "Vushtrri", "Podujevo", "Suhareka"],
+        Montenegro: ["Podgorica", "Nikšić", "Herceg Novi", "Pljevlja", "Bijelo Polje", "Bar", "Cetinje", "Berane", "Ulcinj", "Tivat"],
+        NorthMacedonia: ["Skopje", "Bitola", "Kumanovo", "Prilep", "Tetovo", "Veles", "Ohrid", "Štip", "Gostivar", "Strumica"],
+        Romania: ["Bucharest", "Cluj-Napoca", "Timișoara", "Iași", "Constanța", "Craiova", "Brașov", "Galați", "Ploiești", "Oradea"],
+        Serbia: ["Belgrade", "Novi Sad", "Niš", "Kragujevac", "Subotica", "Zrenjanin", "Pančevo", "Čačak", "Novi Pazar", "Smederevo"],
+        Slovenia: ["Ljubljana", "Maribor", "Celje", "Kranj", "Velenje", "Koper", "Novo Mesto", "Ptuj", "Trbovlje", "Murska Sobota"]
+    
     },
     north_america: {
         USA: ["New York", "Los Angeles", "Chicago", "Houston", "Phoenix", "Philadelphia", "San Antonio", "San Diego", "Dallas", "San Jose"],
@@ -415,6 +450,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initializeLocation();
     setupTimeFilterButtons();
 });
+
 
 
 
