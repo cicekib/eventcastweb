@@ -44,7 +44,7 @@ header {
 .logo-header {
   display: flex;
   align-items: center;
-  gap: 10px;   /* adjust spacing between logo and heading */
+  gap: 30px;   /* adjust spacing between logo and heading */
 }
 
 .logo-header .logo-img {
@@ -512,5 +512,6 @@ th {
 }
 
 /* Removed incomplete @media rule */
+
 
 
