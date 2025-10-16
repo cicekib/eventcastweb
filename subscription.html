@@ -24,7 +24,7 @@
 
 <main class="container">
     <section class="blog-hero">
-      <h1>EventCast Subscription</h1>
+      <h1> SUBSCRIPTION</h1>
       <p>Subscribe to get the latest data about upcomings!</p>
     </section>
   
@@ -38,7 +38,7 @@
         <img class="post-thumb" src="/./images/premium.png" alt="premium">
         <div class="post-body">
         <a class="post-title" id="p1" href="blog-post.html">Enjoy all features with premium membership</a>
-        <p class="post-excerpt">To get all event details and the ability to manage (create/edit/delete) events, access our premium membership for 5$/Month. </p>
+        <p class="post-excerpt">To get all event details and the ability to manage (create, edit, delete) events, access our premium membership for 5$/Month. </p>
         </div>
         </article>
 
@@ -48,14 +48,25 @@
     </div>
     <aside class="sidebar" aria-label="Sidebar">
       <div class="widget">
-      <h4>Subscribe</h4>
-      <p>Be notified of recently added events, updates.</p>
-      <form>
-        <input type="email" placeholder="Your email" style="width:100%; padding:10px; margin-bottom:8px; border:1px solid rgba(11,37,64,0.08); border-radius:6px;">
-        <button type="submit" style="width:100%; padding:10px; border-radius:6px; border:none; background:#0073e6; color:#fff; font-weight:700;">Subscribe</button>
+      <h4>Enter amount</h4>
+      <p>Enter total amount in USD($) for how long you want to subscribe. For example, enter "15" for  3 months.</p>
+      <form id="paymentForm">
+        <input type="number" placeholder="Enter amount (min. 5) in USD" style="width:100%; padding:10px; margin-bottom:8px; border:1px solid rgba(11,37,64,0.08); border-radius:6px;">
+        <button type="submit" style="width:100%; padding:10px; border-radius:6px; border:none; background:#2a00e6; color:#fff; font-weight:700;">Checkout</button>
       </form>
+      <!-- Modal Structure -->
+      <div id="paymentModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.5); justify-content:center; align-items:center; z-index:9999;">
+        <div style="background:#fff; padding:32px; border-radius:8px; max-width:350px; text-align:center; box-shadow:0 2px 16px rgba(0,0,0,0.15);">
+          <h3>Payment Confirmation</h3>
+          <p id="modalAmount"></p>
+          <button id="closeModalBtn" style="margin-top:16px; padding:8px 24px; border-radius:6px; border:none; background:#2a00e6; color:#fff; font-weight:700;">Close</button>
+        </div>
+      </div>
       </div>
     </aside>
+
+
+    
   </div>
 </main>
 <footer class="site-footer">
@@ -65,3 +76,25 @@
 </footer>
 </body>
 </html>
+
+<script>
+  // Modal functionality for payment form
+  document.getElementById('paymentForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const amountInput = this.querySelector('input[type="number"]');
+    const amount = Number(amountInput.value);
+
+    if (amount < 5) {
+      alert('Minimum subscription amount is $5.');
+      amountInput.focus();
+      return;
+    }
+
+    document.getElementById('modalAmount').textContent = `You are about to pay $${amount} for your subscription.`;
+    document.getElementById('paymentModal').style.display = 'flex';
+  });
+
+  document.getElementById('closeModalBtn').addEventListener('click', function() {
+    document.getElementById('paymentModal').style.display = 'none';
+  });
+</script>
