@@ -112,9 +112,9 @@
   </style>
 </head>
 <body>
-    <header class="site-header">
+  <header class="site-header">
     <div class="container header-top">
-    <a href="/" class="site-brand">EVENT CAST</a>
+      <a href="/" class="site-brand">EVENT CAST</a>
       <nav class="site-nav" aria-label="Main navigation">
          <a href="subscription.html" id="subscriptionLink">Subscribe</a>
          <a href="login.html" id="loginLink">LogIn</a>
@@ -125,25 +125,27 @@
       </nav>
     </div>
   </header>
+
+  <main class="container">
+    <div class="card">
+      <h1>Login to EventCast</h1>
+      <form action="#" method="post">
+        <input type="email" name="email" placeholder="Email address" required />
+        <input type="password" name="password" placeholder="Password" required />
+        <button type="submit">Login</button>
+      </form>
   
-  <div class="card">
-    <h1>Login to EventCast</h1>
-    <form action="#" method="post">
-      <input type="email" name="email" placeholder="Email address" required />
-      <input type="password" name="password" placeholder="Password" required />
-      <button type="submit">Login</button>
-    </form>
-
-    <div class="links">
-      <p><a href="#">Forgot password?</a></p>
-      <p>Don’t have an account? <a href="#">Sign up</a></p>
+      <div class="links">
+        <p><a href="#">Forgot password?</a></p>
+        <p>Don’t have an account? <a href="#">Sign up</a></p>
+      </div>
+  
+      <footer>© <span id="year"></span> EventCast</footer>
     </div>
-
-    <footer>© <span id="year"></span> EventCast</footer>
-  </div>
 
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
   </script>
+  </main>
 </body>
 </html>
