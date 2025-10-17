@@ -66,8 +66,8 @@ header {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  background-color: transparent;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  background-color: transparent; /* keep navbar transparent */
+  box-shadow: none;               /* remove shadow so navbar stays visually transparent */
   padding: 15px 30px;
 }
 
@@ -81,7 +81,7 @@ header {
 /* Each link style */
 .nav-links a {
   text-decoration: none;
-  color: #333;
+  color: #000;                    /* changed to black for navbar text */
   font-weight: 500;
   transition: color 0.3s, border-bottom 0.3s;
   padding-bottom: 2px;
@@ -89,8 +89,18 @@ header {
 
 /* Hover effect */
 .nav-links a:hover {
-  color: #0078ff;
-  border-bottom: 2px solid #0078ff;
+  color: #111; /* slightly darker on hover */
+  border-bottom: 2px solid rgba(17,17,17,0.12);
+}
+
+/* ensure mobile menu links also use black text when open */
+.nav-links.open a {
+  color: #000;
+}
+
+/* make sure the nav toggle (hamburger) is visible in black */
+.nav-toggle {
+  color: #000;
 }
 
 /* Add space for fixed navbar */
@@ -126,11 +136,19 @@ section {
     color: #111;
 }
 
-/* Table styles */
+/* Table styles — make responsive and allow columns to shrink to fit */
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;                       /* allow horizontal scroll on very small screens */
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Use fixed layout so columns share available space and fit the container */
 table {
     border-collapse: collapse;
-    width: 90%;
-    max-width: 800px;
+    width: 100%;                             /* use full container width */
+    table-layout: fixed;                     /* distribute width across columns */
+    max-width: 100%;                         /* prevent overflow beyond container */
     background-color: #fff;
     border-radius: 8px;
     overflow: hidden;
@@ -138,17 +156,40 @@ table {
     margin: 0 auto;
 }
 
+/* Truncate long cell content instead of wrapping to keep columns compact */
 th,
 td {
     border: 1px solid #030313;
-    padding: 12px 16px;
+    padding: 10px 12px;                      /* slightly reduced padding to fit more */
     text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
+/* Slightly smaller heading text to help fit columns */
 th {
     background-color: rgb(172, 112, 230);
     color: #120353;
     font-weight: bold;
+    font-size: 0.95rem;
+}
+
+/* Reduce padding / font-size at narrower breakpoints */
+@media only screen and (max-width: 900px) {
+    th, td {
+        padding: 8px 10px;
+        font-size: 0.95rem;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    th, td {
+        padding: 6px 8px;
+        font-size: 0.86rem;
+    }
+    /* keep horizontal scroll available if columns still overflow */
+    .table-responsive { overflow-x: auto; }
 }
 
 /* Event List styles */
@@ -509,9 +550,29 @@ th {
     .card {
         width: 95%;
     }
+    .nav-links {
+        flex-direction: column;
+        background: transparent;    /* make mobile menu transparent too */
+        position: absolute;
+        top: 100%;
+        right: 0;
+        width: 180px;
+        box-shadow: none;          /* remove the white panel shadow */
+        border-radius: 0 0 8px 8px;
+        display: none;
+        padding: 12px 0;
+    }
+    .nav-links.open {
+        display: flex;
+        backdrop-filter: blur(6px); /* subtle blur to help legibility over background */
+        background: rgba(0,0,0,0.20); /* optional semi-transparent overlay for better contrast */
+    }
+    .nav-toggle {
+        display: block;
+        color: #fff;                /* ensure toggle (hamburger) is visible */
+    }
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
 }
-
-/* Removed incomplete @media rule */
-
-
-
