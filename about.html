@@ -12,10 +12,57 @@
       color: #fff;
       display: flex;
       justify-content: center;
-      align-items: center;
+      align-items: flex-start; /* avoid header overlap when fixed */
       min-height: 100vh;
       padding: 20px;
+      padding-top: 92px; /* reserve space for fixed header */
     }
+
+    /* Header (shared with login.html) */
+    .site-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      padding: 12px 0;
+      background: transparent;
+    }
+    .container {
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 20px;
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+    }
+    .header-top { display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap; }
+
+    .site-brand {
+      font-weight: 700;
+      letter-spacing: 2px;
+      font-size: 20px;
+      text-transform: uppercase;
+      color: #050b13;
+      text-decoration: none;
+    }
+    .site-nav {
+      margin-top: 8px;
+      display:flex;
+      gap: 18px;
+      flex-wrap:wrap;
+    }
+    .site-nav a {
+      color: #02060a;
+      text-decoration:none;
+      font-weight:600;
+      font-size:14px;
+      opacity:0.9;
+    }
+
+    /* Card styles (kept wider for about content) */
     .card {
       background: #111b2f;
       border-radius: 14px;
@@ -23,6 +70,7 @@
       max-width: 600px;
       width: 100%;
       box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+      margin: 0 auto;
     }
     h1 {
       margin-top: 0;
@@ -48,9 +96,9 @@
   </style>
 </head>
 <body>
-    <header class="site-header">
+  <header class="site-header">
     <div class="container header-top">
-    <a href="/" class="site-brand">EVENT CAST</a>
+      <a href="/" class="site-brand">EVENT CAST</a>
       <nav class="site-nav" aria-label="Main navigation">
          <a href="subscription.html" id="subscriptionLink">Subscribe</a>
          <a href="login.html" id="loginLink">LogIn</a>
@@ -61,6 +109,7 @@
       </nav>
     </div>
   </header>
+
   <div class="card">
     <h1>About EventCast</h1>
     <p><span class="highlight">EventCast</span> is a modern application designed for event management and live engagement. It allows users to discover, register, and participate in events while giving organizers tools to manage attendees, tickets, and live streaming seamlessly. We provide live streaming, technical production, and digital event platforms that bring audiences together seamlessly—whether they’re across the room or across the globe.</p>
