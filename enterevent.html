@@ -180,6 +180,21 @@
         <div class="form-container">
             <h2>Event Register Form</h2>
             <form id="eventForm">
+                <label for="eventPlace">Event Place (City)</label>
+                <input type="text" id="eventPlace" name="eventPlace" required />
+
+                <label for="eventType">Event Type (Category)</label>
+                <select id="eventType" name="eventType" required>
+                    <option value="" disabled selected>Select a category</option>
+                    <option value="Concerts">Concerts</option>
+                    <option value="Conferences">Conferences</option>
+                    <option value="Expos">Expos</option>
+                    <option value="Community/MeetUp">Community/MeetUp</option>
+                    <option value="Festivals">Festivals</option>
+                    <option value="Performing arts">Performing arts</option>
+                    <option value="Sports">Sports</option>
+                </select>
+
                 <label for="eventName">Event Name</label>
                 <input type="text" id="eventName" name="eventName" required />
 
