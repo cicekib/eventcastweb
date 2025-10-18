@@ -502,50 +502,11 @@
         <p>© Copyright 2025 EventCast</p>
     </footer>
 
-    <!-- Removed large duplicated inline script to avoid conflicts.
-         Event fetching and rendering live in script.js (fetchEvents + displayEvents).
-         Dropdowns and location logic live in scripts.js.
-         Keep only lightweight modal code below. -->
-
 <script src="script.js"></script>
 <script src="scripts.js"></script>
 
 <!-- Keep a single modal handler (already present below). -->
 <script>
-    // Lightweight, single modal handler
-    (function(){
-        const modal = document.getElementById("privpolicy");
-        const privacyLink = document.getElementById("privacyLink");
-        const span = document.getElementsByClassName("close")[0];
-
-        if (!modal || !privacyLink || !span) return;
-
-        privacyLink.addEventListener('click', function(event){
-            event.preventDefault();
-            modal.style.display = "block";
-            document.body.style.overflow = "hidden";
-        });
-
-        span.addEventListener('click', function(){
-            modal.style.display = "none";
-            document.body.style.overflow = "auto";
-        });
-
-        window.addEventListener('click', function(event){
-            if (event.target === modal) {
-                modal.style.display = "none";
-                document.body.style.overflow = "auto";
-            }
-        });
-
-        document.addEventListener('keydown', function(event){
-            if (event.key === "Escape" && modal.style.display === "block") {
-                modal.style.display = "none";
-                document.body.style.overflow = "auto";
-            }
-        });
-    })();
-
     // Responsive Navbar Toggle
     document.addEventListener('DOMContentLoaded', function() {
         const navToggle = document.querySelector('.nav-toggle');
