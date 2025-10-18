@@ -1,116 +1,79 @@
 // Event data fetching and display functions
 async function fetchEvents(city) {
-    try {
-        // Load API token from local file (served by your web server)
-        const tokenResp = await fetch('./etkinlik.txt');
-        if (!tokenResp.ok) throw new Error('Failed to load API token');
-        const token = (await tokenResp.text()).trim();
-        if (!token) throw new Error('Empty API token');
+  try {
+    const tokenResp = await fetch('./etkinlik.txt');
+    if (!tokenResp.ok) throw new Error('Failed to load API token');
+    const token = (await tokenResp.text()).trim();
+    if (!token) throw new Error('Empty API token');
 
-        // Build PredictHQ request
-        const url = new URL('https://api.predicthq.com/v1/events/');
-        if (city) url.searchParams.set('q', city);
-        url.searchParams.set('limit', '50');
+    const url = new URL('https://api.predicthq.com/v1/events/');
+    if (city) url.searchParams.set('q', city);
+    url.searchParams.set('limit', '50');
 
-        const resp = await fetch(url.toString(), {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Accept': 'application/json'
-            }
-        });
+    const resp = await fetch(url.toString(), {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Accept': 'application/json'
+      }
+    });
 
-        if (!resp.ok) {
-            const txt = await resp.text();
-            throw new Error(`PredictHQ API error ${resp.status}: ${txt}`);
-        }
-
-        const data = await resp.json();
-
-        // PredictHQ may return results in different keys; normalize to an array
-        const items = data.results || data.data || data || [];
-
-        // Map to the format expected by displayEvents in this file
-        return (items || []).map(ev => {
-            return {
-                name: ev.title || ev.name || ev.id || '',
-                datetime: ev.start || ev.starts_at || ev.start_local || ev.scheduled_start || ev.scheduled || '',
-                price: ev.price || null,
-                detailsUrl: ev.link || (ev.sources && ev.sources[0] && ev.sources[0].url) || `https://predicthq.com/events/${ev.id}`
-            };
-        });
-    } catch (error) {
-        console.error('Error fetching events from API:', error);
-        return [];
+    if (!resp.ok) {
+      const txt = await resp.text();
+      throw new Error(`PredictHQ API error ${resp.status}: ${txt}`);
     }
+
+    const data = await resp.json();
+    const items = data.results || data.data || data || [];
+
+    return (items || []).map(ev => ({
+      name: ev.title || ev.name || ev.id || '',
+      datetime: ev.start || ev.starts_at || ev.start_local || ev.scheduled_start || ev.scheduled || '',
+      price: ev.price || 'Free',
+      detailsUrl: ev.link || (ev.sources && ev.sources[0] && ev.sources[0].url) || `https://predicthq.com/events/${ev.id}`
+    }));
+
+  } catch (error) {
+    console.error('Error fetching events from API:', error);
+    return [];
+  }
 }
 
 function displayEvents(events) {
-    const table = document.getElementById('eventTable');
-    
-    // Clear existing rows except header
-    while (table.rows.length > 1) {
-        table.deleteRow(1);
-    }
+  const table = document.getElementById('eventTable');
+  if (!table) {
+    console.error('Table element with id="eventTable" not found.');
+    return;
+  }
 
-    // Add new event rows
-    events.forEach((event, index) => {
-        const row = table.insertRow(-1);
-        
-        // Add cells
-        const cells = [
-            index + 1,
-            event.name,
-            event.price || 'Free',
-            new Date(event.datetime).toLocaleDateString(),
-            `<a href="${event.detailsUrl}" target="_blank">Details</a>`
-        ];
+  // Clear existing rows except header
+  while (table.rows.length > 1) {
+    table.deleteRow(1);
+  }
 
-        cells.forEach(cellData => {
-            const cell = row.insertCell();
-            cell.innerHTML = cellData;
-        });
+  // Add new event rows
+  events.forEach((event, index) => {
+    const row = table.insertRow(-1);
+
+    const cells = [
+      index + 1,
+      event.name,
+      event.price || 'Free',
+      new Date(event.datetime).toLocaleDateString(),
+      `<a href="${event.detailsUrl}" target="_blank">Details</a>`
+    ];
+
+    cells.forEach(cellData => {
+      const cell = row.insertCell();
+      cell.innerHTML = cellData;
     });
+  });
 }
 
-// Event handlers
-document.addEventListener('DOMContentLoaded', () => {
-    const searchButton = document.getElementById('searchButton');
-    const cityDropdown = document.getElementById('cityDropdown');
-    
-    searchButton.addEventListener('click', async () => {
-        const selectedCity = cityDropdown.value;
-        
-        if (!selectedCity) {
-            alert('Please select a city first');
-            return;
-        }
+// Function to save displayed events to Google Sheet
+async function saveEventsToSheet() {
+  const table = document.getElementById('eventTable');
+  const rows = table.querySelectorAll("tr:not(:first-child)");
 
-        // Show loading state
-        searchButton.disabled = true;
-        searchButton.textContent = 'Searching...';
-
-        try {
-            const events = await fetchEvents(selectedCity);
-            displayEvents(events);
-        } catch (error) {
-            console.error('Error:', error);
-            alert('Failed to fetch events. Please try again.');
-        } finally {
-            // Reset button state
-            searchButton.disabled = false;
-            searchButton.textContent = 'Search Events';
-        }
-
-        saveEventsToSheet(); // Call to save events after displaying
-    });
-    saveEventsToSheet(); // Call to save events after displaying
-});
-
-saveEventsToSheet(); // Call to save events after displaying
-
-// Function to save events to Google Sheet via Web App
-function saveEventsToSheet() {
-  const rows = document.querySelectorAll("#eventsTable tbody tr");
   if (rows.length === 0) {
     console.warn("No events to save.");
     return;
@@ -121,35 +84,67 @@ function saveEventsToSheet() {
   rows.forEach(row => {
     const cols = row.querySelectorAll("td");
     events.push({
-      name: cols[0].innerText.trim(),
-      price: cols[1].innerText.trim(),
-      date: cols[2].innerText.trim(),
-      link: cols[3].querySelector('a') ? cols[3].querySelector('a').href : '',
-      continent: document.getElementById("continentSelect").value,
-      country: document.getElementById("countrySelect").value,
-      city: document.getElementById("citySelect").value
+      index: cols[0]?.innerText.trim(),
+      name: cols[1]?.innerText.trim(),
+      price: cols[2]?.innerText.trim(),
+      date: cols[3]?.innerText.trim(),
+      link: cols[4]?.querySelector('a') ? cols[4].querySelector('a').href : '',
+      city: document.getElementById("cityDropdown")?.value || '',
+      country: document.getElementById("countrySelect")?.value || '',
+      continent: document.getElementById("continentSelect")?.value || ''
     });
   });
 
-  fetch("https://script.google.com/macros/s/AKfycbwE1bJ5geAxB2jzQQWNbw7c2MzOBIFKPvNoESP9JgciPAW2jnYhaqFUGzPbkS8QTX2g/exec", {
-    method: "POST",
-    body: JSON.stringify(events),
-    headers: {
-      "Content-Type": "application/json"
-    }
-  })
-  .then(res => res.json())
-  .then(response => {
-    if (response.result === "success") {
-      console.log("Events successfully saved to Google Sheet.");
+  try {
+    const response = await fetch("https://script.google.com/macros/s/AKfycbwE1bJ5geAxB2jzQQWNbw7c2MzOBIFKPvNoESP9JgciPAW2jnYhaqFUGzPbkS8QTX2g/exec", {
+      method: "POST",
+      body: JSON.stringify(events),
+      headers: { "Content-Type": "application/json" }
+    });
+
+    const result = await response.json();
+    if (result.result === "success") {
+      console.log("✅ Events successfully saved to Google Sheet.");
     } else {
-      console.error("Failed to save events:", response.message);
+      console.error("❌ Failed to save events:", result.message);
     }
-  })
-  .catch(err => {
+  } catch (err) {
     console.error("Error sending data to Google Sheet:", err);
-  });
+  }
 }
 
+// Event handlers
+document.addEventListener('DOMContentLoaded', () => {
+  const searchButton = document.getElementById('searchButton');
+  const cityDropdown = document.getElementById('cityDropdown');
 
+  searchButton.addEventListener('click', async () => {
+    const selectedCity = cityDropdown.value;
 
+    if (!selectedCity) {
+      alert('Please select a city first');
+      return;
+    }
+
+    searchButton.disabled = true;
+    searchButton.textContent = 'Searching...';
+
+    try {
+      const events = await fetchEvents(selectedCity);
+      displayEvents(events);
+
+      if (events.length > 0) {
+        await saveEventsToSheet(); // ✅ save only after table is populated
+      } else {
+        console.warn("No events fetched to save.");
+      }
+
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Failed to fetch events. Please try again.');
+    } finally {
+      searchButton.disabled = false;
+      searchButton.textContent = 'Search Events';
+    }
+  });
+});
