@@ -71,6 +71,7 @@ function displayEvents(events) {
 
 // Function to save displayed events to Google Sheet
 async function saveEventsToSheet() {
+  const SHEET_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbzH5MEU981veXK3mXIt9xh6k1IVgKf6j0pKCLw62SnzNgjsmBhlsO4SNFaxfsxd4N3B_Q/exec";
   const table = document.getElementById('eventTable');
   const rows = table.querySelectorAll("tr:not(:first-child)");
 
@@ -96,7 +97,7 @@ async function saveEventsToSheet() {
   });
 
   try {
-    const response = await fetch("https://script.google.com/macros/s/AKfycbzH5MEU981veXK3mXIt9xh6k1IVgKf6j0pKCLw62SnzNgjsmBhlsO4SNFaxfsxd4N3B_Q/exec", {
+    const response = await fetch(SHEET_WEBAPP_URL, {
       method: "POST",
       body: JSON.stringify(events),
       headers: { "Content-Type": "application/json" }
@@ -148,4 +149,5 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
 
