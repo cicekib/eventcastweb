@@ -180,9 +180,6 @@
         <div class="form-container">
             <h2>Event Register Form</h2>
             <form id="eventForm">
-                <label for="eventPlace">Event Place (City)</label>
-                <input type="text" id="eventPlace" name="eventPlace" required />
-
                 <label for="eventType">Event Type (Category)</label>
                 <select id="eventType" name="eventType" required>
                     <option value="" disabled selected>Select a category</option>
@@ -194,7 +191,10 @@
                     <option value="Performing arts">Performing arts</option>
                     <option value="Sports">Sports</option>
                 </select>
-
+                
+                <label for="eventCity">Event City</label>
+                <input type="text" id="eventCity" name="eventCity" required />
+                
                 <label for="eventName">Event Name</label>
                 <input type="text" id="eventName" name="eventName" required />
 
@@ -227,9 +227,7 @@
 
 
     <script>
-        const scriptURL = "https://script.google.com/macros/s/AKfycbwa90p_0YeuyCc3_aoRtSse0R2B4BBRLiHqVKSoZ0a0P48cG_vmrmf5Xz2iM-nuZM4P/exec"; // <-- Replace this with your Google Apps Script Web App URL
-                           
-
+        const scriptURL = "https://script.google.com/macros/s/AKfycby0UIglm-clS65rl_MmeClNWKipPLPTjy0KuEyCfO82FzdyhLkMjIK62sR96ySepyzi/exec"; // <-- Replace this with your Google Apps Script Web App URL
         const form = document.getElementById("eventForm");
         const successMsg = document.getElementById("successMsg");
         const errorMsg = document.getElementById("errorMsg");
