@@ -39,7 +39,7 @@ async function fetchEvents(city) {
             };
         });
     } catch (error) {
-        console.error('Error fetching events from PredictHQ:', error);
+        console.error('Error fetching events from API:', error);
         return [];
     }
 }
@@ -103,7 +103,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         saveEventsToSheet(); // Call to save events after displaying
     });
+    saveEventsToSheet(); // Call to save events after displaying
 });
+
+saveEventsToSheet(); // Call to save events after displaying
 
 // Function to save events to Google Sheet via Web App
 function saveEventsToSheet() {
@@ -147,5 +150,6 @@ function saveEventsToSheet() {
     console.error("Error sending data to Google Sheet:", err);
   });
 }
+
 
 
