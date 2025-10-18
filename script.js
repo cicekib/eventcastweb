@@ -96,7 +96,7 @@ async function saveEventsToSheet() {
   });
 
   try {
-    const response = await fetch("https://script.google.com/macros/s/AKfycbwE1bJ5geAxB2jzQQWNbw7c2MzOBIFKPvNoESP9JgciPAW2jnYhaqFUGzPbkS8QTX2g/exec", {
+    const response = await fetch("https://script.google.com/macros/s/AKfycbzH5MEU981veXK3mXIt9xh6k1IVgKf6j0pKCLw62SnzNgjsmBhlsO4SNFaxfsxd4N3B_Q/exec", {
       method: "POST",
       body: JSON.stringify(events),
       headers: { "Content-Type": "application/json" }
@@ -148,3 +148,4 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
