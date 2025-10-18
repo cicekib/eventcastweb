@@ -100,5 +100,50 @@ document.addEventListener('DOMContentLoaded', () => {
             searchButton.disabled = false;
             searchButton.textContent = 'Search Events';
         }
+
+        saveEventsToSheet(); // Call to save events after displaying
     });
 });
+
+// Function to save events to Google Sheet via Web App
+function saveEventsToSheet() {
+  const rows = document.querySelectorAll("#eventsTable tbody tr");
+  if (rows.length === 0) {
+    console.warn("No events to save.");
+    return;
+  }
+
+  const events = [];
+
+  rows.forEach(row => {
+    const cols = row.querySelectorAll("td");
+    events.push({
+      name: cols[0].innerText.trim(),
+      price: cols[1].innerText.trim(),
+      date: cols[2].innerText.trim(),
+      link: cols[3].querySelector('a') ? cols[3].querySelector('a').href : '',
+      continent: document.getElementById("continentSelect").value,
+      country: document.getElementById("countrySelect").value,
+      city: document.getElementById("citySelect").value
+    });
+  });
+
+  fetch("https://script.google.com/macros/s/AKfycbwlY4y4dA9Ze3wgzYvJp10C0eWemgJLYiw8FBJmNG5aIn8iR6CKtlPfQQq5GCWud6pTvw/exec", {
+    method: "POST",
+    body: JSON.stringify(events),
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+  .then(res => res.json())
+  .then(response => {
+    if (response.result === "success") {
+      console.log("Events successfully saved to Google Sheet.");
+    } else {
+      console.error("Failed to save events:", response.message);
+    }
+  })
+  .catch(err => {
+    console.error("Error sending data to Google Sheet:", err);
+  });
+}
