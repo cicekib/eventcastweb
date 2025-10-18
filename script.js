@@ -101,7 +101,7 @@ async function saveEventsToSheet() {
   console.log("Payload to send to sheet:", events);
 
   try {
-    const SHEET_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbwiQjW5Q1MtpISnUJWtoGh83E1IzodeMjas41_HV0IK4HgE7pBQVUCG26d3IQYRulLLyw/exec";
+    const SHEET_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbxoG56VKcTrMaGi2VMmB_q4807A1zNQjZ4bLKMeZuNEm2DQGiakzth68ODinyBYw8--UA/exec";
 
     // Use text/plain to avoid CORS preflight (OPTIONS) which Apps Script doesn't respond to.
     const response = await fetch(SHEET_WEBAPP_URL, {
@@ -169,3 +169,4 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
