@@ -136,7 +136,7 @@ section {
     color: #111;
 }
 
-/* Table styles — make responsive and allow columns to shrink to fit */
+/* Table styles — make responsive and allow columns to shrink to fit */ 
 .table-responsive {
     width: 100%;
     overflow-x: auto;                       /* allow horizontal scroll on very small screens */
@@ -156,15 +156,15 @@ table {
     margin: 0 auto;
 }
 
-/* Truncate long cell content instead of wrapping to keep columns compact */
+/* Allow text to wrap instead of truncating */
 th,
 td {
     border: 1px solid #030313;
-    padding: 10px 12px;                      /* slightly reduced padding to fit more */
+    padding: 10px 12px;
     text-align: left;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    white-space: normal;                     /* allow wrapping */
+    overflow-wrap: break-word;               /* break long words if needed */
+    word-break: break-word;                  /* ensure long strings break */
 }
 
 /* Slightly smaller heading text to help fit columns */
@@ -196,6 +196,7 @@ th {
 #eventlist {
     text-align: center;
 }
+
 
 /* Search container */
 .search-container {
