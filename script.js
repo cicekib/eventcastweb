@@ -72,8 +72,11 @@ function displayEvents(events) {
 // Function to save displayed events to Google Sheet
 async function saveEventsToSheet() {
   const table = document.getElementById('eventTable');
+  if (!table) {
+    console.error('eventTable not found');
+    return;
+  }
   const rows = table.querySelectorAll("tr:not(:first-child)");
-
   if (rows.length === 0) {
     console.warn("No events to save.");
     return;
@@ -95,31 +98,40 @@ async function saveEventsToSheet() {
     });
   });
 
-  try {
-    const SHEET_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbxW5IiYD9oZOvlQNKizsr8g2XuSRf3Ypy5eUXZmRv7EzXQQ_FWvD7dq6NFCaN4aYosrQA/exec";
+  console.log("Payload to send to sheet:", events);
 
+  try {
+    const SHEET_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbwiQjW5Q1MtpISnUJWtoGh83E1IzodeMjas41_HV0IK4HgE7pBQVUCG26d3IQYRulLLyw/exec";
+
+    // Use text/plain to avoid CORS preflight (OPTIONS) which Apps Script doesn't respond to.
     const response = await fetch(SHEET_WEBAPP_URL, {
       method: "POST",
-      body: JSON.stringify(events),
-      headers: { "Content-Type": "application/json" }
+      headers: {
+        "Content-Type": "text/plain;charset=UTF-8"
+      },
+      body: JSON.stringify(events)
     });
 
+    // If the server returns a non-2xx, throw to be caught below
     if (!response.ok) {
-      throw new Error(`Google Script error: ${response.status}`);
+      const txt = await response.text();
+      throw new Error(`HTTP ${response.status} - ${txt}`);
     }
 
     const result = await response.json();
+    console.log("Server response:", result);
 
-    if (result.result === "success") {
-      console.log("✅ Events successfully saved to Google Sheet.");
+    if (result && result.result === "success") {
+      console.log(`✅ ${result.count || events.length} rows saved to Google Sheet.`);
     } else {
-      console.error("❌ Failed to save events:", result.message);
+      console.error("❌ Save failed:", result);
     }
 
   } catch (err) {
     console.error("Error sending data to Google Sheet:", err);
   }
 }
+
 
 
 // Event handlers
@@ -157,6 +169,3 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
-
-
-
