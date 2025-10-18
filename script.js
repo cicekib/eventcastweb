@@ -128,7 +128,7 @@ function saveEventsToSheet() {
     });
   });
 
-  fetch("https://script.google.com/macros/s/AKfycbwlY4y4dA9Ze3wgzYvJp10C0eWemgJLYiw8FBJmNG5aIn8iR6CKtlPfQQq5GCWud6pTvw/exec", {
+  fetch("https://script.google.com/macros/s/AKfycbxItvIdDHnJop4uK1VVe0KV0VgkEGTP3LUf6tWy3v4naAevy_En_wgtvgAjEtqWSYkN8g/exec", {
     method: "POST",
     body: JSON.stringify(events),
     headers: {
@@ -147,3 +147,4 @@ function saveEventsToSheet() {
     console.error("Error sending data to Google Sheet:", err);
   });
 }
+
