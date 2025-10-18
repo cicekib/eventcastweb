@@ -96,7 +96,7 @@ async function saveEventsToSheet() {
   });
 
   try {
-    const SHEET_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbyHgiud1RWiEtbwS2mu2z21h07MajyPtaSvnaV0i6hRoE4xZihAcXsU-dcu1AM7M6fxMw/exec";
+    const SHEET_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbxW5IiYD9oZOvlQNKizsr8g2XuSRf3Ypy5eUXZmRv7EzXQQ_FWvD7dq6NFCaN4aYosrQA/exec";
 
     const response = await fetch(SHEET_WEBAPP_URL, {
       method: "POST",
@@ -157,5 +157,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
 
 
