@@ -98,25 +98,29 @@ async function saveEventsToSheet() {
   try {
     const SHEET_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbyHgiud1RWiEtbwS2mu2z21h07MajyPtaSvnaV0i6hRoE4xZihAcXsU-dcu1AM7M6fxMw/exec";
 
-    await fetch(SHEET_WEBAPP_URL, {
+    const response = await fetch(SHEET_WEBAPP_URL, {
       method: "POST",
       body: JSON.stringify(events),
-      headers: {
-        "Content-Type": "application/json"
-      }
+      headers: { "Content-Type": "application/json" }
     });
 
+    if (!response.ok) {
+      throw new Error(`Google Script error: ${response.status}`);
+    }
 
     const result = await response.json();
+
     if (result.result === "success") {
       console.log("✅ Events successfully saved to Google Sheet.");
     } else {
       console.error("❌ Failed to save events:", result.message);
     }
+
   } catch (err) {
     console.error("Error sending data to Google Sheet:", err);
   }
 }
+
 
 // Event handlers
 document.addEventListener('DOMContentLoaded', () => {
@@ -153,3 +157,5 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
+
