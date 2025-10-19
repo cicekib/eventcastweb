@@ -1,0 +1,479 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>EventCast - Sign Up</title>
+  <link rel="icon" type="image/png" href="images/favicon.png">
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      background: linear-gradient(180deg, #e7e4ec 0%, #ac96da 45%, #d4c7dd 100%);
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding: 20px;
+      padding-top: 92px;
+    }
+    /* Header (matches EVENT CAST look) */
+    .site-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      padding: 12px 0;
+      background: transparent;
+    }
+    /* container to center header content and limit width */
+    .container {
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 20px;
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+    }
+    .site-brand {
+      font-weight: 700;
+      letter-spacing: 2px;
+      font-size: 20px;
+      text-transform: uppercase;
+      color: #050b13;
+      text-decoration: none;
+    }
+    .site-nav {
+      margin-top: 8px;
+      display:flex;
+      gap: 18px;
+      flex-wrap:wrap;
+    }
+    .site-nav a {
+      color: #02060a;
+      text-decoration:none;
+      font-weight:600;
+      font-size:14px;
+      opacity:0.9;
+    }
+    .header-top { 
+      display:flex; 
+      justify-content:space-between; 
+      align-items:center; 
+      gap:16px; 
+      flex-wrap:wrap; 
+    }
+
+    .card {
+      background: #111b2f;
+      border-radius: 14px;
+      padding: 30px;
+      max-width: 400px;
+      width: 100%;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+      margin: 0 auto;
+    }
+    h1 {
+      margin-top: 0;
+      font-size: 1.6rem;
+      text-align: center;
+      color: #00b4d8;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-top: 20px;
+    }
+    .form-row {
+      display: flex;
+      gap: 14px;
+    }
+    .form-row input {
+      flex: 1;
+    }
+    input, select {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      padding: 10px;
+      color: #fff;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+    select option {
+      background: #111b2f;
+    }
+    input:focus, select:focus {
+      outline: 2px solid #00b4d8;
+      border-color: transparent;
+    }
+    .checkbox-container {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin: 10px 0;
+    }
+    .checkbox-container input[type="checkbox"] {
+      margin-top: 3px;
+      flex-shrink: 0;
+    }
+    .checkbox-container label {
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+    button {
+      background: linear-gradient(90deg, #00b4d8, #0096c7);
+      border: none;
+      padding: 10px;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.2s ease;
+    }
+    button:hover {
+      opacity: 0.85;
+    }
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    .links {
+      margin-top: 14px;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+    .links a {
+      color: #00b4d8;
+      text-decoration: none;
+    }
+    .links a:hover {
+      text-decoration: underline;
+    }
+    footer {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 0.8rem;
+      color: #64748b;
+    }
+    .error-message {
+      color: #ff6b6b;
+      font-size: 0.8rem;
+      margin-top: 5px;
+      display: none;
+    }
+    .password-strength {
+      margin-top: 5px;
+      height: 4px;
+      border-radius: 2px;
+      background: rgba(255,255,255,0.1);
+      overflow: hidden;
+    }
+    .password-strength-bar {
+      height: 100%;
+      width: 0%;
+      transition: width 0.3s ease, background-color 0.3s ease;
+    }
+    .password-requirements {
+      font-size: 0.8rem;
+      color: #64748b;
+      margin-top: 5px;
+    }
+    .message {
+      padding: 12px;
+      border-radius: 8px;
+      margin: 15px 0;
+      text-align: center;
+      display: none;
+    }
+    .success-message {
+      background: rgba(6, 214, 160, 0.2);
+      border: 1px solid #06d6a0;
+      color: #06d6a0;
+    }
+    .error-message-global {
+      background: rgba(255, 107, 107, 0.2);
+      border: 1px solid #ff6b6b;
+      color: #ff6b6b;
+    }
+    .loading {
+      display: none;
+      text-align: center;
+      margin: 10px 0;
+    }
+    .loading-spinner {
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top: 3px solid #00b4d8;
+      width: 20px;
+      height: 20px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-top">
+      <a href="/" class="site-brand">EVENT CAST</a>
+      <nav class="site-nav" aria-label="Main navigation">
+         <a href="subscription.html" id="subscriptionLink">Subscribe</a>
+         <a href="blog-index.html" id="blogLink">Blog</a>
+         <a href="about.html" id="aboutLink">About</a>
+         <a href="contact.html" id="contactLink">Contact</a>
+         <a href="privacy.html" id="privacyLink">Privacy</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="card">
+    <h1>Create Your EventCast Account</h1>
+    
+    <div class="message success-message" id="successMsg">
+      Account created successfully! Welcome to EventCast.
+    </div>
+    
+    <div class="message error-message-global" id="errorMsg">
+      There was an error creating your account. Please try again.
+    </div>
+    
+    <div class="loading" id="loadingIndicator">
+      <div class="loading-spinner"></div>
+      <p>Creating your account...</p>
+    </div>
+    
+    <form id="signupForm" action="#" method="post">
+      <div class="form-row">
+        <input type="text" name="firstName" placeholder="First Name" required />
+        <input type="text" name="lastName" placeholder="Last Name" required />
+      </div>
+      <input type="email" name="email" placeholder="Email address" required />
+      <div class="error-message" id="emailError">Please enter a valid email address</div>
+      
+      <input type="password" name="password" id="password" placeholder="Password" required />
+      <div class="password-strength">
+        <div class="password-strength-bar" id="passwordStrengthBar"></div>
+      </div>
+      <div class="password-requirements" id="passwordRequirements">
+        Password must be at least 8 characters with uppercase, lowercase, and number
+      </div>
+      <div class="error-message" id="passwordError">Password does not meet requirements</div>
+      
+      <input type="password" name="confirmPassword" placeholder="Confirm Password" required />
+      <div class="error-message" id="confirmPasswordError">Passwords do not match</div>
+      
+      <select name="userType" required>
+        <option value="" disabled selected>Select account type</option>
+        <option value="attendee">Event Attendee</option>
+        <option value="organizer">Event Organizer</option>
+        <option value="both">Both</option>
+      </select>
+      
+      <div class="checkbox-container">
+        <input type="checkbox" id="newsletter" name="newsletter" checked>
+        <label for="newsletter">Send me updates about new events and features</label>
+      </div>
+      
+      <div class="checkbox-container">
+        <input type="checkbox" id="terms" name="terms" required>
+        <label for="terms">I agree to the <a href="terms.html" target="_blank">Terms of Service</a> and <a href="privacy.html" target="_blank">Privacy Policy</a></label>
+      </div>
+      <div class="error-message" id="termsError">You must accept the terms and conditions</div>
+      
+      <button type="submit" id="submitButton">Create Account</button>
+    </form>
+    <div class="links">
+      <p>Already have an account? <a href="login.html">Log in</a></p>
+    </div>
+    <footer>© <span id="year"></span> EventCast  <a href="https://eventcast.se/">eventcast.se</a> </footer>
+  </div>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    
+    // Google Apps Script Web App URL - Replace with your actual URL
+    const scriptURL = "WEB_APP_URL";
+    const form = document.getElementById("signupForm");
+    const successMsg = document.getElementById("successMsg");
+    const errorMsg = document.getElementById("errorMsg");
+    const loadingIndicator = document.getElementById("loadingIndicator");
+    const submitButton = document.getElementById("submitButton");
+    
+    // Form validation
+    const passwordInput = document.getElementById('password');
+    const passwordStrengthBar = document.getElementById('passwordStrengthBar');
+    const emailError = document.getElementById('emailError');
+    const passwordError = document.getElementById('passwordError');
+    const confirmPasswordError = document.getElementById('confirmPasswordError');
+    const termsError = document.getElementById('termsError');
+    
+    // Email validation
+    form.email.addEventListener('blur', function() {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(this.value)) {
+        emailError.style.display = 'block';
+      } else {
+        emailError.style.display = 'none';
+      }
+    });
+    
+    // Password strength indicator
+    passwordInput.addEventListener('input', function() {
+      const password = this.value;
+      let strength = 0;
+      
+      // Check password criteria
+      if (password.length >= 8) strength += 25;
+      if (/[A-Z]/.test(password)) strength += 25;
+      if (/[a-z]/.test(password)) strength += 25;
+      if (/[0-9]/.test(password)) strength += 25;
+      
+      // Update strength bar
+      passwordStrengthBar.style.width = strength + '%';
+      
+      // Change color based on strength
+      if (strength < 50) {
+        passwordStrengthBar.style.backgroundColor = '#ff6b6b';
+      } else if (strength < 75) {
+        passwordStrengthBar.style.backgroundColor = '#ffd166';
+      } else {
+        passwordStrengthBar.style.backgroundColor = '#06d6a0';
+      }
+      
+      // Show/hide error
+      if (strength < 75) {
+        passwordError.style.display = 'block';
+      } else {
+        passwordError.style.display = 'none';
+      }
+    });
+    
+    // Confirm password validation
+    form.confirmPassword.addEventListener('blur', function() {
+      if (this.value !== passwordInput.value) {
+        confirmPasswordError.style.display = 'block';
+      } else {
+        confirmPasswordError.style.display = 'none';
+      }
+    });
+    
+    // Terms validation
+    form.terms.addEventListener('change', function() {
+      if (!this.checked) {
+        termsError.style.display = 'block';
+      } else {
+        termsError.style.display = 'none';
+      }
+    });
+    
+    // Form submission with Google Sheets integration
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      
+      // Hide previous messages
+      successMsg.style.display = "none";
+      errorMsg.style.display = "none";
+      
+      // Validate all fields
+      let isValid = true;
+      
+      // Email validation
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(form.email.value)) {
+        emailError.style.display = 'block';
+        isValid = false;
+      }
+      
+      // Password validation
+      const password = passwordInput.value;
+      const hasUpperCase = /[A-Z]/.test(password);
+      const hasLowerCase = /[a-z]/.test(password);
+      const hasNumber = /[0-9]/.test(password);
+      const hasMinLength = password.length >= 8;
+      
+      if (!hasUpperCase || !hasLowerCase || !hasNumber || !hasMinLength) {
+        passwordError.style.display = 'block';
+        isValid = false;
+      }
+      
+      // Confirm password
+      if (form.confirmPassword.value !== password) {
+        confirmPasswordError.style.display = 'block';
+        isValid = false;
+      }
+      
+      // Terms
+      if (!form.terms.checked) {
+        termsError.style.display = 'block';
+        isValid = false;
+      }
+      
+      // If form is valid, proceed with submission
+      if (isValid) {
+        // Show loading indicator and disable submit button
+        loadingIndicator.style.display = "block";
+        submitButton.disabled = true;
+        
+        // Prepare form data
+        const formData = new FormData(form);
+        
+        // Add timestamp and newsletter status
+        const timestamp = new Date().toISOString();
+        formData.append("timestamp", timestamp);
+        formData.append("newsletterSubscribed", form.newsletter.checked ? "Yes" : "No");
+        
+        // Send data to Google Sheets via Apps Script
+        fetch(scriptURL, { method: "POST", body: formData })
+          .then((response) => {
+            if (response.ok) {
+              return response.text();
+            } else {
+              throw new Error("Network response was not ok");
+            }
+          })
+          .then((responseText) => {
+            // Hide loading indicator
+            loadingIndicator.style.display = "none";
+            
+            // Show success message
+            successMsg.style.display = "block";
+            
+            // Reset form
+            form.reset();
+            
+            // Re-enable submit button
+            submitButton.disabled = false;
+            
+            // If newsletter is checked, add to newsletter list
+            if (form.newsletter.checked) {
+              // In a real implementation, you would call your newsletter API here
+              console.log("User added to newsletter list:", form.email.value);
+            }
+          })
+          .catch((error) => {
+            console.error("Error!", error.message);
+            
+            // Hide loading indicator
+            loadingIndicator.style.display = "none";
+            
+            // Show error message
+            errorMsg.style.display = "block";
+            
+            // Re-enable submit button
+            submitButton.disabled = false;
+          });
+      }
+    });
+  </script>
+</body>
+</html>
