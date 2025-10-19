@@ -19,7 +19,6 @@
         scroll-behavior: smooth;
         box-sizing: border-box;
         }
-
         *,
         *::before,
         *::after {
@@ -40,414 +39,120 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 10px 20px;
+        padding: 12px 20px;
         background-color: transparent;
         color: rgb(5, 29, 97);
         font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
         margin: 0 auto;
         max-width: 1200px;
+        z-index: 100;
+        position: relative;
         }
 
-        /* Table styles */
-        table {
-        border-collapse: collapse;
-        width: 90%;
-        /* Adjust the width as needed */
-        max-width: 800px;
-        background-color: #fff;
-        border-radius: 8px;
-        overflow: hidden;
-        box-shadow: 0 4px 6px rgba(26, 25, 25, 0.1);
-        margin: 0 auto;
-        /* Center the table horizontally */
-        font-family: Calibri, sans-serif;
+        /* Navbar adjustments */
+        .navbar {
+        position: relative;
         }
-
-        th,
-        td {
-        border: 1px solid #030313;
-        padding: 12px 16px;
-        text-align: left;
+        .nav-links {
+        display: flex;
+        gap: 18px;
+        list-style: none;
         }
-
-        /* First column (index) styles - narrow width */
-        th:first-child,
-        td:first-child {
-            width: 40px; /* Narrow width for index numbers */
-            text-align: center;
-            padding: 8px 4px; /* Reduced padding for narrower column */
-        }
-
-        th {
-        background-color: rgb(172, 112, 230);
-        color: #000000;
-        font-weight: bold;
-        font-size: 15px; /* Smaller than default */
-        font-family: Calibri, sans-serif;
-        }
-
-        td {
-        color: #000000;
-        font-weight: normal;
-        font-size: 14px; /* One font size smaller than heading */
-        font-family: Calibri, sans-serif;
-        }
-
-        /* Event List styles */
-        #eventlist {
-        text-align: center;
-        /* Center the content within the section */
-        }
-
-        #eventlist h2 {
-        margin-bottom: 20px;
-        color: #333;
+        .nav-toggle {
+        display: none;
+        background: none;
+        border: none;
+        font-size: 2rem;
+        color: #8a17b8;
+        cursor: pointer;
+        position: absolute;
+        right: 0;
+        top: 0;
+        z-index: 101;
         }
 
         /* Search container */
         .search-container {
         display: flex;
-        flex-direction: column; /* Change flex direction to column */
+        flex-direction: column;
         align-items: center;
+        margin-top: 40px; /* extra space below navbar */
         margin-bottom: 20px;
         }
 
         /* Search button styles */
         #searchButton {
-        width: 150px; /* Adjust width to match height for a circular button */
+        width: 150px;
         height: 150px;
-        border-radius: 50%; /* Make the button circular */
+        border-radius: 50%;
         background-color: #8a17b8;
         color: #ffffff;
         font-size: 18px;
         border: none;
         cursor: pointer;
         outline: none;
-        transition: background-color 0.3s ease;
+        transition: background-color 0.3s ease, transform 0.3s ease;
         margin-bottom: 10px;
-        display: flex; /* Center button content */
-        justify-content: center; /* Center button content */
-        align-items: center; /* Center button content */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
-
 
         #searchButton:hover {
         background-color: #6c0f92;
+        transform: scale(1.05);
         }
 
-        /* Dropdown container */
-        .dropdown {
-        position: relative;
-        }
-
-        /* City dropdown styles */
-        #cityDropdown {
-        padding: 12px 24px;
-        border: 1px solid #ccc;
-        border-radius: 25px;
-        font-size: 16px;
-        background-color: #ffffff;
-        cursor: pointer;
-        outline: none;
-        width: 200px;
-        }
-
-        /* Continent, country, city dropdown styles */
-        #continentDropdown,
-        #countryDropdown,
-        #cityDropdown,
-        #filterCategory {
-            padding: 12px 24px;
-            border: 1px solid #ccc;
-            border-radius: 25px;
-            font-size: 16px;
-            background-color: #ffffff;
-            cursor: pointer;
-            outline: none;
-            width: 200px;
-            margin-bottom: 10px;
-        }
-
-        /* Time filter buttons */
-        .select-time {
-        display: flex;
-        justify-content: center;
-        margin-top: 20px;
-        }
-
-        .select-time button {
-        padding: 10px 20px;
-        background-color: linear-gradient(to right, #c273c5, #70085f);
-        /* Light gray background */
-        color:  #020c0f;
-        /* Dark gray text */
-        border: none;
-        border-radius: 20px;
-        /* Rounded corners */
-        margin: 0 10px;
-        /* Add space between buttons */
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-        }
-
-        .select-time button:hover {
-        background-color: #c97d7d;
-        }
-
-        .select-time button.active {
-        background-color: #8a17b8;
-        color: #d9e8e9;
-        }
-
-        /* Category filter dropdown */
-        .category-filter {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
-        }
-
-        /* Responsive adjustments */
-        @media only screen and (max-width: 768px) {
+        /* Responsive Navbar for smaller screens */
+        @media (max-width: 768px) {
         header {
             flex-direction: column;
-            text-align: center;
+            align-items: flex-start;
+            padding: 15px;
         }
-
-        #searchButton {
-            margin-top: 20px;
-            margin-left: auto;
-            margin-right: auto;
+        .nav-links {
+            flex-direction: column;
+            background: #ffffff;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            width: 180px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border-radius: 0 0 8px 8px;
+            display: none;
+            padding: 12px 0;
+            z-index: 99;
         }
-
-        /* Make table scrollable horizontally */
-        table {
-            overflow-x: auto;
+        .nav-links.open {
+            display: flex;
         }
-        }
-
-        @media only screen and (max-width: 600px) {
-
-        th,
-        td {
-            white-space: nowrap;
-            /* Prevent text wrapping */
-        }
-
-        /* Make table scrollable horizontally */
-        table {
-            overflow-x: auto;
+        .nav-toggle {
             display: block;
         }
 
-        /* Hide table headers */
-        thead {
-            display: none;
-        }
-        
-        th {
-            font-size: 14px;
-        }
-        
-        td {
-            font-size: 13px;
-        }
-        
-        /* First column adjustments for mobile */
-        th:first-child,
-        td:first-child {
-            width: 35px;
-            padding: 6px 3px;
-        }
-        }
-
-        /* Additional styles */
-        #upcomings {
-        align-content: center;
-        justify-content: space-between;
-        margin-inline: 10px;
-        padding: 20px 20px;
-        }
-
-
-    
-        #privpolicy,
-        #contact,
-        #footer {
-            background-color: rgba(255, 255, 255, 0.7); /* Match copyright/footer section */
-            padding: 20px;
+        /* Search button responsive size */
+        #searchButton {
+            width: 120px;
+            height: 120px;
+            font-size: 16px;
             margin-top: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            font-size: small;
-            color: #3b3636;
-        }
-
-        #contact h3 {
-        color: #111010;
-        margin-bottom: 10px;
-        }
-
-        /* Footer styles */
-        #footer {
-        background-color: rgba(255, 255, 255, 0.7);
-        padding: 20px;
-        margin-top: 30px;
-        text-align: center;
-        font-size: small;
-        color: #3b3636;
-        border-radius: 8px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Responsive adjustments */
-        @media only screen and (max-width: 768px) {
-
-        /* Center align text for responsive mode */
-     
-        #contact,
-        #footer {
-            text-align: center;
         }
         }
 
-        @media only screen and (max-width: 600px) {
-
-        /* Adjust padding for smaller screens */
-    
-        #contact,
-        #footer {
-            padding: 15px;
+        /* Extra small screens (phones) */
+        @media (max-width: 480px) {
+        header {
+            padding: 10px 15px;
+        }
+        #searchButton {
+            width: 100px;
+            height: 100px;
+            font-size: 15px;
+            margin-top: 40px;
         }
         }
 
-        /* Card styles */
-        .card {
-        width: 90%;
-        /* Adjust the width as needed */
-        max-width: 800px;
-        background-color: #fff;
-        border-radius: 8px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        padding: 20px;
-        margin: 0 auto;
-        }
-
-        /* Media query for responsiveness */
-        @media only screen and (max-width: 768px) {
-        .card {
-            width: 95%;
-            /* Adjust the width for smaller screens */
-        }
-        }
-
-        /* Card header */
-        .card-header {
-        text-align: center;
-        margin-bottom: 20px;
-        }
-
-        .card-header h3 {
-        font-size: 24px;
-        color: #333;
-        }
-
-        /* Card body */
-        .card-body {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 20px;
-        }
-
-        /* Form item */
-        .form-item {
-        margin-bottom: 20px;
-        text-align: center;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        }
-
-        /* Label styles */
-        .form-item label {
-        flex: 1;
-        margin-right: 10px;
-        text-align: right;
-        }
-
-        /* Input styles */
-        .form-item input {
-        flex: 2;
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        font-size: 16px;
-        box-sizing: border-box;
-        }
-
-        /* Submit button */
-        .submit-card-form button {
-        padding: 10px 20px;
-        background-color: #8a17b8;
-        color: #fff;
-        border: none;
-        border-radius: 5px;
-        font-size: 16px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-        }
-
-        .submit-card-form button:hover {
-        background-color: #6c0f92;
-        }
-
-        /* Responsive Navbar Styles */
-        .navbar {
-            position: relative;
-        }
-        .nav-links {
-            display: flex;
-            gap: 18px;
-            list-style: none;
-        }
-        .nav-toggle {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 2rem;
-            color: #8a17b8;
-            cursor: pointer;
-            position: absolute;
-            right: 0;
-            top: 0;
-            z-index: 101;
-        }
-        @media (max-width: 768px) {
-            .nav-links {
-                flex-direction: column;
-                background: #fff;
-                position: absolute;
-                top: 100%;
-                right: 0;
-                width: 180px;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-                border-radius: 0 0 8px 8px;
-                display: none;
-                padding: 12px 0;
-            }
-            .nav-links.open {
-                display: flex;
-            }
-            .nav-toggle {
-                display: block;
-            }
-            header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-        }
     </style>
 </head>
 <body>
@@ -554,133 +259,88 @@
 
     <!-- Finally, place the footer -->
     <footer id="footer">
-        <p>© Copyright 2025 EventCast</p>
+        <p>© Copyright 2025 EventCast.  All Rights Reserved</p>
     </footer>
 
 <script src="script.js"></script>
 <script src="scripts.js"></script>
 
 <script>
-    // Responsive Navbar Toggle
-    document.addEventListener('DOMContentLoaded', function() {
-        const navToggle = document.querySelector('.nav-toggle');
-        const navLinks = document.querySelector('.nav-links');
-        navToggle.addEventListener('click', function() {
-            navLinks.classList.toggle('open');
-        });
-        // Optional: close menu when a link is clicked (on mobile)
-        navLinks.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                if (window.innerWidth <= 768) navLinks.classList.remove('open');
-            });
-        });
-        
-        // Add event listener to search button to populate category dropdown
-        document.getElementById('searchButton').addEventListener('click', function() {
-            // Simulate search and populate events (in a real app, this would be from an API)
-            simulateSearchAndPopulateEvents();
-            
-            // Populate category dropdown after events are loaded
-            populateCategoryDropdown();
-        });
-        
-        // Add event listener to category dropdown for filtering
-        document.getElementById('filterCategory').addEventListener('change', function() {
-            filterEventsByCategory(this.value);
+document.addEventListener('DOMContentLoaded', function() {
+    const navToggle = document.querySelector('.nav-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    const searchButton = document.getElementById('searchButton');
+    const filterCategory = document.getElementById('filterCategory');
+    const eventTable = document.getElementById('eventTable');
+
+    // Navbar toggle for mobile
+    navToggle.addEventListener('click', () => {
+        navLinks.classList.toggle('open');
+    });
+    navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            if (window.innerWidth <= 768) navLinks.classList.remove('open');
         });
     });
 
-    // Simulate search and populate events (for demonstration)
-    function simulateSearchAndPopulateEvents() {
-        const eventTable = document.getElementById('eventTable');
-        const tbody = eventTable.querySelector('tbody');
-        
-        // Clear any existing events
-        tbody.innerHTML = '';
-        
-        // Sample events data (in a real app, this would come from an API)
-        const sampleEvents = [
-            { name: 'Tech Conference 2023', price: '$250', time: 'Oct 15, 2023', details: 'Annual technology conference', search: 'Tech', source: 'Internal', category: 'Technology' },
-            { name: 'Music Festival', price: '$120', time: 'Nov 5, 2023', details: 'Summer music festival', search: 'Music', source: 'External', category: 'Music' },
-            { name: 'Art Exhibition', price: 'Free', time: 'Sep 20, 2023', details: 'Contemporary art showcase', search: 'Art', source: 'Internal', category: 'Art' },
-            { name: 'Business Summit', price: '$500', time: 'Dec 10, 2023', details: 'Global business leaders summit', search: 'Business', source: 'External', category: 'Business' },
-            { name: 'Food Festival', price: '$35', time: 'Oct 28, 2023', details: 'International cuisine showcase', search: 'Food', source: 'Internal', category: 'Food & Drink' }
-        ];
-        
-        // Populate table with events
-        sampleEvents.forEach((event, index) => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${index + 1}</td>
-                <td>${event.name}</td>
-                <td>${event.price}</td>
-                <td>${event.time}</td>
-                <td>${event.details}</td>
-                <td>${event.search}</td>
-                <td>${event.source}</td>
-                <td>${event.category}</td>
-            `;
-            tbody.appendChild(row);
-        });
-    }
+    // Disable filterCategory by default
+    filterCategory.disabled = true;
 
-    // Populate Category Dropdown Functionality
+    // Search button click
+    searchButton.addEventListener('click', function() {
+        // Simulate data population (replace with your actual logic)
+        simulateSearchAndPopulateEvents();
+
+        // Wait briefly to ensure table is populated, then populate category dropdown
+        setTimeout(() => {
+            populateCategoryDropdown();
+        }, 300); // Adjust delay if needed
+    });
+
+    // Filter events when category changes
+    filterCategory.addEventListener('change', function() {
+        filterEventsByCategory(this.value);
+    });
+
+    // Populate category dropdown from table data
     function populateCategoryDropdown() {
-        // Get all categories from the event table
-        const eventTable = document.getElementById('eventTable');
-        const categoryCells = eventTable.querySelectorAll('tbody td:nth-child(8)'); // 8th column is Category
-        
-        // Extract unique categories
+        const categoryCells = eventTable.querySelectorAll('tbody td:nth-child(8)');
         const categories = new Set();
+
         categoryCells.forEach(cell => {
-            if (cell.textContent.trim()) {
-                categories.add(cell.textContent.trim());
-            }
+            const category = cell.textContent.trim();
+            if (category) categories.add(category);
         });
-        
-        // Populate category dropdown
-        const categoryDropdown = document.getElementById('filterCategory');
-        
-        // Clear existing options except "All Categories"
-        while (categoryDropdown.children.length > 1) {
-            categoryDropdown.removeChild(categoryDropdown.lastChild);
+
+        // Clear old options except "All Categories"
+        while (filterCategory.options.length > 1) {
+            filterCategory.remove(1);
         }
-        
-        // Add category options
-        categories.forEach(category => {
+
+        // Add new category options
+        categories.forEach(cat => {
             const option = document.createElement('option');
-            option.value = category;
-            option.textContent = category;
-            categoryDropdown.appendChild(option);
+            option.value = cat;
+            option.textContent = cat;
+            filterCategory.appendChild(option);
         });
-        
-        // Enable the dropdown
-        categoryDropdown.disabled = false;
+
+        // Enable only if categories exist
+        filterCategory.disabled = categories.size === 0;
     }
 
+    // Category filter function
     function filterEventsByCategory(category) {
-        const eventTable = document.getElementById('eventTable');
         const rows = eventTable.querySelectorAll('tbody tr');
-        
-        if (category === 'all') {
-            // Show all rows
-            rows.forEach(row => {
-                row.style.display = '';
-            });
-        } else {
-            // Show/hide rows based on category
-            rows.forEach(row => {
-                const categoryCell = row.querySelector('td:nth-child(8)'); // 8th column is Category
-                
-                if (categoryCell && categoryCell.textContent.trim() === category) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-        }
-    }
-</script>
 
+        rows.forEach(row => {
+            const catCell = row.querySelector('td:nth-child(8)');
+            if (!catCell) return;
+            const cellText = catCell.textContent.trim();
+            row.style.display = (category === 'all' || cellText === category) ? '' : 'none';
+        });
+    }
+});
+</script>
 </body>
 </html>
