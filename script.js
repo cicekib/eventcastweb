@@ -29,7 +29,8 @@ async function fetchEvents(city) {
       name: ev.title || ev.name || ev.id || '',
       datetime: ev.start || ev.starts_at || ev.start_local || ev.scheduled_start || ev.scheduled || '',
       price: ev.price || 'Free',
-      detailsUrl: ev.link || (ev.sources && ev.sources[0] && ev.sources[0].url) || `https://predicthq.com/events/${ev.id}`
+      detailsUrl: ev.link || (ev.sources && ev.sources[0] && ev.sources[0].url) || `https://predicthq.com/events/${ev.id}`,
+      googleSearchLink: `https://www.google.com/search?q=${encodeURIComponent(ev.title || ev.name || ev.id || 'event')}`
     }));
 
   } catch (error) {
@@ -169,4 +170,5 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
 
