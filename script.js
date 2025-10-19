@@ -1,6 +1,32 @@
 // Event data fetching and display functions
 async function fetchEvents(city) {
   try {
+    const events = [];
+    
+    // Fetch from multiple sources concurrently
+    await Promise.allSettled([
+      fetchPredictHQEvents(city).then(results => events.push(...results)),
+      fetchEventbriteEvents(city).then(results => events.push(...results)),
+      fetchTicketmasterEvents(city).then(results => events.push(...results)),
+      fetchSeatGeekEvents(city).then(results => events.push(...results)),
+      fetchSongkickEvents(city).then(results => events.push(...results)),
+      fetchMeetupEvents(city).then(results => events.push(...results))
+    ]);
+
+    // Sort events by date and return
+    return events
+      .filter(event => event.name && event.datetime)
+      .sort((a, b) => new Date(a.datetime) - new Date(b.datetime));
+
+  } catch (error) {
+    console.error('Error fetching events:', error);
+    return [];
+  }
+}
+
+// PredictHQ API
+async function fetchPredictHQEvents(city) {
+  try {
     const tokenResp = await fetch('./etkinlik.txt');
     if (!tokenResp.ok) throw new Error('Failed to load API token');
     const token = (await tokenResp.text()).trim();
@@ -8,7 +34,7 @@ async function fetchEvents(city) {
 
     const url = new URL('https://api.predicthq.com/v1/events/');
     if (city) url.searchParams.set('q', city);
-    url.searchParams.set('limit', '50');
+    url.searchParams.set('limit', '20');
 
     const resp = await fetch(url.toString(), {
       headers: {
@@ -17,27 +43,221 @@ async function fetchEvents(city) {
       }
     });
 
-    if (!resp.ok) {
-      const txt = await resp.text();
-      throw new Error(`PredictHQ API error ${resp.status}: ${txt}`);
-    }
-
+    if (!resp.ok) return [];
     const data = await resp.json();
-    const items = data.results || data.data || data || [];
+    const items = data.results || [];
 
-    return (items || []).map(ev => ({
+    return items.map(ev => ({
       name: ev.title || ev.name || ev.id || '',
-      datetime: ev.start || ev.starts_at || ev.start_local || ev.scheduled_start || ev.scheduled || '',
+      datetime: ev.start || ev.starts_at || ev.start_local || '',
       price: ev.price || 'Free',
       detailsUrl: ev.link || (ev.sources && ev.sources[0] && ev.sources[0].url) || `https://predicthq.com/events/${ev.id}`,
-      googleSearchLink: `https://www.google.com/search?q=${encodeURIComponent(ev.title || ev.name || ev.id || 'event')}`
+      googleSearchLink: `https://www.google.com/search?q=${encodeURIComponent(ev.title || ev.name || ev.id || 'event')}`,
+      source: 'PredictHQ',
+      category: ev.category || ev.labels?.join(', ') || 'General'
     }));
-
   } catch (error) {
-    console.error('Error fetching events from API:', error);
+    console.error('Error fetching PredictHQ events:', error);
     return [];
   }
 }
+
+// Eventbrite API
+async function fetchEventbriteEvents(city) {
+  try {
+    const tokenResp = await fetch('./etkinlik.txt');
+    if (!tokenResp.ok) return [];
+    const token = (await tokenResp.text()).trim();
+    if (!token) return [];
+
+    const url = new URL('https://www.eventbriteapi.com/v3/events/search/');
+    if (city) url.searchParams.set('q', city);
+    url.searchParams.set('sort_by', 'date');
+    url.searchParams.set('page_size', '20');
+
+    const resp = await fetch(url.toString(), {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Accept': 'application/json'
+      }
+    });
+
+    if (!resp.ok) return [];
+    const data = await resp.json();
+    const items = data.events || [];
+
+    return items.map(ev => ({
+      name: ev.name?.text || ev.name || '',
+      datetime: ev.start?.utc || ev.start?.local || '',
+      price: ev.is_free ? 'Free' : (ev.ticket_availability?.minimum_ticket_price?.display || 'Paid'),
+      detailsUrl: ev.url || `https://www.eventbrite.com/e/${ev.id}`,
+      googleSearchLink: `https://www.google.com/search?q=${encodeURIComponent(ev.name?.text || ev.name || 'event')}`,
+      source: 'Eventbrite',
+      category: ev.category?.name || ev.subcategory?.name || 'General'
+    }));
+  } catch (error) {
+    console.error('Error fetching Eventbrite events:', error);
+    return [];
+  }
+}
+
+// Ticketmaster API
+async function fetchTicketmasterEvents(city) {
+  try {
+    const tokenResp = await fetch('./etkinlik.txt');
+    if (!tokenResp.ok) return [];
+    const token = (await tokenResp.text()).trim();
+    if (!token) return [];
+
+    const url = new URL('https://app.ticketmaster.com/discovery/v2/events.json');
+    if (city) url.searchParams.set('city', city);
+    url.searchParams.set('size', '20');
+    url.searchParams.set('apikey', token);
+
+    const resp = await fetch(url.toString());
+    if (!resp.ok) return [];
+    const data = await resp.json();
+    const items = data._embedded?.events || [];
+
+    return items.map(ev => ({
+      name: ev.name || '',
+      datetime: ev.dates?.start?.dateTime || ev.dates?.start?.localDate || '',
+      price: ev.priceRanges ? `$${ev.priceRanges[0]?.min} - $${ev.priceRanges[0]?.max}` : 'Price varies',
+      detailsUrl: ev.url || `https://www.ticketmaster.com/event/${ev.id}`,
+      googleSearchLink: `https://www.google.com/search?q=${encodeURIComponent(ev.name || 'event')}`,
+      source: 'Ticketmaster',
+      category: ev.classifications?.[0]?.segment?.name || ev.classifications?.[0]?.genre?.name || 'Event'
+    }));
+  } catch (error) {
+    console.error('Error fetching Ticketmaster events:', error);
+    return [];
+  }
+}
+
+// SeatGeek API
+async function fetchSeatGeekEvents(city) {
+  try {
+    const tokenResp = await fetch('./etkinlik.txt');
+    if (!tokenResp.ok) return [];
+    const token = (await tokenResp.text()).trim();
+    if (!token) return [];
+
+    const url = new URL('https://api.seatgeek.com/2/events');
+    if (city) url.searchParams.set('venue.city', city);
+    url.searchParams.set('per_page', '20');
+    url.searchParams.set('client_id', token);
+
+    const resp = await fetch(url.toString());
+    if (!resp.ok) return [];
+    const data = await resp.json();
+    const items = data.events || [];
+
+    return items.map(ev => ({
+      name: ev.title || ev.name || '',
+      datetime: ev.datetime_utc || ev.datetime_local || '',
+      price: ev.stats?.lowest_price ? `$${ev.stats.lowest_price}+` : 'Price varies',
+      detailsUrl: ev.url || `https://seatgeek.com/events/${ev.id}`,
+      googleSearchLink: `https://www.google.com/search?q=${encodeURIComponent(ev.title || ev.name || 'event')}`,
+      source: 'SeatGeek',
+      category: ev.type || ev.performers?.[0]?.type || 'Event'
+    }));
+  } catch (error) {
+    console.error('Error fetching SeatGeek events:', error);
+    return [];
+  }
+}
+
+// Songkick API
+async function fetchSongkickEvents(city) {
+  try {
+    const tokenResp = await fetch('./etkinlik.txt');
+    if (!tokenResp.ok) return [];
+    const token = (await tokenResp.text()).trim();
+    if (!token) return [];
+
+    const url = new URL('https://api.songkick.com/api/3.0/events.json');
+    if (city) url.searchParams.set('location', `clientip=${city}`);
+    url.searchParams.set('per_page', '20');
+    url.searchParams.set('apikey', token);
+
+    const resp = await fetch(url.toString());
+    if (!resp.ok) return [];
+    const data = await resp.json();
+    const items = data.resultsPage?.results?.events || [];
+
+    return items.map(ev => ({
+      name: ev.displayName || '',
+      datetime: ev.start?.datetime || ev.start?.date || '',
+      price: ev.price ? `$${ev.price}` : 'Price varies',
+      detailsUrl: ev.uri || `https://www.songkick.com/events/${ev.id}`,
+      googleSearchLink: `https://www.google.com/search?q=${encodeURIComponent(ev.displayName || 'event')}`,
+      source: 'Songkick',
+      category: ev.type || 'Concert'
+    }));
+  } catch (error) {
+    console.error('Error fetching Songkick events:', error);
+    return [];
+  }
+}
+
+// Meetup API
+async function fetchMeetupEvents(city) {
+  try {
+    const tokenResp = await fetch('./etkinlik.txt');
+    if (!tokenResp.ok) return [];
+    const token = (await tokenResp.text()).trim();
+    if (!token) return [];
+
+    const url = new URL('https://api.meetup.com/graphql');
+    const query = {
+      query: `query {
+        searchEvents(filter: {query: "${city}", source: ALL}) {
+          edges {
+            node {
+              id
+              title
+              dateTime
+              eventUrl
+              group {
+                category {
+                  name
+                }
+              }
+              isFree
+            }
+          }
+        }
+      }`
+    };
+
+    const resp = await fetch(url.toString(), {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(query)
+    });
+
+    if (!resp.ok) return [];
+    const data = await resp.json();
+    const items = data.data?.searchEvents?.edges || [];
+
+    return items.map(edge => ({
+      name: edge.node.title || '',
+      datetime: edge.node.dateTime || '',
+      price: edge.node.isFree ? 'Free' : 'Paid',
+      detailsUrl: edge.node.eventUrl || '',
+      googleSearchLink: `https://www.google.com/search?q=${encodeURIComponent(edge.node.title || 'event')}`,
+      source: 'Meetup',
+      category: edge.node.group?.category?.name || 'Meetup'
+    }));
+  } catch (error) {
+    console.error('Error fetching Meetup events:', error);
+    return [];
+  }
+}
+
 
 function displayEvents(events) {
   const table = document.getElementById('eventTable');
@@ -60,7 +280,11 @@ function displayEvents(events) {
       event.name,
       event.price || 'Free',
       new Date(event.datetime).toLocaleDateString(),
-      `<a href="${event.detailsUrl}" target="_blank">Details</a>`
+      `<a href="${event.detailsUrl}" target="_blank">Details</a>`,
+      `<a href="${event.googleSearchLink}" target="_blank">Google</a>`,
+      event.source || 'N/A',
+      event.category || 'General'
+
     ];
 
     cells.forEach(cellData => {
