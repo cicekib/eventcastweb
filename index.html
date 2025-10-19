@@ -155,7 +155,8 @@
         /* Continent, country, city dropdown styles */
         #continentDropdown,
         #countryDropdown,
-        #cityDropdown {
+        #cityDropdown,
+        #filterCategory {
             padding: 12px 24px;
             border: 1px solid #ccc;
             border-radius: 25px;
@@ -198,32 +199,11 @@
         color: #d9e8e9;
         }
 
-        /* Category filter styles */
+        /* Category filter dropdown */
         .category-filter {
             display: flex;
             justify-content: center;
             margin-top: 20px;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .category-filter button {
-            padding: 10px 20px;
-            background-color: #f0f0f0;
-            color: #333;
-            border: none;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .category-filter button:hover {
-            background-color: #e0e0e0;
-        }
-
-        .category-filter button.active {
-            background-color: #8a17b8;
-            color: white;
         }
 
         /* Responsive adjustments */
@@ -531,9 +511,12 @@
             <button id="timethisyear">This Year</button>
         </div>
         
-        <!-- New category filter section -->
-        <div class="category-filter" id="categoryFilter">
-            <!-- Category buttons will be dynamically inserted here -->
+        <!-- Updated category filter section - now a dropdown -->
+        <div class="category-filter">
+            <select id="filterCategory" disabled>
+                <option value="all">All Categories</option>
+                <!-- Category options will be dynamically inserted here after search -->
+            </select>
         </div>
     </section>
 
@@ -592,12 +575,57 @@
             });
         });
         
-        // Initialize category filter functionality
-        initializeCategoryFilter();
+        // Add event listener to search button to populate category dropdown
+        document.getElementById('searchButton').addEventListener('click', function() {
+            // Simulate search and populate events (in a real app, this would be from an API)
+            simulateSearchAndPopulateEvents();
+            
+            // Populate category dropdown after events are loaded
+            populateCategoryDropdown();
+        });
+        
+        // Add event listener to category dropdown for filtering
+        document.getElementById('filterCategory').addEventListener('change', function() {
+            filterEventsByCategory(this.value);
+        });
     });
 
-    // Category Filter Functionality
-    function initializeCategoryFilter() {
+    // Simulate search and populate events (for demonstration)
+    function simulateSearchAndPopulateEvents() {
+        const eventTable = document.getElementById('eventTable');
+        const tbody = eventTable.querySelector('tbody');
+        
+        // Clear any existing events
+        tbody.innerHTML = '';
+        
+        // Sample events data (in a real app, this would come from an API)
+        const sampleEvents = [
+            { name: 'Tech Conference 2023', price: '$250', time: 'Oct 15, 2023', details: 'Annual technology conference', search: 'Tech', source: 'Internal', category: 'Technology' },
+            { name: 'Music Festival', price: '$120', time: 'Nov 5, 2023', details: 'Summer music festival', search: 'Music', source: 'External', category: 'Music' },
+            { name: 'Art Exhibition', price: 'Free', time: 'Sep 20, 2023', details: 'Contemporary art showcase', search: 'Art', source: 'Internal', category: 'Art' },
+            { name: 'Business Summit', price: '$500', time: 'Dec 10, 2023', details: 'Global business leaders summit', search: 'Business', source: 'External', category: 'Business' },
+            { name: 'Food Festival', price: '$35', time: 'Oct 28, 2023', details: 'International cuisine showcase', search: 'Food', source: 'Internal', category: 'Food & Drink' }
+        ];
+        
+        // Populate table with events
+        sampleEvents.forEach((event, index) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${index + 1}</td>
+                <td>${event.name}</td>
+                <td>${event.price}</td>
+                <td>${event.time}</td>
+                <td>${event.details}</td>
+                <td>${event.search}</td>
+                <td>${event.source}</td>
+                <td>${event.category}</td>
+            `;
+            tbody.appendChild(row);
+        });
+    }
+
+    // Populate Category Dropdown Functionality
+    function populateCategoryDropdown() {
         // Get all categories from the event table
         const eventTable = document.getElementById('eventTable');
         const categoryCells = eventTable.querySelectorAll('tbody td:nth-child(8)'); // 8th column is Category
@@ -610,67 +638,47 @@
             }
         });
         
-        // Create category buttons
-        const categoryFilter = document.getElementById('categoryFilter');
+        // Populate category dropdown
+        const categoryDropdown = document.getElementById('filterCategory');
         
-        // Add "All" button
-        const allButton = document.createElement('button');
-        allButton.textContent = 'All';
-        allButton.classList.add('active');
-        allButton.addEventListener('click', function() {
-            // Remove active class from all buttons
-            document.querySelectorAll('.category-filter button').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            // Add active class to this button
-            this.classList.add('active');
-            // Show all events
-            showAllEvents();
-        });
-        categoryFilter.appendChild(allButton);
+        // Clear existing options except "All Categories"
+        while (categoryDropdown.children.length > 1) {
+            categoryDropdown.removeChild(categoryDropdown.lastChild);
+        }
         
-        // Add category buttons
+        // Add category options
         categories.forEach(category => {
-            const button = document.createElement('button');
-            button.textContent = category;
-            button.addEventListener('click', function() {
-                // Remove active class from all buttons
-                document.querySelectorAll('.category-filter button').forEach(btn => {
-                    btn.classList.remove('active');
-                });
-                // Add active class to this button
-                this.classList.add('active');
-                // Filter events by category
-                filterEventsByCategory(category);
-            });
-            categoryFilter.appendChild(button);
+            const option = document.createElement('option');
+            option.value = category;
+            option.textContent = category;
+            categoryDropdown.appendChild(option);
         });
-    }
-
-    function showAllEvents() {
-        const eventTable = document.getElementById('eventTable');
-        const rows = eventTable.querySelectorAll('tbody tr');
         
-        // Show all rows
-        rows.forEach(row => {
-            row.style.display = '';
-        });
+        // Enable the dropdown
+        categoryDropdown.disabled = false;
     }
 
     function filterEventsByCategory(category) {
         const eventTable = document.getElementById('eventTable');
         const rows = eventTable.querySelectorAll('tbody tr');
         
-        // Show/hide rows based on category
-        rows.forEach(row => {
-            const categoryCell = row.querySelector('td:nth-child(8)'); // 8th column is Category
-            
-            if (categoryCell && categoryCell.textContent.trim() === category) {
+        if (category === 'all') {
+            // Show all rows
+            rows.forEach(row => {
                 row.style.display = '';
-            } else {
-                row.style.display = 'none';
-            }
-        });
+            });
+        } else {
+            // Show/hide rows based on category
+            rows.forEach(row => {
+                const categoryCell = row.querySelector('td:nth-child(8)'); // 8th column is Category
+                
+                if (categoryCell && categoryCell.textContent.trim() === category) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
     }
 </script>
 
