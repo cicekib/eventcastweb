@@ -464,9 +464,9 @@
                     </tr>
                     <tr>
                       <td>1</td>
-                      <td>Coldplay Tour</td>
-                      <td>$100</td>
-                      <td>8 PM</td>
+                      <td>Test event</td>
+                      <td>$50</td>
+                      <td>25/12/2025</td>
                       <td>Details</td>
                       <td>Search</td>
                       <td>Eventbrite</td>
@@ -517,30 +517,30 @@
         });
 
         // Category filter function
-             function filterEventsByCategory(category) {
-                const rows = eventTable.querySelectorAll('tbody tr');
-                const normalizedCategory = category.trim().toLowerCase().replace(/[_\s]+/g, '-'); // normalize value
+        function filterEventsByCategory(category) {
+            const rows = eventTable.querySelectorAll('tbody tr');
+            const normalizedCategory = category.trim().toLowerCase().replace(/[_\s]+/g, '-');
 
-                rows.forEach(row => {
-                    const catCell = row.querySelector('td:nth-child(8)');
-                    if (!catCell) return;
+            console.clear();
+            console.log('🔍 Filter triggered for:', normalizedCategory);
+            console.log('Rows found:', rows.length);
 
-                    // Normalize the cell text
-                    const cellText = catCell.textContent
-                        .trim()
-                        .toLowerCase()
-                        .replace(/[_\s]+/g, '-'); // unify spaces/underscores to '-'
+            rows.forEach((row, index) => {
+                const catCell = row.querySelector('td:nth-child(8)'); // adjust to (7) if your table has 7 cols
+                if (!catCell) {
+                    console.warn(`⚠️ Row ${index + 1} has no 8th column.`);
+                    return;
+                }
 
-                    // Show or hide the row based on match
-                    const isMatch = normalizedCategory === 'all' || cellText.includes(normalizedCategory);
-                    row.style.display = isMatch ? '' : 'none';
-                });
-            }
-
-            // Listen for dropdown change
-            filterCategory.addEventListener('change', (e) => {
-                filterEventsByCategory(e.target.value);
+                const cellText = catCell.textContent.trim().toLowerCase().replace(/[_\s]+/g, '-');
+                const isMatch = normalizedCategory === 'all' || cellText.includes(normalizedCategory);
+                row.style.display = isMatch ? '' : 'none';
             });
+        }
+
+        filterCategory.addEventListener('change', e => {
+            filterEventsByCategory(e.target.value);
+        });
     });
 </script>
 </body>
