@@ -428,7 +428,7 @@
                 <option value="community">community</option>
                 <option value="concert">concert</option>
                 <option value="bussiness">business</option>
-                <option value="conference">conference<option>
+                <option value="conference">conference</option>
                 <option value="strike">strikes</option>
                 <option value="politics">politics</option>
                 <option value="religion">religion</option>
@@ -489,81 +489,39 @@
 <script src="scripts.js"></script>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const navToggle = document.querySelector('.nav-toggle');
-    const navLinks = document.querySelector('.nav-links');
-    const searchButton = document.getElementById('searchButton');
-    const filterCategory = document.getElementById('filterCategory');
-    const eventTable = document.getElementById('eventTable');
-
-    // Navbar toggle for mobile
-    navToggle.addEventListener('click', () => {
-        navLinks.classList.toggle('open');
-    });
-    navLinks.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
-            if (window.innerWidth <= 768) navLinks.classList.remove('open');
+    document.addEventListener('DOMContentLoaded', function() {
+        const navToggle = document.querySelector('.nav-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        const searchButton = document.getElementById('searchButton');
+        const filterCategory = document.getElementById('filterCategory');
+        const eventTable = document.getElementById('eventTable');
+    
+        // Navbar toggle for mobile
+        navToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('open');
         });
-    });
-
-    // Disable filterCategory by default
-    filterCategory.disabled = true;
-
-    // Search button click
-    searchButton.addEventListener('click', function() {
-        // Simulate data population (replace with your actual logic)
-        simulateSearchAndPopulateEvents();
-
-        // Wait briefly to ensure table is populated, then populate category dropdown
-        setTimeout(() => {
-            populateCategoryDropdown();
-        }, 300); // Adjust delay if needed
-    });
-
-    // Filter events when category changes
-    filterCategory.addEventListener('change', function() {
-        filterEventsByCategory(this.value);
-    });
-
-    // Populate category dropdown from table data
-    function populateCategoryDropdown() {
-        const categoryCells = eventTable.querySelectorAll('tbody td:nth-child(8)');
-        const categories = new Set();
-
-        categoryCells.forEach(cell => {
-            const category = cell.textContent.trim();
-            if (category) categories.add(category);
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 768) navLinks.classList.remove('open');
+            });
         });
-
-        // Clear old options except "All Categories"
-        while (filterCategory.options.length > 1) {
-            filterCategory.remove(1);
+    
+        // Category filter function
+        function filterEventsByCategory(category) {
+            const rows = eventTable.querySelectorAll('tbody tr');
+            rows.forEach(row => {
+                const catCell = row.querySelector('td:nth-child(8)');
+                if (!catCell) return;
+                const cellText = catCell.textContent.trim().toLowerCase();
+                row.style.display = (category === 'all' || cellText === category.toLowerCase()) ? '' : 'none';
+            });
         }
-
-        // Add new category options
-        categories.forEach(cat => {
-            const option = document.createElement('option');
-            option.value = cat;
-            option.textContent = cat;
-            filterCategory.appendChild(option);
+    
+        // Add listener to trigger filter when category changes
+        filterCategory.addEventListener('change', (e) => {
+            filterEventsByCategory(e.target.value);
         });
-
-        // Enable only if categories exist
-        filterCategory.disabled = categories.size === 0;
-    }
-
-    // Category filter function
-    function filterEventsByCategory(category) {
-        const rows = eventTable.querySelectorAll('tbody tr');
-
-        rows.forEach(row => {
-            const catCell = row.querySelector('td:nth-child(8)');
-            if (!catCell) return;
-            const cellText = catCell.textContent.trim();
-            row.style.display = (category === 'all' || cellText === category) ? '' : 'none';
-        });
-    }
-});
+    });
 </script>
 </body>
 </html>
