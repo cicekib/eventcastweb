@@ -418,32 +418,32 @@
         
         <!-- Updated category filter section - now a dropdown -->
         <div class="category-filter">
-            <select id="filterCategory" enabled>
+            <select id="filterCategory">
                 <option value="all">All Categories</option>
                 <option value="music">music</option>
                 <option value="sports">sports</option>
-                <option value="arts">performing-arts</option>
-                <option value="expo">expos</option>
+                <option value="performing-arts">performing-arts</option>
+                <option value="expos">expos</option>
                 <option value="festivals">festivals</option>
                 <option value="community">community</option>
                 <option value="concert">concert</option>
-                <option value="bussiness">business</option>
+                <option value="business">business</option>
                 <option value="conference">conference</option>
-                <option value="strike">strikes</option>
+                <option value="strikes">strikes</option>
                 <option value="politics">politics</option>
                 <option value="religion">religion</option>
                 <option value="science">science</option>
                 <option value="charity">charity</option>
-                <option value="food_drink">food-drinks</option>
-                <option value="health_warnings">health-warnings</option>
+                <option value="food-drinks">food-drinks</option>
+                <option value="health-warnings">health-warnings</option>
                 <option value="disasters">disasters</option>
-                <option value="airport_delays">airport-delays</option>
+                <option value="airport-delays">airport-delays</option>
                 <option value="traffic">traffic</option>
                 <option value="disease">disease</option>
                 <option value="terror">terror</option>
                 <option value="weather">weather</option>
                 <option value="wildlife">wildlife</option>
-                <!-- Category options will be dynamically inserted here after search -->
+                <option value="daylight-saving">daylight-savings</option>
             </select>
         </div>
     </section>
@@ -464,13 +464,23 @@
                     </tr>
                     <tr>
                       <td>1</td>
-                      <td>Test event</td>
+                      <td>Test event1</td>
                       <td>$50</td>
                       <td>25/12/2025</td>
                       <td>Details</td>
                       <td>Search</td>
                       <td>Eventbrite</td>
-                      <td>music</td> <!-- ✅ 8th column -->
+                      <td>concert</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>Test event2</td>
+                        <td>Free</td>
+                        <td>21/11/2025</td>
+                        <td>--</td>
+                        <td>--</td>
+                        <td>--</td>
+                        <td>music</td>
                     </tr>
                 </thead>
                 <tbody>
@@ -538,8 +548,10 @@
             });
         }
 
-        filterCategory.addEventListener('change', e => {
-            filterEventsByCategory(e.target.value);
+
+        // Listen for category changes
+        filterCategory.addEventListener('change', function() {
+            filterEventsByCategory(this.value);
         });
     });
 </script>
