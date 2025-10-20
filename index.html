@@ -507,18 +507,23 @@
         });
 
         // Category filter function
-            function filterEventsByCategory(category) {
+             function filterEventsByCategory(category) {
                 const rows = eventTable.querySelectorAll('tbody tr');
+                const normalizedCategory = category.trim().toLowerCase().replace(/[_\s]+/g, '-'); // normalize value
+
                 rows.forEach(row => {
-                    const catCell = row.querySelector('td:nth-child(8)'); // adjust if needed
+                    const catCell = row.querySelector('td:nth-child(8)');
                     if (!catCell) return;
-                    const cellText = catCell.textContent.trim().toLowerCase();
-                    console.log('Row category:', cellText, '| Filter:', category);
-                    if (category === 'all' || cellText === category.toLowerCase()) {
-                        row.style.display = '';
-                    } else {
-                        row.style.display = 'none';
-                    }
+
+                    // Normalize the cell text
+                    const cellText = catCell.textContent
+                        .trim()
+                        .toLowerCase()
+                        .replace(/[_\s]+/g, '-'); // unify spaces/underscores to '-'
+
+                    // Show or hide the row based on match
+                    const isMatch = normalizedCategory === 'all' || cellText.includes(normalizedCategory);
+                    row.style.display = isMatch ? '' : 'none';
                 });
             }
 
