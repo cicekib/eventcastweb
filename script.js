@@ -34,7 +34,7 @@ async function fetchPredictHQEvents(city) {
 
     const url = new URL('https://api.predicthq.com/v1/events/');
     if (city) url.searchParams.set('q', city);
-    url.searchParams.set('limit', '20');
+    url.searchParams.set('limit', '1000');
 
     const resp = await fetch(url.toString(), {
       headers: {
@@ -394,5 +394,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
 
 
