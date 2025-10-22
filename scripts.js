@@ -1,6 +1,5 @@
-// Populate continent -> country -> city dropdowns and enable/disable correctly
-
 document.addEventListener('DOMContentLoaded', () => {
+const locationData = {
     africa: {
         Algeria: ["Algiers", "Oran", "Constantine", "Annaba", "Blida", "Batna", "Sétif", "Sidi Bel Abbès", "Skikda", "Tébessa"],
         Angola: ["Luanda", "N'dalatando", "Huambo", "Lobito", "Benguela", "Lubango", "Kuito", "Namibe", "Malanje", "Soyo"],
@@ -73,11 +72,12 @@ document.addEventListener('DOMContentLoaded', () => {
         India: ["Mumbai", "Delhi", "Bangalore", "Hyderabad", "Ahmedabad", "Chennai", "Kolkata", "Pune", "Jaipur", "Surat"],
         Indonesia: ["Jakarta", "Surabaya", "Bandung", "Medan", "Semarang", "Makassar", "Palembang", "Tangerang", "Depok", "Yogyakarta"],
         Iran: ["Tehran", "Mashhad", "Isfahan", "Karaj", "Tabriz", "Shiraz", "Qom", "Ahvaz", "Kermanshah", "Rasht"],
-        Iraq: ["Baghdad", "Basra", "Mosul", "Erbil", "Sulaymaniyah", "Karbala", "Najaf", "Kirkuk", "Nasiriyah", "Amarah"],
+        Iraq: ["Baghdad", "Basra", "Karbala", "Najaf", "Amarah"],
         Israel: ["Jerusalem", "Tel Aviv", "Haifa", "Rishon LeZion", "Petah Tikva", "Ashdod", "Netanya", "Beersheba", "Holon", "Bnei Brak"],
         Japan: ["Tokyo", "Yokohama", "Osaka", "Nagoya", "Sapporo", "Fukuoka", "Kobe", "Kyoto", "Kawasaki", "Saitama"],
         Jordan: ["Amman", "Zarqa", "Irbid", "Russeifa", "Aqaba", "Madaba", "Mafraq", "Karak", "Jerash", "Ajloun"],
         Kazakhstan: ["Almaty", "Astana", "Shymkent", "Karaganda", "Aktobe", "Taraz", "Pavlodar", "Oskemen", "Semey", "Kostanay"],
+        Kurdistan: ["Mosul", "Erbil", "Sulaymaniyah", "Kirkuk", "Nasiriyah", "Duhok", "Halabja", "Zakho", "Akre", "Chamchamal"],
         Kuwait: ["Kuwait City", "Al Ahmadi", "Hawalli", "Al Jahra", "Salmiya", "Farwaniya", "Mangaf", "Fahaheel", "Rumaithiya", "Khaitan"],
         Kyrgyzstan: ["Bishkek", "Osh", "Jalal-Abad", "Karakol", "Tokmok", "Uzgen", "Naryn", "Batken", "Talas", "Kyzyl-Kiya"],
         Laos: ["Vientiane", "Pakse", "Savannakhet", "Luang Prabang", "Xam Neua", "Phonsavan", "Thakhek", "Muang Xay", "Vang Vieng", "Attapeu"],
@@ -154,7 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
         Spain: ["Madrid", "Barcelona", "Valencia", "Seville", "Zaragoza", "Málaga", "Murcia", "Palma", "Las Palmas", "Bilbao"],
         Sweden: ["Stockholm", "Gothenburg", "Malmö", "Uppsala", "Västerås", "Linköping", "Örebro", "Helsingborg", "Norrköping", "Lund"],
         Switzerland: ["Zurich", "Geneva", "Basel", "Bern", "Lausanne", "Lucerne", "St. Gallen", "Lugano", "La Chaux-de-Fonds", "Biel/Bienne"],
-        Turkey: ["Istanbul", "Ankara", "İzmir", "Bursa", "Antalya", "Adana", "Gaziantep", "Konya", "Mersin", "Diyarbakır"],
+        Turkiye: ["Istanbul", "Ankara", "İzmir", "Bursa", "Antalya", "Adana", "Gaziantep", "Konya", "Mersin", "Diyarbakir"],
         UK: ["London", "Birmingham", "Manchester", "Glasgow", "Liverpool", "Bristol", "Leeds", "Edinburgh", "Sheffield", "Newcastle"],
         Ukraine: ["Kyiv", "Kharkiv", "Odesa", "Dnipro", "Lviv", "Zaporizhzhia", "Kryvyi Rih", "Mykolaiv", "Mariupol", "Vinnytsia"],
         VaticanCity: ["Vatican City"]
@@ -545,7 +545,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initializeLocation();
     setupTimeFilterButtons();
 });
-
 
 
 
