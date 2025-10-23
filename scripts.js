@@ -1,5 +1,7 @@
+// Populate continent -> country -> city dropdowns and enable/disable correctly
 document.addEventListener('DOMContentLoaded', () => {
 const locationData = {
+    
     africa: {
         Algeria: ["Algiers", "Oran", "Constantine", "Annaba", "Blida", "Batna", "Sétif", "Sidi Bel Abbès", "Skikda", "Tébessa"],
         Angola: ["Luanda", "N'dalatando", "Huambo", "Lobito", "Benguela", "Lubango", "Kuito", "Namibe", "Malanje", "Soyo"],
@@ -345,6 +347,94 @@ function filterTableByTime(period) {
     });
 }
 
+document.addEventListener('DOMContentLoaded', function() {
+    const eventTable = document.getElementById('eventTable');
+    const filterCategory = document.getElementById('filterCategory');
+    
+    // Initialize the filter on page load
+    setupCategoryFilter();
+    
+    // Apply initial filter (show all events)
+    filterEventsByCategory('all');
+
+    // Category filter function
+    function filterEventsByCategory(category) {
+        const rows = eventTable.querySelectorAll('tbody tr');
+        const normalizedCategory = category.trim().toLowerCase().replace(/[_\s]+/g, '-');
+        
+        console.clear();
+        console.log('🔍 Filter triggered for:', normalizedCategory);
+        console.log('Rows found:', rows.length);
+        
+        let visibleCount = 0;
+        
+        rows.forEach((row, index) => {
+            const catCell = row.querySelector('td:nth-child(8)'); // Category is in the 8th column
+            if (!catCell) {
+                console.warn(`Row ${index + 1} has no category cell.`);
+                row.style.display = 'none';
+                return;
+            }
+            
+            const cellText = catCell.textContent.trim().toLowerCase().replace(/[_\s]+/g, '-');
+            console.log(`Row ${index + 1} category: "${cellText}"`);
+            
+            const isMatch = normalizedCategory === 'all' || cellText === normalizedCategory;
+            row.style.display = isMatch ? '' : 'none';
+            
+            if (isMatch) visibleCount++;
+            console.log(`Row ${index + 1} match: ${isMatch}`);
+        });
+        
+        console.log(`📊 ${visibleCount} events match the filter`);
+        
+        // Optional: Update a counter display if you want to show results count
+        updateResultsCounter(visibleCount, rows.length);
+    }
+
+    // Setup category filter
+    function setupCategoryFilter() {
+        if (!filterCategory) return;
+
+        // Listen for category changes - auto-filter on selection
+        filterCategory.addEventListener('change', function() {
+            filterEventsByCategory(this.value);
+        });
+        
+        // Optional: Also filter on input for better UX
+        filterCategory.addEventListener('input', function() {
+            filterEventsByCategory(this.value);
+        });
+    }
+
+});
+
+// Optional: Add this CSS to your styles for better visual feedback
+const dynamicFilterStyles = `
+    #filterCategory {
+        transition: all 0.3s ease;
+    }
+    
+    #filterCategory:focus {
+        box-shadow: 0 0 0 3px rgba(138, 23, 184, 0.3);
+        border-color: #8a17b8;
+    }
+    
+    .table-responsive tr {
+        transition: all 0.3s ease;
+    }
+    
+    .table-responsive tr[style*="display: none"] {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+`;
+
+// Inject the styles
+const styleSheet = document.createElement('style');
+styleSheet.textContent = dynamicFilterStyles;
+document.head.appendChild(styleSheet);
+
 // Update button click handlers
 function setupTimeFilterButtons() {
     const buttons = {
@@ -546,9 +636,19 @@ document.addEventListener('DOMContentLoaded', () => {
     setupTimeFilterButtons();
 });
 
+document.addEventListener('DOMContentLoaded', function() {
+    const navToggle = document.querySelector('.nav-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    const searchButton = document.getElementById('searchButton');
+    const eventTable = document.getElementById('eventTable');
 
-
-
-
-
-
+    // Navbar toggle for mobile
+    navToggle.addEventListener('click', () => {
+        navLinks.classList.toggle('open');
+    });
+    navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            if (window.innerWidth <= 768) navLinks.classList.remove('open');
+        });
+    });
+});
