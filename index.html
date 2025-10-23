@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-adsense-account" content="ca-pub-4118683915643839">
     <title>EVENT CAST</title>
     <!-- Favicon -->
-    <link rel="stylesheet" href="styles.css">
     <link rel="icon" type="image/png" href="images/favicon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
@@ -97,7 +95,6 @@
         border-bottom: 2px solid rgba(17,17,17,0.12);
         }
         .nav-links.open a { color: #000; }
-
         .nav-toggle {
         display: none;
         background: none;
@@ -349,7 +346,7 @@
 
         /* small helpers */
         .pill { font-weight: normal; opacity: 0.9; font-size: 0.9em; font-family: var(--button-font); display: inline-block; padding: 4px 8px; border-radius: 12px; background: rgba(138,23,184,0.06); color: #333; }
-
+        
     </style>
 </head>
 <body>
@@ -373,7 +370,6 @@
         </nav>
     </header>
  </div>
-    
     <section id="search-button">
         <div class="search-container">
             <div class="searchCircle">
@@ -403,17 +399,12 @@
             </div>
         </div>
     </section>
-
-
-
     <section id="upcomings">
         <div class="select-time">
             <button id="timethisweek">This Week</button>
             <button id="timethismonth">This Month</button>
             <button id="timethisyear">This Year</button>
         </div>
-        
-        <!-- Updated category filter section - now a dropdown -->
         <div class="category-filter">
             <select id="filterCategory">
                 <option value="all">All Categories</option>
@@ -441,10 +432,10 @@
                 <option value="weather">weather</option>
                 <option value="wildlife">wildlife</option>
                 <option value="daylight-saving">daylight-savings</option>
+                <option value="holidays">school-holidays</option>
             </select>
         </div>
     </section>
-
     <section id="eventlist">
         <div class="container-fluid">
             <table id="eventTable">
@@ -469,16 +460,6 @@
                       <td>Eventbrite</td>
                       <td>concert</td>
                     </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>Test event2</td>
-                        <td>Free</td>
-                        <td>21/11/2025</td>
-                        <td>--</td>
-                        <td>--</td>
-                        <td>--</td>
-                        <td>music</td>
-                    </tr>
                 </thead>
                 <tbody>
                     <!-- Events will be dynamically inserted here -->
@@ -486,61 +467,11 @@
             </table>
         </div>
     </section>
-    
     <!-- Finally, place the footer -->
     <footer id="footer">
         <p>© Copyright 2025 EventCast.  All Rights Reserved</p>
     </footer>
-
 <script src="script.js"></script>
 <script src="scripts.js"></script>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const navToggle = document.querySelector('.nav-toggle');
-        const navLinks = document.querySelector('.nav-links');
-        const searchButton = document.getElementById('searchButton');
-        const filterCategory = document.getElementById('filterCategory');
-        const eventTable = document.getElementById('eventTable');
-
-        // Navbar toggle for mobile
-        navToggle.addEventListener('click', () => {
-            navLinks.classList.toggle('open');
-        });
-        navLinks.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                if (window.innerWidth <= 768) navLinks.classList.remove('open');
-            });
-        });
-
-        // Category filter function
-        function filterEventsByCategory(category) {
-            const rows = eventTable.querySelectorAll('tbody tr');
-            const normalizedCategory = category.trim().toLowerCase().replace(/[_\s]+/g, '-');
-
-            console.clear();
-            console.log('🔍 Filter triggered for:', normalizedCategory);
-            console.log('Rows found:', rows.length);
-
-            rows.forEach((row, index) => {
-                const catCell = row.querySelector('td:nth-child(8)'); // adjust to (7) if your table has 7 cols
-                if (!catCell) {
-                    console.warn(`⚠️ Row ${index + 1} has no 8th column.`);
-                    return;
-                }
-
-                const cellText = catCell.textContent.trim().toLowerCase().replace(/[_\s]+/g, '-');
-                const isMatch = normalizedCategory === 'all' || cellText.includes(normalizedCategory);
-                row.style.display = isMatch ? '' : 'none';
-            });
-        }
-
-
-        // Listen for category changes
-        filterCategory.addEventListener('change', function() {
-            filterEventsByCategory(this.value);
-        });
-    });
-</script>
 </body>
 </html>
