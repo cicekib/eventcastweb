@@ -28,18 +28,13 @@ async function fetchEvents(city) {
 // PredictHQ API
 async function fetchPredictHQEvents(city) {
   try {
-    const tokenResp = await fetch('./etkinlik.txt');
-    if (!tokenResp.ok) throw new Error('Failed to load API token');
-    const token = (await tokenResp.text()).trim();
-    if (!token) throw new Error('Empty API token');
-
     const url = new URL('https://api.predicthq.com/v1/events/');
     if (city) url.searchParams.set('q', city);
     url.searchParams.set('limit', '1000');
 
     const resp = await fetch(url.toString(), {
       headers: {
-        'Authorization': `Bearer ${token}`,
+        'Authorization': `Bearer ${process.env.86xsy9SyoxF1yV5GXQdqlrAybUx9okUzaUMWzUDu}`,
         'Accept': 'application/json'
       }
     });
@@ -459,3 +454,4 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
