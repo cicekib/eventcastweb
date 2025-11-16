@@ -315,32 +315,6 @@ async function fetchDatabaseEvents(city) {
       source: "Google Sheet",
       category: ev["Category"] || ev["Type"] || "General"
     }));
-    
-    // Add standardized date format
-    standardizedDate: standardizeDate(ev["Date"] || ev["Datetime"] || "")
-    function standardizeDate(dateString) {
-      if (!dateString) return "";
-      
-      const cleanDate = dateString.trim();
-      
-      // DD-MM-YYYY -> YYYY-MM-DD
-      let match = cleanDate.match(/^(\d{1,2})-(\d{1,2})-(\d{4})$/);
-      if (match) return `${match[3]}-${match[2].padStart(2, '0')}-${match[1].padStart(2, '0')}`;
-      
-      // DD.MM.YYYY -> YYYY-MM-DD  
-      match = cleanDate.match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/);
-      if (match) return `${match[3]}-${match[2].padStart(2, '0')}-${match[1].padStart(2, '0')}`;
-      
-      // MM/DD/YYYY -> YYYY-MM-DD
-      match = cleanDate.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
-      if (match) return `${match[3]}-${match[1].padStart(2, '0')}-${match[2].padStart(2, '0')}`;
-      
-      // YYYY-MM-DD (already in correct format)
-      match = cleanDate.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
-      if (match) return cleanDate;
-      
-      return cleanDate; // return original if no format matched
-    }
 
     console.log(`✅ Google Sheet events for "${city}" in tab "${SHEET_NAME}":`, formatted);
     return formatted;
@@ -485,3 +459,4 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
