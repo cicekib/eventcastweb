@@ -26,134 +26,42 @@ async function fetchEvents(city) {
 }
 
 // PredictHQ API
-import OpenAI from "openai";
-
-const openai = new OpenAI({
-  apiKey: fetch('./etkinlik1.txt');
-});
-
-//Fetch PredictHQ Events
-export async function fetchPredictHQEvents(city) {
+async function fetchPredictHQEvents(city) {
   try {
-    const url = new URL("https://api.predicthq.com/v1/events/");
-    if (city) url.searchParams.set("q", city);
-    url.searchParams.set("limit", "1000");
+    const tokenResp = await fetch('./etkinlik.txt');
+    if (!tokenResp.ok) throw new Error('Failed to load API token');
+    const token = (await tokenResp.text()).trim();
+    if (!token) throw new Error('Empty API token');
+
+    const url = new URL('https://api.predicthq.com/v1/events/');
+    if (city) url.searchParams.set('q', city);
+    url.searchParams.set('limit', '1000');
 
     const resp = await fetch(url.toString(), {
       headers: {
-        Authorization: `Bearer ${process.env.86xsy9SyoxF1yV5GXQdqlrAybUx9okUzaUMWzUDu}`,
-        Accept: "application/json"
+        'Authorization': `Bearer ${process.env.86xsy9SyoxF1yV5GXQdqlrAybUx9okUzaUMWzUDu}`,
+        'Accept': 'application/json'
       }
     });
 
     if (!resp.ok) return [];
-
     const data = await resp.json();
     const items = data.results || [];
 
     return items.map(ev => ({
-      name: ev.title || ev.name || ev.id || "",
-      datetime: ev.start || ev.starts_at || ev.start_local || "",
-      price: ev.price || "Free",
-      detailsUrl:
-        ev.link ||
-        (ev.sources && ev.sources[0] && ev.sources[0].url) ||
-        `https://predicthq.com/events/${ev.id}`,
-      googleSearchLink: `https://www.google.com/search?q=${encodeURIComponent(
-        ev.title || ev.name || ev.id || "event"
-      )}`,
-      source: "PredictHQ",
-      category: ev.category || ev.labels?.join(", ") || "General"
+      name: ev.title || ev.name || ev.id || '',
+      datetime: ev.start || ev.starts_at || ev.start_local || '',
+      price: ev.price || 'Free',
+      detailsUrl: ev.link || (ev.sources && ev.sources[0] && ev.sources[0].url) || `https://predicthq.com/events/${ev.id}`,
+      googleSearchLink: `https://www.google.com/search?q=${encodeURIComponent(ev.title || ev.name || ev.id || 'event')}`,
+      source: 'PredictHQ',
+      category: ev.category || ev.labels?.join(', ') || 'General'
     }));
-  } catch (err) {
-    console.error("PredictHQ error:", err);
+  } catch (error) {
+    console.error('Error fetching PredictHQ events:', error);
     return [];
   }
 }
-
-//Fetch ChatGPT Events
-export async function fetchChatGPTEvents(city) {
-  try {
-    if (!city) return [];
-
-    const prompt = `
-Return ONLY valid JSON. No markdown. No comments.
-
-Generate upcoming event suggestions for the city: ${city}
-
-Format:
-{
-  "results": [
-    {
-      "name": "",
-      "datetime": "",
-      "price": "",
-      "detailsUrl": "",
-      "googleSearchLink": "",
-      "source": "ChatGPT",
-      "category": ""
-    }
-  ]
-}
-`;
-
-    const completion = await openai.responses.create({
-      model: "gpt-4.1",
-      input: prompt,
-      max_output_tokens: 700
-    });
-
-    const rawText = completion.output[0].content[0].text;
-    if (!rawText) return [];
-
-    const json = JSON.parse(rawText);
-    const items = json.results || [];
-
-    return items.map(ev => ({
-      name: ev.name || "",
-      datetime: ev.datetime || "",
-      price: ev.price || "Free",
-      detailsUrl: ev.detailsUrl || "",
-      googleSearchLink:
-        ev.googleSearchLink ||
-        `https://www.google.com/search?q=${encodeURIComponent(ev.name || "")}`,
-      source: "ChatGPT",
-      category: ev.category || "General"
-    }));
-  } catch (err) {
-    console.error("ChatGPT events error:", err);
-    return [];
-  }
-}
-
-/**
- * ------------------------------
- * Merge + Deduplicate + Sort
- * ------------------------------
- */
-export async function getMergedEvents(city) {
-  const [predictHQ, chatGPT] = await Promise.all([
-    fetchPredictHQEvents(city),
-    fetchChatGPTEvents(city)
-  ]);
-
-  const merged = [...predictHQ, ...chatGPT];
-
-  // Dedupe by event name + date
-  const uniq = new Map();
-  for (const e of merged) {
-    const key = `${e.name.toLowerCase()}|${e.datetime}`;
-    if (!uniq.has(key)) uniq.set(key, e);
-  }
-
-  // Sort by datetime ascending
-  const sorted = [...uniq.values()].sort((a, b) =>
-    new Date(a.datetime) - new Date(b.datetime)
-  );
-
-  return sorted;
-}
-
 
 // Eventbrite API
 async function fetchEventbriteEvents(city) {
