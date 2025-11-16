@@ -29,7 +29,7 @@ async function fetchEvents(city) {
 import OpenAI from "openai";
 
 const openai = new OpenAI({
-  apiKey: process.env.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
+  apiKey: process.env.OPENAI_API_KEY
 });
 
 // Fetch PredictHQ Events
@@ -547,3 +547,4 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
