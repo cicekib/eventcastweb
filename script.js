@@ -39,7 +39,7 @@ async function fetchPredictHQEvents(city) {
 
     const resp = await fetch(url.toString(), {
       headers: {
-        'Authorization': `Bearer ${process.env.86xsy9SyoxF1yV5GXQdqlrAybUx9okUzaUMWzUDu}`,
+        'Authorization': `Bearer ${token}`,
         'Accept': 'application/json'
       }
     });
