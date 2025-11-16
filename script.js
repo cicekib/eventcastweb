@@ -29,10 +29,10 @@ async function fetchEvents(city) {
 import OpenAI from "openai";
 
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
+  apiKey: fetch('./etkinlik1.txt');
 });
 
-// Fetch PredictHQ Events
+//Fetch PredictHQ Events
 export async function fetchPredictHQEvents(city) {
   try {
     const url = new URL("https://api.predicthq.com/v1/events/");
@@ -126,7 +126,11 @@ Format:
   }
 }
 
-//Merge_Deduplicate_ort
+/**
+ * ------------------------------
+ * Merge + Deduplicate + Sort
+ * ------------------------------
+ */
 export async function getMergedEvents(city) {
   const [predictHQ, chatGPT] = await Promise.all([
     fetchPredictHQEvents(city),
@@ -547,4 +551,3 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
-
