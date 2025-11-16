@@ -28,7 +28,7 @@ async function fetchEvents(city) {
 // PredictHQ API
 async function fetchPredictHQEvents(city) {
   try {
-    const tokenResp = await fetch('./process.env');
+    const tokenResp = await fetch('./etkinlik.txt');
     if (!tokenResp.ok) throw new Error('Failed to load API token');
     const token = (await tokenResp.text()).trim();
     if (!token) throw new Error('Empty API token');
@@ -459,4 +459,5 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
 
