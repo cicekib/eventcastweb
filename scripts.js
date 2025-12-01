@@ -347,94 +347,6 @@ function filterTableByTime(period) {
     });
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    const eventTable = document.getElementById('eventTable');
-    const filterCategory = document.getElementById('filterCategory');
-    
-    // Initialize the filter on page load
-    setupCategoryFilter();
-    
-    // Apply initial filter (show all events)
-    filterEventsByCategory('all');
-
-    // Category filter function
-    function filterEventsByCategory(category) {
-        const rows = eventTable.querySelectorAll('tbody tr');
-        const normalizedCategory = category.trim().toLowerCase().replace(/[_\s]+/g, '-');
-        
-        console.clear();
-        console.log('🔍 Filter triggered for:', normalizedCategory);
-        console.log('Rows found:', rows.length);
-        
-        let visibleCount = 0;
-        
-        rows.forEach((row, index) => {
-            const catCell = row.querySelector('td:nth-child(8)'); // Category is in the 8th column
-            if (!catCell) {
-                console.warn(`Row ${index + 1} has no category cell.`);
-                row.style.display = 'none';
-                return;
-            }
-            
-            const cellText = catCell.textContent.trim().toLowerCase().replace(/[_\s]+/g, '-');
-            console.log(`Row ${index + 1} category: "${cellText}"`);
-            
-            const isMatch = normalizedCategory === 'all' || cellText === normalizedCategory;
-            row.style.display = isMatch ? '' : 'none';
-            
-            if (isMatch) visibleCount++;
-            console.log(`Row ${index + 1} match: ${isMatch}`);
-        });
-        
-        console.log(`📊 ${visibleCount} events match the filter`);
-        
-        // Optional: Update a counter display if you want to show results count
-        updateResultsCounter(visibleCount, rows.length);
-    }
-
-    // Setup category filter
-    function setupCategoryFilter() {
-        if (!filterCategory) return;
-
-        // Listen for category changes - auto-filter on selection
-        filterCategory.addEventListener('change', function() {
-            filterEventsByCategory(this.value);
-        });
-        
-        // Optional: Also filter on input for better UX
-        filterCategory.addEventListener('input', function() {
-            filterEventsByCategory(this.value);
-        });
-    }
-
-});
-
-// Optional: Add this CSS to your styles for better visual feedback
-const dynamicFilterStyles = `
-    #filterCategory {
-        transition: all 0.3s ease;
-    }
-    
-    #filterCategory:focus {
-        box-shadow: 0 0 0 3px rgba(138, 23, 184, 0.3);
-        border-color: #8a17b8;
-    }
-    
-    .table-responsive tr {
-        transition: all 0.3s ease;
-    }
-    
-    .table-responsive tr[style*="display: none"] {
-        opacity: 0;
-        transform: translateX(-10px);
-    }
-`;
-
-// Inject the styles
-const styleSheet = document.createElement('style');
-styleSheet.textContent = dynamicFilterStyles;
-document.head.appendChild(styleSheet);
-
 // Update button click handlers
 function setupTimeFilterButtons() {
     const buttons = {
@@ -651,4 +563,104 @@ document.addEventListener('DOMContentLoaded', function() {
             if (window.innerWidth <= 768) navLinks.classList.remove('open');
         });
     });
+});
+
+// Inject a CSS rule so category-hidden rows are not shown
+function ensureCategoryFilterStyle() {
+    const id = 'category-filter-style';
+    if (!document.getElementById(id)) {
+        const style = document.createElement('style');
+        style.id = id;
+        style.textContent = 'table tr.hidden-by-category { display: none !important; }';
+        document.head.appendChild(style);
+    }
+}
+
+// Find the Category column index by header text (fallback to -1 if not found)
+function getCategoryColumnIndex(table) {
+    const headRow = table.tHead?.rows?.[0] || table.rows?.[0];
+    if (!headRow) return -1;
+    const ths = Array.from(headRow.cells || []);
+    const idx = ths.findIndex(th => th.textContent.trim().toLowerCase().includes('category'));
+    return idx; // can be -1 if not found
+}
+
+function normalizeText(s) {
+    return (s || '')
+        .toString()
+        .trim()
+        .toLowerCase()
+        .replace(/\s+/g, ' ');
+}
+
+function splitCategories(s) {
+    // Split by common separators: comma, slash, pipe, semicolon
+    return normalizeText(s)
+        .split(/[,/|;]+/g)
+        .map(t => t.trim())
+        .filter(Boolean);
+}
+
+function rowMatchesCategory(row, selected, categoryIndex) {
+    // If row carries data-category, prefer that; otherwise read from cell
+    let raw = row.getAttribute('data-category');
+    if (!raw && categoryIndex >= 0 && row.cells[categoryIndex]) {
+        raw = row.cells[categoryIndex].textContent;
+    }
+    if (!raw) raw = '';
+
+    const rowCats = splitCategories(raw);
+    const sel = normalizeText(selected);
+
+    if (!sel || sel === 'all') return true;               // no filter
+    if (rowCats.length === 0) return false;               // no category on row
+
+    // Match if any category equals the selection
+    return rowCats.some(c => c === sel);
+}
+
+function filterTableByCategory(selectedCategoryValue) {
+    const table = document.getElementById('eventTable');
+    if (!table) return;
+
+    ensureCategoryFilterStyle();
+
+    // Skip the header row
+    const rows = Array.from(table.querySelectorAll('tbody tr')).length
+        ? Array.from(table.querySelectorAll('tbody tr'))
+        : Array.from(table.getElementsByTagName('tr')).slice(1);
+
+    const categoryIndex = getCategoryColumnIndex(table);
+
+    rows.forEach(row => {
+        const match = rowMatchesCategory(row, selectedCategoryValue, categoryIndex);
+        if (match) {
+            row.classList.remove('hidden-by-category');
+        } else {
+            row.classList.add('hidden-by-category');
+        }
+    });
+}
+
+function setupCategoryFilter() {
+    const ddl = document.getElementById('categoryDropdown');
+    if (!ddl) return;
+
+    // Apply initial state and listen for changes
+    filterTableByCategory(ddl.value);
+    ddl.addEventListener('change', () => {
+        filterTableByCategory(ddl.value);
+    });
+}
+
+// Add to your existing DOMContentLoaded event listener
+document.addEventListener('DOMContentLoaded', () => {
+    // ...existing DOMContentLoaded code...
+
+    // Initialize location detection
+    initializeLocation();
+    setupTimeFilterButtons();
+
+    // Category filter hookup
+    setupCategoryFilter();
 });
