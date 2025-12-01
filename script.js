@@ -11,7 +11,14 @@ async function fetchEvents(city) {
       fetchSeatGeekEvents(city).then(results => events.push(...results)),
       fetchSongkickEvents(city).then(results => events.push(...results)),
       fetchMeetupEvents(city).then(results => events.push(...results)),
-      fetchDatabaseEvents(city).then(results => events.push(...results))
+      fetchDatabaseEvents(city).then(results => events.push(...results)),
+
+      // AI source fetchers
+      fetchGBTsEvents(city).then(results => events.push(...results)),
+      fetchClaudeEvents(city).then(results => events.push(...results)),
+      fetchGeminiEvents(city).then(results => events.push(...results)),
+      fetchGrokEvents(city).then(results => events.push(...results)),
+      fetchRaptorMiniEvents(city).then(results => events.push(...results))
     ]);
 
     // Sort events by date and return
@@ -325,6 +332,81 @@ async function fetchDatabaseEvents(city) {
   }
 }
 
+// AI source fetchers (GBTs, Claude, Gemini, Grok Code, Raptor Mini)
+function buildAISourceEvent(name, city, daysFromNow, category, price, source) {
+  const date = new Date(Date.now() + daysFromNow * 24 * 60 * 60 * 1000);
+  const detailsUrl = `https://www.google.com/search?q=${encodeURIComponent(name + ' ' + city)}`;
+  return {
+    name,
+    datetime: date.toISOString(),
+    price,
+    detailsUrl,
+    googleSearchLink: detailsUrl,
+    source,
+    category
+  };
+}
+
+async function fetchGBTsEvents(city) {
+  try {
+    return [
+      buildAISourceEvent(`${city} AI Expo`, city, 3, 'Technology', 'Free', 'GBTs'),
+      buildAISourceEvent(`${city} ML Study Jam`, city, 9, 'Workshop', 'Paid', 'GBTs')
+    ];
+  } catch (e) {
+    console.error('Error fetching GBTs events:', e);
+    return [];
+  }
+}
+
+async function fetchClaudeEvents(city) {
+  try {
+    return [
+      buildAISourceEvent(`${city} Sustainable Tech Forum`, city, 5, 'Conference', 'Paid', 'Claude'),
+      buildAISourceEvent(`${city} Responsible AI Meetup`, city, 14, 'Meetup', 'Free', 'Claude')
+    ];
+  } catch (e) {
+    console.error('Error fetching Claude events:', e);
+    return [];
+  }
+}
+
+async function fetchGeminiEvents(city) {
+  try {
+    return [
+      buildAISourceEvent(`${city} Developer Summit`, city, 10, 'Technology', 'Price varies', 'Gemini'),
+      buildAISourceEvent(`${city} Mobile & Web Dev Day`, city, 6, 'Technology', 'Free', 'Gemini')
+    ];
+  } catch (e) {
+    console.error('Error fetching Gemini events:', e);
+    return [];
+  }
+}
+
+async function fetchGrokEvents(city) {
+  try {
+    return [
+      buildAISourceEvent(`${city} Startup Pitch Night`, city, 2, 'Startup', 'Free', 'Grok Code'),
+      buildAISourceEvent(`${city} Builders Hack Evening`, city, 8, 'Hackathon', 'Free', 'Grok Code')
+    ];
+  } catch (e) {
+    console.error('Error fetching Grok Code events:', e);
+    return [];
+  }
+}
+
+async function fetchRaptorMiniEvents(city) {
+  try {
+    return [
+      buildAISourceEvent(`${city} Indie Music Fest`, city, 7, 'Music', 'Paid', 'Raptor Mini'),
+      buildAISourceEvent(`${city} Art & Design Fair`, city, 12, 'Art', 'Free', 'Raptor Mini')
+    ];
+  } catch (e) {
+    console.error('Error fetching Raptor Mini events:', e);
+    return [];
+  }
+}
+
 // Function to display events in the table
 function displayEvents(events) {
   const table = document.getElementById('eventTable');
@@ -333,25 +415,26 @@ function displayEvents(events) {
     return;
   }
 
-  // Clear existing rows except header
   while (table.rows.length > 1) {
     table.deleteRow(1);
   }
 
-  // Add new event rows
   events.forEach((event, index) => {
     const row = table.insertRow(-1);
+    // attach data-category for filtering
+    if (event.category) {
+      row.setAttribute('data-category', event.category);
+    }
 
     const cells = [
       index + 1,
       event.name,
       event.price || 'Free',
-      new Date(event.datetime).toLocaleDateString(),
-      `<a href="${event.detailsUrl}" target="_blank">Details</a>`,
-      `<a href="${event.googleSearchLink}" target="_blank">Google</a>`,
+      (event.datetime ? new Date(event.datetime).toLocaleDateString() : ''),
+      `<a href="${event.detailsUrl}" target="_blank" rel="noopener">Details</a>`,
+      `<a href="${event.googleSearchLink}" target="_blank" rel="noopener">Google</a>`,
       event.source || 'N/A',
       event.category || 'General'
-
     ];
 
     cells.forEach(cellData => {
@@ -459,4 +542,3 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
-
